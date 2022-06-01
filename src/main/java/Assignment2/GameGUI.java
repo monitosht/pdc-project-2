@@ -7,7 +7,7 @@ package Assignment2;
 import javax.swing.*;
 
 public class GameGUI 
-{
+{ 
     //Main game window
     public static JFrame gameWindow;
     
@@ -15,8 +15,9 @@ public class GameGUI
     {
         gameWindow = new JFrame();
         gameWindow.setTitle("Moni's RPG Adventure");
-        gameWindow.setSize(1280,720);
+        gameWindow.setSize(1280,800);
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.setLocationRelativeTo(null); //center window
         gameWindow.setResizable(false);
         gameWindow.setVisible(true);
     }    
