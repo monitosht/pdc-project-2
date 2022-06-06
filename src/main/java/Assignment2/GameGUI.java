@@ -47,6 +47,11 @@ public class GameGUI
     static JPanel mainMenuPanel;
     static JButton mainMenuButton;
     
+    //character creation 
+    static JPanel namePanel;
+    static JLabel nameText;
+    static JTextField nameField;
+    
     public static void createWindow()
     {
         //initialise size variables;
@@ -72,7 +77,7 @@ public class GameGUI
         
         //TITLE
         titlePanel = new JPanel(new GridBagLayout());
-        titlePanel.setBounds(340,150,600,150);
+        titlePanel.setBounds((windowX/2) - 300,150,600,150);
         titlePanel.setBackground(Color.white);
         titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
         
@@ -84,7 +89,7 @@ public class GameGUI
         
         //NEW GAME
         newGamePanel = new JPanel(new GridBagLayout());
-        newGamePanel.setBounds(560,375,width,height);
+        newGamePanel.setBounds((windowX/2) - (width/2),windowY/2,width,height);
         newGamePanel.setBackground(Color.white);
         
         newGameButton = new JButton("New Game");
@@ -94,11 +99,17 @@ public class GameGUI
         //to ensure all buttons are of equal size
         newGameButton.setPreferredSize(new Dimension(width,height));
         
+        newGameButton.addActionListener((ActionEvent e) -> 
+        {
+            exitMainMenu();
+            characterCreationScene();
+        });
+        
         newGamePanel.add(newGameButton);
         
         //CONTINUE
         continuePanel = new JPanel(new GridBagLayout());
-        continuePanel.setBounds(560,450,width,height);
+        continuePanel.setBounds((windowX/2) - (width/2),(windowY/2) + 75,width,height);
         
         continueButton = new JButton("Continue");
         continueButton.setBackground(Color.white);
@@ -111,7 +122,7 @@ public class GameGUI
         
         //CREDITS
         creditsPanel = new JPanel(new GridBagLayout());
-        creditsPanel.setBounds(560,525,width,height);
+        creditsPanel.setBounds((windowX/2) - (width/2),(windowY/2) + 150,width,height);
         
         creditsButton = new JButton("Credits");
         creditsButton.setBackground(Color.white);
@@ -124,7 +135,7 @@ public class GameGUI
         
         //QUIT
         quitPanel = new JPanel(new GridBagLayout());
-        quitPanel.setBounds(560,600,width,height);
+        quitPanel.setBounds((windowX/2) - (width/2),(windowY/2) + 225,width,height);
         
         quitButton = new JButton("Quit");
         quitButton.setBackground(Color.white);
@@ -135,10 +146,8 @@ public class GameGUI
         
         quitButton.addActionListener((ActionEvent e) -> 
         {
-            exitMainMenu();
-            gameplayScene();
-        }
-        );
+            System.exit(0);
+        });
         
         quitPanel.add(quitButton);
         
@@ -147,7 +156,8 @@ public class GameGUI
         gameWindow.add(newGamePanel);
         gameWindow.add(continuePanel);
         gameWindow.add(creditsPanel);
-        gameWindow.add(quitPanel);     
+        gameWindow.add(quitPanel);    
+        
         gameWindow.revalidate();
         gameWindow.repaint();
     }
@@ -182,8 +192,7 @@ public class GameGUI
         {
             exitGameplayScene();
             mainMenu();
-        }
-        );
+        });
         
         mainMenuPanel.add(mainMenuButton);
         
@@ -200,8 +209,7 @@ public class GameGUI
         gQuitButton.addActionListener((ActionEvent e) -> 
         {
             System.exit(0);
-        }
-        );
+        });
         
         gQuitPanel.add(gQuitButton);
         
@@ -213,6 +221,21 @@ public class GameGUI
     {
         gQuitPanel.setVisible(false);
         mainMenuPanel.setVisible(false);
+    }
+    
+    static void characterCreationScene()
+    {
+        //initialise size variables
+        width = 200;
+        height = 60;
+        
+        namePanel = new JPanel(new GridBagLayout());
+        namePanel.setBounds((windowX/2) - (width/2), windowY/4, width, height);
+        
+        nameText = new JLabel("Enter your name:");
+        nameText.setForeground(Color.black);
+        
+        nameField = new JTextField();
     }
     
     static Font createCustomFont()
