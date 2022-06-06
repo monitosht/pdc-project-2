@@ -19,7 +19,8 @@ public class GameGUI
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 26);    
     
     //game window
-    static int windowX, windowY;
+    static int windowX = 1280; 
+    static int windowY = 800;
     static JFrame gameWindow;
     
     //main menu    
@@ -48,16 +49,16 @@ public class GameGUI
     static JButton mainMenuButton;
     
     //character creation 
+    static JPanel ccTitlePanel;
+    static JLabel ccTitleLabel;
+    
     static JPanel namePanel;
     static JLabel nameText;
     static JTextField nameField;
+    static JButton nameButton;
     
     public static void createWindow()
-    {
-        //initialise size variables;
-        windowX = 1280;
-        windowY = 800;
-        
+    {        
         //create JFrame
         gameWindow = new JFrame();
         gameWindow.setTitle("Moni's RPG Adventure");
@@ -102,7 +103,8 @@ public class GameGUI
         newGameButton.addActionListener((ActionEvent e) -> 
         {
             exitMainMenu();
-            characterCreationScene();
+            gameplayScene();
+            characterCreation();
         });
         
         newGamePanel.add(newGameButton);
@@ -180,7 +182,6 @@ public class GameGUI
         //MAIN MENU
         mainMenuPanel = new JPanel(new GridBagLayout());
         mainMenuPanel.setBounds(50,50,width,height);
-        mainMenuPanel.setBounds(50,50,width,height);
         
         mainMenuButton = new JButton("Main Menu");
         mainMenuButton.setBackground(Color.white);
@@ -191,6 +192,7 @@ public class GameGUI
         mainMenuButton.addActionListener((ActionEvent e) -> 
         {
             exitGameplayScene();
+            exitCharacterCreation();
             mainMenu();
         });
         
@@ -223,19 +225,57 @@ public class GameGUI
         mainMenuPanel.setVisible(false);
     }
     
-    static void characterCreationScene()
+    static void characterCreation()
     {
-        //initialise size variables
         width = 200;
-        height = 60;
+        height = 40;
         
-        namePanel = new JPanel(new GridBagLayout());
-        namePanel.setBounds((windowX/2) - (width/2), windowY/4, width, height);
+        //TITLE
+        ccTitlePanel = new JPanel(new GridBagLayout());
+        ccTitlePanel.setBounds((windowX/2) - 300,150,600,150);
+        ccTitlePanel.setBackground(Color.white);
+        ccTitlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        
+        ccTitleLabel = new JLabel("Character Creation");
+        ccTitleLabel.setForeground(Color.black);
+        ccTitleLabel.setFont(pixelFont.deriveFont(50f));
+        
+        ccTitlePanel.add(ccTitleLabel);
+        
+        namePanel = new JPanel(new GridLayout(3,1,0,25));
+        namePanel.setBounds((windowX/2) - (width/2), windowY/2, width, height*4);
         
         nameText = new JLabel("Enter your name:");
         nameText.setForeground(Color.black);
+        nameText.setFont(pixelFont.deriveFont(30f));        
+        namePanel.add(nameText);
         
         nameField = new JTextField();
+        //nameField.setBounds((windowX/2) - (width/2), (windowY/4) + 50, width, height);
+        nameField.setHorizontalAlignment(JTextField.CENTER);
+        nameField.setFont(pixelFont.deriveFont(2));
+        namePanel.add(nameField);
+        
+        nameButton = new JButton("OK");
+        nameButton.setBackground(Color.white);
+        nameButton.setForeground(Color.black);
+        nameButton.setFont(pixelFont);
+        
+        nameButton.addActionListener((ActionEvent e) -> 
+        {
+            System.exit(0);
+        });
+        
+        namePanel.add(nameButton);
+        
+        gameWindow.add(ccTitlePanel);
+        gameWindow.add(namePanel);
+    }
+    
+    static void exitCharacterCreation()
+    {
+        ccTitlePanel.setVisible(false);
+        namePanel.setVisible(false);
     }
     
     static Font createCustomFont()
