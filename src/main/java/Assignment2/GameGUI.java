@@ -78,9 +78,6 @@ public class GameGUI
     static JLabel strLabel, intLabel, defLabel;
     static JLabel goldLabel, levelLabel, xpLabel;
     
-    static JPanel fConfirmPanel;
-    static JButton fConfirmButton;
-    
     public static void createWindow()
     {        
         //create JFrame
@@ -237,14 +234,50 @@ public class GameGUI
         titlePanel.setVisible(true);
         titleLabel.setText("Character Creation");
         
+        //CONFIRM
+        //reset size variables
+        width = 120;
+        height = 40;
+               
+        confirmPanel = new JPanel(new GridLayout(1,1));
+        confirmPanel.setBounds((windowX/2)-(width/2),((3*windowY)/4)+height,width,height);        
+                
+        confirmButton = new JButton("OK");
+        confirmButton.setBackground(Color.white);
+        confirmButton.setForeground(Color.black);
+        confirmButton.setFont(pixelFont);
+              
+        confirmButton.addActionListener((ActionEvent e) -> 
+        {
+            switch(stage)
+            {
+                case 0:
+                    namePanel.setVisible(false);
+                    characterCreation(1);
+                    break;
+                case 1:
+                    promptPanel.setVisible(false);
+                    statsPanel.setVisible(false);
+                    confirmPanel.setVisible(false);
+                    characterCreation(2);
+                    break;
+                case 2:
+                    exitCharacterCreation();
+                    break;
+            }                    
+        }); 
+        
+        confirmPanel.add(confirmButton);            
+        gameWindow.add(confirmPanel);
+        
         switch(stage)
         {
             case 0: //set player name
                 //initialise size variables
                 width = 200;
-                height = 160;
+                height = 100;
                 
-                namePanel = new JPanel(new GridLayout(3,1,0,25));
+                namePanel = new JPanel(new GridLayout(2,1,0,25));
                 namePanel.setBounds((windowX/2) - (width/2), (windowY/2), width, height);
 
                 nameText = new JLabel("Enter your name:");
@@ -256,20 +289,8 @@ public class GameGUI
                 nameField.setHorizontalAlignment(JTextField.CENTER);
                 nameField.setFont(pixelFont.deriveFont(2));
                 namePanel.add(nameField);
-
-                nameButton = new JButton("OK");
-                nameButton.setBackground(Color.white);
-                nameButton.setForeground(Color.black);
-                nameButton.setFont(pixelFont);
-        
-                nameButton.addActionListener((ActionEvent e) -> 
-                {
-                    namePanel.setVisible(false);
-                    characterCreation(1);
-                });        
-                namePanel.add(nameButton);
                 
-                gameWindow.add(namePanel);
+                gameWindow.add(namePanel);                
                 break;
             case 1: //set player stats
                 //reset size variables
@@ -372,31 +393,8 @@ public class GameGUI
                 defPlus.setFont(pixelFont);
                 statsPanel.add(defPlus);
                 
-                //CONFIRM
-                //reset size variables
-                width = 120;
-                height = 40;
-                
-                confirmPanel = new JPanel(new GridLayout(1,1));
-                confirmPanel.setBounds((windowX/2)-(width/2),((3*windowY)/4)+height,width,height);        
-                
-                confirmButton = new JButton("OK");
-                confirmButton.setBackground(Color.white);
-                confirmButton.setForeground(Color.black);
-                confirmButton.setFont(pixelFont);
-                
-                confirmButton.addActionListener((ActionEvent e) -> 
-                {
-                    promptPanel.setVisible(false);
-                    statsPanel.setVisible(false);
-                    confirmPanel.setVisible(false);
-                    characterCreation(2);
-                }); 
-                confirmPanel.add(confirmButton);
-                
                 gameWindow.add(promptPanel);
                 gameWindow.add(statsPanel);
-                gameWindow.add(confirmPanel);
                 break;
             case 2: //confirm and start game
                 //reset size variables
@@ -472,30 +470,8 @@ public class GameGUI
                 xpLabel.setFont(pixelFont);
                 playerCard.add(xpLabel);
                 
-                //CONFIRM
-                //reset size variables
-                width = 120;
-                height = 40;
-                
-                fConfirmPanel = new JPanel(new GridLayout(1,1));
-                fConfirmPanel.setBounds((windowX/2) - (width/2), ((3*windowY)/4) + height, width, height);        
-                
-                fConfirmButton = new JButton("OK");
-                fConfirmButton.setBackground(Color.white);
-                fConfirmButton.setForeground(Color.black);
-                fConfirmButton.setFont(pixelFont);
-                
-                fConfirmButton.addActionListener((ActionEvent e) -> 
-                {
-                    fPromptPanel.setVisible(false);
-                    playerCard.setVisible(false);
-                    fConfirmPanel.setVisible(false);
-                }); 
-                fConfirmPanel.add(fConfirmButton);
-                
                 gameWindow.add(fPromptPanel);
                 gameWindow.add(playerCard);
-                gameWindow.add(fConfirmPanel);
                 break;
         }        
     }
@@ -503,13 +479,13 @@ public class GameGUI
     static void exitCharacterCreation()
     {        
         titlePanel.setVisible(false);
+        confirmPanel.setVisible(false);
+        
         if(namePanel     != null) { namePanel.setVisible(false);     }
         if(promptPanel   != null) { promptPanel.setVisible(false);   }
         if(statsPanel    != null) { statsPanel.setVisible(false);    }
-        if(confirmPanel  != null) { confirmPanel.setVisible(false);  }
         if(fPromptPanel  != null) { fPromptPanel.setVisible(false);  }
         if(playerCard    != null) { playerCard.setVisible(false);    }
-        if(fConfirmPanel != null) { fConfirmPanel.setVisible(false); }
     }
     
     static Font createCustomFont()
