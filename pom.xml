@@ -5,6 +5,18 @@
     <artifactId>COMP603_Assignment2</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>0</version>
+        </dependency>
+        <dependency>
+            <groupId>derbyclient</groupId>
+            <artifactId>derbyclient</artifactId>
+            <version>0</version>
+        </dependency>
+    </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
