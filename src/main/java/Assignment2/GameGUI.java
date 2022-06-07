@@ -67,6 +67,7 @@ public class GameGUI
     static JButton defMinus, defPlus;   
     
     static JPanel confirmPanel;
+    
     static JButton confirmButton;
     
     //stage 2
@@ -102,12 +103,12 @@ public class GameGUI
         titlePanel.setBounds((windowX/2) - (width/2), 50, width, height);        
         titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
         titlePanel.setBackground(Color.white);
-        titlePanel.setVisible(true);
         
         titleLabel = new JLabel("RPG Adventure");
         titleLabel.setForeground(Color.black);
         titleLabel.setFont(pixelFont.deriveFont(50f));        
-        titlePanel.add(titleLabel);
+        titlePanel.add(titleLabel);        
+        titlePanel.setVisible(true);
         
         //initialise size varibles
         width = 160;
@@ -188,10 +189,11 @@ public class GameGUI
         mainMenuButton.setPreferredSize(new Dimension(width,height));
         
         mainMenuButton.addActionListener((ActionEvent e) -> 
-        {
-            exitCharacterCreation();
-            exitGameplayScene();            
+        {     
             mainMenu();
+            exitCharacterCreation();
+            exitGameplayScene();  
+            confirmPanel.setVisible(false);
         });
         
         mainMenuPanel.add(mainMenuButton);
@@ -258,7 +260,6 @@ public class GameGUI
                 case 1:
                     promptPanel.setVisible(false);
                     statsPanel.setVisible(false);
-                    confirmPanel.setVisible(false);
                     characterCreation(2);
                     break;
                 case 2:
