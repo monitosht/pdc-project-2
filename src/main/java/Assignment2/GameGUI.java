@@ -48,9 +48,6 @@ public class GameGUI
     //CHARACTER CREATION
     static int stage;
     
-    static JPanel ccTitlePanel;
-    static JLabel ccTitleLabel;
-    
     //stage 0
     static JPanel namePanel;
     static JLabel nameText;
@@ -105,9 +102,10 @@ public class GameGUI
         
         //TITLE
         titlePanel = new JPanel(new GridBagLayout());
-        titlePanel.setBounds((windowX/2) - (width/2), 50, width, height);
-        titlePanel.setBackground(Color.white);
+        titlePanel.setBounds((windowX/2) - (width/2), 50, width, height);        
         titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        titlePanel.setBackground(Color.white);
+        titlePanel.setVisible(true);
         
         titleLabel = new JLabel("RPG Adventure");
         titleLabel.setForeground(Color.black);
@@ -235,20 +233,9 @@ public class GameGUI
         width = 600;
         height = 150;
         
-        
-        
-        //TITLE
-        ccTitlePanel = new JPanel(new GridBagLayout());
-        ccTitlePanel.setBounds((windowX/2) - (width/2),50,width,height);
-        ccTitlePanel.setBackground(Color.white);
-        ccTitlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        
-        ccTitleLabel = new JLabel("Character Creation");
-        ccTitleLabel.setForeground(Color.black);
-        ccTitleLabel.setFont(pixelFont.deriveFont(50f));        
-        ccTitlePanel.add(ccTitleLabel);
-        
-        gameWindow.add(ccTitlePanel);
+        //TITLE        
+        titlePanel.setVisible(true);
+        titleLabel.setText("Character Creation");
         
         switch(stage)
         {
@@ -515,14 +502,14 @@ public class GameGUI
     
     static void exitCharacterCreation()
     {        
-        ccTitlePanel.setVisible(false);
-        namePanel.setVisible(false);
-        promptPanel.setVisible(false);
-        statsPanel.setVisible(false);
-        confirmPanel.setVisible(false);
-        fPromptPanel.setVisible(false);
-        playerCard.setVisible(false);
-        fConfirmPanel.setVisible(false);
+        titlePanel.setVisible(false);
+        if(namePanel     != null) { namePanel.setVisible(false);     }
+        if(promptPanel   != null) { promptPanel.setVisible(false);   }
+        if(statsPanel    != null) { statsPanel.setVisible(false);    }
+        if(confirmPanel  != null) { confirmPanel.setVisible(false);  }
+        if(fPromptPanel  != null) { fPromptPanel.setVisible(false);  }
+        if(playerCard    != null) { playerCard.setVisible(false);    }
+        if(fConfirmPanel != null) { fConfirmPanel.setVisible(false); }
     }
     
     static Font createCustomFont()
