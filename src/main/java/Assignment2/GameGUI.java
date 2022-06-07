@@ -8,7 +8,7 @@ package Assignment2;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+//import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class GameGUI 
@@ -29,16 +29,10 @@ public class GameGUI
     static JPanel titlePanel;
     static JLabel titleLabel;
     
-    static JPanel newGamePanel;
+    static JPanel buttonPanel;
     static JButton newGameButton;
-    
-    static JPanel continuePanel;
     static JButton continueButton;
-    
-    static JPanel creditsPanel;
     static JButton creditsButton;
-    
-    static JPanel quitPanel;
     static JButton quitButton;   
     
     //gameplay scene
@@ -84,81 +78,56 @@ public class GameGUI
         
         titleLabel = new JLabel("RPG Adventure");
         titleLabel.setForeground(Color.black);
-        titleLabel.setFont(pixelFont.deriveFont(50f));
-        
+        titleLabel.setFont(pixelFont.deriveFont(50f));        
         titlePanel.add(titleLabel);
         
-        //NEW GAME
-        newGamePanel = new JPanel(new GridBagLayout());
-        newGamePanel.setBounds((windowX/2) - (width/2),windowY/2,width,height);
-        newGamePanel.setBackground(Color.white);
+        //button container panel
+        buttonPanel = new JPanel(new GridLayout(4,1,0,height));
+        buttonPanel.setBounds((windowX/2) - (width/2),windowY/2,width,(height*7));
         
+        //NEW GAME
         newGameButton = new JButton("New Game");
         newGameButton.setBackground(Color.white);
         newGameButton.setForeground(Color.black);
         newGameButton.setFont(pixelFont);
-        //to ensure all buttons are of equal size
-        newGameButton.setPreferredSize(new Dimension(width,height));
         
         newGameButton.addActionListener((ActionEvent e) -> 
         {
             exitMainMenu();
             gameplayScene();
             characterCreation();
-        });
-        
-        newGamePanel.add(newGameButton);
+        });        
+        buttonPanel.add(newGameButton);
         
         //CONTINUE
-        continuePanel = new JPanel(new GridBagLayout());
-        continuePanel.setBounds((windowX/2) - (width/2),(windowY/2) + 75,width,height);
-        
         continueButton = new JButton("Continue");
         continueButton.setBackground(Color.white);
         continueButton.setForeground(Color.black);
-        continueButton.setFont(pixelFont);
-        //to ensure all buttons are of equal size
-        continueButton.setPreferredSize(new Dimension(width,height));
-        
-        continuePanel.add(continueButton);
+        continueButton.setFont(pixelFont);        
+        buttonPanel.add(continueButton);
         
         //CREDITS
-        creditsPanel = new JPanel(new GridBagLayout());
-        creditsPanel.setBounds((windowX/2) - (width/2),(windowY/2) + 150,width,height);
-        
         creditsButton = new JButton("Credits");
         creditsButton.setBackground(Color.white);
         creditsButton.setForeground(Color.black);
-        creditsButton.setFont(pixelFont);
-        //to ensure all buttons are of equal size
-        creditsButton.setPreferredSize(new Dimension(width,height));
-        
-        creditsPanel.add(creditsButton);      
+        creditsButton.setFont(pixelFont);        
+        buttonPanel.add(creditsButton);
         
         //QUIT
-        quitPanel = new JPanel(new GridBagLayout());
-        quitPanel.setBounds((windowX/2) - (width/2),(windowY/2) + 225,width,height);
-        
         quitButton = new JButton("Quit");
         quitButton.setBackground(Color.white);
         quitButton.setForeground(Color.black);
         quitButton.setFont(pixelFont);
-        //to ensure all buttons are of equal size
-        quitButton.setPreferredSize(new Dimension(width,height));
         
         quitButton.addActionListener((ActionEvent e) -> 
         {
             System.exit(0);
-        });
-        
-        quitPanel.add(quitButton);
+        });        
+        buttonPanel.add(quitButton);
         
         //add to game window
-        gameWindow.add(titlePanel);     
-        gameWindow.add(newGamePanel);
-        gameWindow.add(continuePanel);
-        gameWindow.add(creditsPanel);
-        gameWindow.add(quitPanel);    
+        gameWindow.add(titlePanel);   
+        gameWindow.add(buttonPanel);  
         
         gameWindow.revalidate();
         gameWindow.repaint();
@@ -167,10 +136,7 @@ public class GameGUI
     static void exitMainMenu()
     {
         titlePanel.setVisible(false);
-        newGamePanel.setVisible(false);
-        continuePanel.setVisible(false);
-        creditsPanel.setVisible(false);
-        quitPanel.setVisible(false);
+        buttonPanel.setVisible(false);
     }
     
     static void gameplayScene()
