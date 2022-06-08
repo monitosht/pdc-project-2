@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- *
- * @author User
+ * @author Monitosh Thaker | 17000777
+ * COMP603 Assignment 1
  */
 public class GameButtonHandler implements ActionListener
 {
@@ -14,29 +14,27 @@ public class GameButtonHandler implements ActionListener
     {
         String selection = e.getActionCommand();
         
-        switch(SetupGUI.position)
+        switch(GameplayGUI.position)
         {
             case "Town":
                 switch(selection)
                 {
                     case "A":
                         System.out.println("Selected 'Adventure'");
-                        SetupGUI.position = "Adventure";
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.position = "Adventure";
+                        GameplayGUI.updateGameButtonText();
                         break;
                     case "B":
                         System.out.println("Selected 'Rest'");
-                        SetupGUI.position = "Inn";                            
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.innArea(0);
                         break;
                     case "C":
                         System.out.println("Selected 'Shop'");
-                        SetupGUI.position = "Shop";                            
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.shopArea(0);
                         break;
                     case "D":
                         System.out.println("Selected 'Save'");
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.updateGameButtonText();
                         break;
                 }
                 break;
@@ -44,54 +42,36 @@ public class GameButtonHandler implements ActionListener
             case "Inn":
                 switch(selection)
                 {
-                    case "A":
-                        System.out.println("Selected 'Yes'");
-                        SetupGUI.position = "Menu";
-                        SetupGUI.updateGameButtonText();
-                        break;
-                    case "B":
-                        System.out.println("Selected 'No'");                            
-                        SetupGUI.position = "Town";
-                        SetupGUI.updateGameButtonText();
-                        break;
+                    case "A" -> GameplayGUI.innArea(1);
+                    case "B" -> GameplayGUI.innArea(2);
                 }
                 break;
+
             case "Shop":
                 switch(selection)
                 {
-                    case "A":
-                        System.out.println("Selected 'Buy'");
-                        SetupGUI.position = "Menu";
-                        SetupGUI.updateGameButtonText();
-                        break;
-                    case "B":
-                        System.out.println("Selected 'Sell'");
-                        SetupGUI.position = "Menu";
-                        SetupGUI.updateGameButtonText();
-                        break;
-                    case "C":
-                        System.out.println("Selected 'Exit'");
-                        SetupGUI.position = "Town";
-                        SetupGUI.updateGameButtonText();
-                        break;
+                    case "A" -> GameplayGUI.shopArea(1);
+                    case "B" -> GameplayGUI.shopArea(2);
+                    case "C" -> GameplayGUI.shopArea(3);
                 }
                 break;
+
             case "Adventure":
                 switch(selection)
                 {
                     case "A":
                         System.out.println("Selected 'Explore'");
-                        SetupGUI.position = "Combat";
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.position = "Combat";
+                        GameplayGUI.updateGameButtonText();
                         break;
                     case "B":
                         System.out.println("Selected 'Inventory'");
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.updateGameButtonText();
                         break;
                     case "C":
                         System.out.println("Selected 'Town'");
-                        SetupGUI.position = "Town";
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.position = "Town";
+                        GameplayGUI.updateGameButtonText();
                         break;
                 }
                 break;
@@ -100,26 +80,26 @@ public class GameButtonHandler implements ActionListener
                 {
                     case "A":
                         System.out.println("Selected 'Fight'");
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.updateGameButtonText();
                         break;
                     case "B":
                         System.out.println("Selected 'Inventory'");
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.updateGameButtonText();
                         break;
                     case "C":
                         System.out.println("Selected 'Run'");
-                        SetupGUI.position = "Adventure";
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.position = "Adventure";
+                        GameplayGUI.updateGameButtonText();
                         break;
                 }
                 break;
-            case "Menu":
+            case "Return":
                 switch(selection)
                 {
                     case "A":
                         System.out.println("Selected 'Exit'");
-                        SetupGUI.position = "Town";
-                        SetupGUI.updateGameButtonText();
+                        GameplayGUI.position = "Town";
+                        GameplayGUI.updateGameButtonText();
                         break;
                 }
                 break;

@@ -71,12 +71,9 @@ public class SetupGUI
     static JLabel defText, defValue;
     static JButton defMinus, defPlus; 
     
-    //GAMEPLAY    
-    static String position;
-    
+    //GAMEPLAY        
     static JPanel mainTextPanel;
     static JTextArea mainTextArea; 
-    static String textAreaText;
     
     static JPanel gameButtonPanel;
     static JButton gameButton1, gameButton2, gameButton3, gameButton4;
@@ -497,10 +494,10 @@ public class SetupGUI
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
         
-        textAreaText = "Game Started!";
+        GameplayGUI.textAreaText = "Game Started!";
         
         mainTextArea = new JTextArea(5,20);
-        mainTextArea.setText(textAreaText);
+        mainTextArea.setText(GameplayGUI.textAreaText);
         mainTextArea.setForeground(Color.black);
         mainTextArea.setFont(pixelFont);
         mainTextArea.setLineWrap(true);
@@ -554,7 +551,7 @@ public class SetupGUI
         playerStatsCard.setBounds(width+50, 25, 180, height+70);
         playerStatsCard.setVisible(true);
         
-        townArea();
+        GameplayGUI.townArea();
     }
     
     public static void exitGameScene()
@@ -562,64 +559,7 @@ public class SetupGUI
         if(mainTextPanel   != null) mainTextPanel.setVisible(false);
         if(gameButtonPanel != null) gameButtonPanel.setVisible(false);
         if(playerStatsCard != null) playerStatsCard.setVisible(false);
-    }    
-    
-    static void townArea()
-    {
-        position = "Town";
-        
-        updateMainTextArea("You have arrived at Town...");
-        updateGameButtonText();
-    }
-    
-    static void updateGameButtonText()
-    {
-        switch(position)
-        {
-            case "Town":
-                gameButton1.setText("( Adventure )");
-                gameButton2.setText("( Rest )");
-                gameButton3.setText("( Shop )");
-                gameButton4.setText("( Save )");
-                break;
-            case "Inn":
-                gameButton1.setText("( Yes )");
-                gameButton2.setText("( No )");
-                gameButton3.setText("");
-                gameButton4.setText("");
-                break;
-            case "Shop":
-                gameButton1.setText("( Buy )");
-                gameButton2.setText("( Sell )");
-                gameButton3.setText("( Exit )");
-                gameButton4.setText("");
-                break;
-            case "Adventure":
-                gameButton1.setText("( Explore )");
-                gameButton2.setText("( Inventory )");
-                gameButton3.setText("( Town )");
-                gameButton4.setText("");
-                break;
-            case "Combat":
-                gameButton1.setText("( Fight )");
-                gameButton2.setText("( Inventory )");
-                gameButton3.setText("( Run )");
-                gameButton4.setText("");
-                break;
-            case "Menu":
-                gameButton1.setText("( Exit )");
-                gameButton2.setText("");
-                gameButton3.setText("");
-                gameButton4.setText("");
-                break;
-        }
-    }
-    
-    static void updateMainTextArea(String text)
-    {
-        textAreaText += "\n\n"+text;
-        mainTextArea.setText(textAreaText);
-    }
+    }       
         
     static void createPlayerStatsCard(JPanel parentPanel)
     {
