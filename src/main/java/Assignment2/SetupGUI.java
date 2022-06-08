@@ -114,7 +114,7 @@ public class SetupGUI
         exitSellMenu();
         exitCombatScene();
         exitGameScene();
-         exitCharacterCreation();   
+        exitCharacterCreation();   
         disableConstantButtons();
         
         //initialise size varibles for title panel
@@ -580,6 +580,7 @@ public class SetupGUI
     static JPanel combatContainer;    
     static JPanel combatPanel;
     static JPanel playerPanel;
+    static JLabel vsLabel;
     static JPanel enemyPanel;
     
     static JPanel combatTextPanel;
@@ -611,7 +612,11 @@ public class SetupGUI
             createPlayerCombatCard(playerPanel);
             combatPanel.add(playerPanel);            
             
-            combatPanel.add(new JLabel()); //to make center of the grid empty
+            vsLabel = new JLabel("VERSUS");
+            vsLabel.setForeground(Color.orange);
+            vsLabel.setFont(pixelFont.deriveFont(2, 30f));
+            vsLabel.setHorizontalAlignment(JLabel.CENTER);
+            combatPanel.add(vsLabel);
             
             enemyPanel = new JPanel(new GridLayout(3,1));
             enemyPanel.setBackground(Color.white);
@@ -657,7 +662,7 @@ public class SetupGUI
         JLabel name, hp, icon;
         
         name = new JLabel("[ Player Name ]");
-        name.setForeground(Color.black);
+        name.setForeground(Color.blue);
         name.setFont(pixelFont);
         name.setHorizontalAlignment(JLabel.CENTER);
         parentPanel.add(name);
@@ -668,7 +673,7 @@ public class SetupGUI
         hp.setHorizontalAlignment(JLabel.CENTER);
         parentPanel.add(hp);
         
-        icon = new JLabel("X PLAYER ICON X");
+        icon = new JLabel("PLAYER ICON");
         icon.setForeground(Color.black);
         icon.setFont(pixelFont);
         icon.setHorizontalAlignment(JLabel.CENTER);        
@@ -680,7 +685,7 @@ public class SetupGUI
         JLabel name, hp, icon;
         
         name = new JLabel("[ Enemy Name ]");
-        name.setForeground(Color.black);
+        name.setForeground(Color.red);
         name.setFont(pixelFont);
         name.setHorizontalAlignment(JLabel.CENTER);
         parentPanel.add(name);
@@ -691,9 +696,10 @@ public class SetupGUI
         hp.setHorizontalAlignment(JLabel.CENTER);
         parentPanel.add(hp);
         
-        icon = new JLabel("X ENEMY ICON X");
-        icon.setForeground(Color.black);
-        icon.setFont(pixelFont);
+        icon = new JLabel();
+        icon.setIcon(new javax.swing.ImageIcon("./resources/enemy_icon.png"));
+        //icon.setForeground(Color.black);
+        //icon.setFont(pixelFont);
         icon.setHorizontalAlignment(JLabel.CENTER);        
         parentPanel.add(icon);
     }
@@ -733,7 +739,6 @@ public class SetupGUI
             {
                 GameplayGUI.updateMainTextArea("Used "+playerInput+"!");
             }
-            System.out.println("use "+playerInput); 
         }
     }
     
