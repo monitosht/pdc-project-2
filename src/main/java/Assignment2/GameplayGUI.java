@@ -14,11 +14,22 @@ public class GameplayGUI
     static String textAreaText;    
     static String position;
     
-    static void townArea()
+    static void townArea(int choice)
     {
         position = "Town";        
-        updateMainTextArea("You have arrived at Town...");
         
+        switch(choice)
+        {
+            case 1: //arrived for the first time
+                updateMainTextArea("You have arrived at Town...");
+                break;
+            case 2: //returrned to town
+                updateMainTextArea("Returned to Town.");
+                break;
+            default: //no message prompt     
+                //updateMainTextArea("<Town>");
+                break;
+        }        
         updateGameButtonText();
     }
     
@@ -67,6 +78,52 @@ public class GameplayGUI
                 updateMainTextArea("Shopkeeper: Welcome to the Town General Store.\nWhat would you like to do?");
                 break;
         }
+        updateGameButtonText();
+    }
+    
+    static void adventureArea(int choice)
+    {
+        position = "Adventure";
+        updateGameButtonText();
+        
+        switch(choice)
+        {
+            case 1: //explore
+                updateMainTextArea("You progress further into the (location name)");
+                updateMainTextArea("...\nEnemy encoutered!");
+                updateMainTextArea("What will you do?");
+                position = "Combat";
+                break;
+            case 2: //inventory
+                break;
+            case 3: //town
+                updateMainTextArea("Returned to Town.");
+                position = "Town";
+                break;
+            default:
+                updateMainTextArea("Departed on an adventure at (location name)!");
+                break;
+        }
+        updateGameButtonText();
+    }
+    
+    static void combatArea(int choice)
+    {
+        position = "Combat";
+        updateGameButtonText();
+        
+        switch(choice)
+        {
+            case 1: //fight
+                break;
+            case 2: //inventory
+                break;
+            case 3: //run
+                updateMainTextArea("You safetely got away from the (enemy name).");
+                //updateMainTextArea("\nCurrently at: (location name).");
+                position = "Adventure";
+                break;
+        }        
         updateGameButtonText();
     }
     

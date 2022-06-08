@@ -551,7 +551,7 @@ public class SetupGUI
         playerStatsCard.setBounds(width+50, 25, 180, height+70);
         playerStatsCard.setVisible(true);
         
-        GameplayGUI.townArea();
+        GameplayGUI.townArea(1);
     }
     
     public static void exitGameScene()

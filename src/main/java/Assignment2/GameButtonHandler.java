@@ -21,8 +21,7 @@ public class GameButtonHandler implements ActionListener
                 {
                     case "A":
                         System.out.println("Selected 'Adventure'");
-                        GameplayGUI.position = "Adventure";
-                        GameplayGUI.updateGameButtonText();
+                        GameplayGUI.adventureArea(0);
                         break;
                     case "B":
                         System.out.println("Selected 'Rest'");
@@ -34,7 +33,6 @@ public class GameButtonHandler implements ActionListener
                         break;
                     case "D":
                         System.out.println("Selected 'Save'");
-                        GameplayGUI.updateGameButtonText();
                         break;
                 }
                 break;
@@ -59,50 +57,28 @@ public class GameButtonHandler implements ActionListener
             case "Adventure":
                 switch(selection)
                 {
-                    case "A":
-                        System.out.println("Selected 'Explore'");
-                        GameplayGUI.position = "Combat";
-                        GameplayGUI.updateGameButtonText();
-                        break;
-                    case "B":
-                        System.out.println("Selected 'Inventory'");
-                        GameplayGUI.updateGameButtonText();
-                        break;
-                    case "C":
-                        System.out.println("Selected 'Town'");
-                        GameplayGUI.position = "Town";
-                        GameplayGUI.updateGameButtonText();
-                        break;
+                    case "A" -> GameplayGUI.adventureArea(1);
+                    case "B" -> GameplayGUI.adventureArea(2);
+                    case "C" -> GameplayGUI.adventureArea(3);
                 }
                 break;
+
             case "Combat":
                 switch(selection)
                 {
-                    case "A":
-                        System.out.println("Selected 'Fight'");
-                        GameplayGUI.updateGameButtonText();
-                        break;
-                    case "B":
-                        System.out.println("Selected 'Inventory'");
-                        GameplayGUI.updateGameButtonText();
-                        break;
-                    case "C":
-                        System.out.println("Selected 'Run'");
-                        GameplayGUI.position = "Adventure";
-                        GameplayGUI.updateGameButtonText();
-                        break;
+                    case "A" -> GameplayGUI.combatArea(1);
+                    case "B" -> GameplayGUI.combatArea(2);
+                    case "C" -> GameplayGUI.combatArea(3);
                 }
                 break;
+
             case "Return":
                 switch(selection)
                 {
-                    case "A":
-                        System.out.println("Selected 'Exit'");
-                        GameplayGUI.position = "Town";
-                        GameplayGUI.updateGameButtonText();
-                        break;
+                    case "A" -> GameplayGUI.townArea(0);
                 }
                 break;
+
         }
     }   
 }
