@@ -11,11 +11,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class GameGUI 
+public class SetupGUI 
 { 
     static Font pixelFont = createCustomFont();
     static Font titleFont = new Font("Arial", Font.PLAIN, 70);
     static Font normalFont = new Font("Times New Roman", Font.PLAIN, 26);        
+    
+    static GameButtonHandler gameButtonHandler = new GameButtonHandler();
     
     //GAME WINDOW
     static int windowX = 1280; 
@@ -48,13 +50,16 @@ public class GameGUI
     //CHARACTER CREATION
     static int stage;
     
-    //stage 0
+    static JPanel confirmPanel;    
+    static JButton confirmButton;
+    
+    //cc stage 0
     static JPanel namePanel;
     static JLabel nameText;
     static JTextField nameField;
     static JButton nameButton;
     
-    //stage 1
+    //cc stage 1
     static JPanel promptPanel;
     static JLabel promptText;
     
@@ -64,28 +69,23 @@ public class GameGUI
     static JLabel intText, intValue;
     static JButton intMinus, intPlus;
     static JLabel defText, defValue;
-    static JButton defMinus, defPlus;   
+    static JButton defMinus, defPlus; 
     
-    static JPanel confirmPanel;    
-    static JButton confirmButton;
+    //GAMEPLAY    
+    static String position;
     
-    //stage 2
-    static JPanel fPromptPanel;
-    static JLabel fPromptText;
-    
-    static JPanel playerCard;
-    static JLabel nameLabel, hpLabel;
-    static JLabel strLabel, intLabel, defLabel;
-    static JLabel goldLabel, levelLabel, xpLabel;
-    
-    //GAMEPLAY
     static JPanel mainTextPanel;
-    static JTextArea mainTextArea;    
+    static JTextArea mainTextArea; 
+    static String textAreaText;
     
     static JPanel gameButtonPanel;
     static JButton gameButton1, gameButton2, gameButton3, gameButton4;
     
+    //PLAYER STATS CARD
     static JPanel playerStatsCard;
+    static JLabel playerNameLabel, hpLabel;
+    static JLabel strLabel, intLabel, defLabel;
+    static JLabel levelLabel, xpLabel, goldLabel;
     
     public static void createWindow()
     {        
@@ -197,6 +197,68 @@ public class GameGUI
         titlePanel.setVisible(false);
         buttonPanel.setVisible(false);
     }
+    
+    static void constantButtons()
+    {
+        //initialise size varibles
+        width = 120;
+        height = 30;
+        
+        //MAIN MENU
+        mainMenuPanel = new JPanel(new GridBagLayout());
+        mainMenuPanel.setBounds(25,windowY-height*2-25,width,height);
+        container.add(mainMenuPanel);
+        
+        mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.setBackground(Color.white);
+        mainMenuButton.setForeground(Color.black);
+        mainMenuButton.setFont(pixelFont.deriveFont(20f));
+        mainMenuButton.setFocusPainted(false);
+        mainMenuPanel.add(mainMenuButton);
+        
+        mainMenuButton.addActionListener((ActionEvent e) -> 
+        {     
+            startGame();
+        });
+        
+        //QUIT
+        gQuitPanel = new JPanel(new GridBagLayout());
+        gQuitPanel.setBounds(windowX-width-25,windowY-height*2-25,width,height);
+        container.add(gQuitPanel);
+        
+        gQuitButton = new JButton("Quit");
+        gQuitButton.setBackground(Color.white);
+        gQuitButton.setForeground(Color.black);
+        gQuitButton.setFont(pixelFont.deriveFont(20f));
+        gQuitButton.setFocusPainted(false);
+        gQuitPanel.add(gQuitButton);
+        
+        gQuitButton.addActionListener((ActionEvent e) -> 
+        {
+            System.exit(0);
+        }); 
+        
+        //reset size variables
+        width = 240;
+        height = 30;
+        
+        //MINI TITLE
+        miniTitlePanel = new JPanel(new GridBagLayout());
+        miniTitlePanel.setBounds((windowX/2) - (width/2), windowY-height*2-25, width, height);
+        container.add(miniTitlePanel);
+        
+        miniTitleText = new JLabel("Moni's RPG Adventure v0.1");
+        miniTitleText.setForeground(Color.black);
+        miniTitleText.setFont(pixelFont.deriveFont(2, 20f));
+        miniTitlePanel.add(miniTitleText);
+    }
+    
+    static void disableConstantButtons()
+    {
+        if(mainMenuPanel  != null) mainMenuPanel.setVisible(false);
+        if(miniTitlePanel != null) miniTitlePanel.setVisible(false);
+        if(gQuitPanel     != null) gQuitPanel.setVisible(false);
+    }    
     
     static void characterCreation(int _stage)
     {
@@ -358,60 +420,12 @@ public class GameGUI
                 height = 320;
                 
                 //initialise container panel
-                playerCard = new JPanel(new GridLayout(8,1));
-                playerCard.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
-                playerCard.setBackground(Color.white);
-                playerCard.setBorder(BorderFactory.createLineBorder(Color.black));
-                container.add(playerCard);
-                
-                //STATS SUMMARY
-                nameLabel = new JLabel("[ name ]");
-                nameLabel.setHorizontalAlignment(JLabel.CENTER);
-                nameLabel.setForeground(Color.black);
-                nameLabel.setFont(pixelFont);
-                playerCard.add(nameLabel);
-                
-                hpLabel = new JLabel("[ HP ] : 0");
-                hpLabel.setHorizontalAlignment(JLabel.CENTER);
-                hpLabel.setForeground(Color.black);
-                hpLabel.setFont(pixelFont);
-                playerCard.add(hpLabel);
-                
-                strLabel = new JLabel("[ STR ] : 0");
-                strLabel.setHorizontalAlignment(JLabel.CENTER);
-                strLabel.setForeground(Color.black);
-                strLabel.setFont(pixelFont);
-                playerCard.add(strLabel);
-                
-                intLabel = new JLabel("[ INT ] : 0");
-                intLabel.setHorizontalAlignment(JLabel.CENTER);
-                intLabel.setForeground(Color.black);
-                intLabel.setFont(pixelFont);
-                playerCard.add(intLabel);
-                
-                defLabel = new JLabel("[ DEF ] : 0");
-                defLabel.setHorizontalAlignment(JLabel.CENTER);
-                defLabel.setForeground(Color.black);
-                defLabel.setFont(pixelFont);
-                playerCard.add(defLabel);
-                
-                goldLabel = new JLabel("[ GOLD ] : 0");
-                goldLabel.setHorizontalAlignment(JLabel.CENTER);
-                goldLabel.setForeground(Color.black);
-                goldLabel.setFont(pixelFont);
-                playerCard.add(goldLabel);
-                
-                levelLabel = new JLabel("[ LEVEL ] : 0");
-                levelLabel.setHorizontalAlignment(JLabel.CENTER);
-                levelLabel.setForeground(Color.black);
-                levelLabel.setFont(pixelFont);
-                playerCard.add(levelLabel);
-                
-                xpLabel = new JLabel("[ XP ] : 0");
-                xpLabel.setHorizontalAlignment(JLabel.CENTER);
-                xpLabel.setForeground(Color.black);
-                xpLabel.setFont(pixelFont);
-                playerCard.add(xpLabel);
+                playerStatsCard = new JPanel(new GridLayout(8,1));
+                playerStatsCard.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
+                playerStatsCard.setBackground(Color.white);
+                playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
+                container.add(playerStatsCard);
+                createPlayerStatsCard(playerStatsCard);
             }
         }       
         
@@ -447,7 +461,7 @@ public class GameGUI
                     }
                     case 2 -> 
                     {                    
-                        gameScene();
+                        createGameScene();
                     }
                 }               
             }); 
@@ -458,82 +472,20 @@ public class GameGUI
         }
     }
     
-    static void createPlayerStatsCard(JPanel parentPanel)
-    {
-        JLabel playerName = new JLabel("[ Name ] Player");
-        playerName.setForeground(Color.black);
-        playerName.setFont(pixelFont);
-        playerName.setHorizontalAlignment(JTextField.CENTER);
-        playerName.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(playerName);
-        
-        JLabel hp = new JLabel("[ HP ] 10 / 10");
-        hp.setForeground(Color.black);
-        hp.setFont(pixelFont);
-        hp.setHorizontalAlignment(JTextField.CENTER);
-        hp.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(hp);
-        
-        JLabel str = new JLabel("[ Strength ] 0");
-        str.setForeground(Color.black);
-        str.setFont(pixelFont);
-        str.setHorizontalAlignment(JTextField.CENTER);
-        str.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(str);
-        
-        JLabel intt = new JLabel("[ Intellect ] 0");
-        intt.setForeground(Color.black);
-        intt.setFont(pixelFont);
-        intt.setHorizontalAlignment(JTextField.CENTER);
-        intt.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(intt);
-        
-        JLabel def = new JLabel("[ Defence ] 0");
-        def.setForeground(Color.black);
-        def.setFont(pixelFont);
-        def.setHorizontalAlignment(JTextField.CENTER);
-        def.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(def);
-        
-        JLabel lvl = new JLabel("[ Level ] 1");
-        lvl.setForeground(Color.black);
-        lvl.setFont(pixelFont);
-        lvl.setHorizontalAlignment(JTextField.CENTER);
-        lvl.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(lvl);
-        
-        JLabel xp = new JLabel("[ XP ] 0");
-        xp.setForeground(Color.black);
-        xp.setFont(pixelFont);
-        xp.setHorizontalAlignment(JTextField.CENTER);
-        xp.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(xp);
-        
-        JLabel gold = new JLabel("[ Gold ] 0");
-        gold.setForeground(Color.black);
-        gold.setFont(pixelFont);
-        gold.setHorizontalAlignment(JTextField.CENTER);
-        gold.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(gold);
-    }
-    
     static void exitCharacterCreation()
     {        
-        if(titlePanel    != null) titlePanel.setVisible(false);    
-        if(confirmPanel  != null) confirmPanel.setVisible(false);          
-        if(namePanel     != null) namePanel.setVisible(false);     
-        if(promptPanel   != null) promptPanel.setVisible(false);   
-        if(statsPanel    != null) statsPanel.setVisible(false);    
-        if(playerCard    != null) playerCard.setVisible(false);    
-    }
-    
-    public static void gameScene()
+        if(titlePanel      != null) titlePanel.setVisible(false);    
+        if(confirmPanel    != null) confirmPanel.setVisible(false);          
+        if(namePanel       != null) namePanel.setVisible(false);     
+        if(promptPanel     != null) promptPanel.setVisible(false);   
+        if(statsPanel      != null) statsPanel.setVisible(false);    
+        if(playerStatsCard != null) playerStatsCard.setVisible(false);    
+    }   
+     
+    public static void createGameScene()
     {
         //disable unneeded GUI elements
-        promptPanel.setVisible(false);
-        playerCard.setVisible(false);
-        titlePanel.setVisible(false);
-        confirmPanel.setVisible(false);
+        exitCharacterCreation();
         
         //initialise size variables
         width = 1000;
@@ -545,8 +497,10 @@ public class GameGUI
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
         
+        textAreaText = "Game Started!";
+        
         mainTextArea = new JTextArea(5,20);
-        mainTextArea.setText("test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest");
+        mainTextArea.setText(textAreaText);
         mainTextArea.setForeground(Color.black);
         mainTextArea.setFont(pixelFont);
         mainTextArea.setLineWrap(true);
@@ -555,12 +509,9 @@ public class GameGUI
         JScrollPane scrollTextArea = new JScrollPane(mainTextArea);
         mainTextPanel.add(scrollTextArea);     
         
-        //reset height
-        height = 50;
-        
         //GAME BUTTONS
         gameButtonPanel = new JPanel(new GridLayout(1, 4, 25, 0));
-        gameButtonPanel.setBounds(25, 645, width, height);
+        gameButtonPanel.setBounds(25, 645, width, 50);
         container.add(gameButtonPanel);
         
         gameButton1 = new JButton("[ A ]");
@@ -568,7 +519,9 @@ public class GameGUI
         gameButton1.setForeground(Color.black);
         gameButton1.setFont(pixelFont);
         gameButton1.setFocusPainted(false);
-        gameButtonPanel.add(gameButton1);
+        gameButtonPanel.add(gameButton1);        
+        gameButton1.addActionListener(gameButtonHandler);
+        gameButton1.setActionCommand("A");
         
         gameButton2 = new JButton("[ B ]");
         gameButton2.setBackground(Color.white);
@@ -576,6 +529,8 @@ public class GameGUI
         gameButton2.setFont(pixelFont);
         gameButton2.setFocusPainted(false);
         gameButtonPanel.add(gameButton2);
+        gameButton2.addActionListener(gameButtonHandler);
+        gameButton2.setActionCommand("B");
         
         gameButton3 = new JButton("[ C ]");
         gameButton3.setBackground(Color.white);
@@ -583,6 +538,8 @@ public class GameGUI
         gameButton3.setFont(pixelFont);
         gameButton3.setFocusPainted(false);
         gameButtonPanel.add(gameButton3);
+        gameButton3.addActionListener(gameButtonHandler);
+        gameButton3.setActionCommand("C");
         
         gameButton4 = new JButton("[ D ]");
         gameButton4.setBackground(Color.white);
@@ -590,83 +547,147 @@ public class GameGUI
         gameButton4.setFont(pixelFont);
         gameButton4.setFocusPainted(false);
         gameButtonPanel.add(gameButton4);
+        gameButton4.addActionListener(gameButtonHandler);
+        gameButton4.setActionCommand("D");
         
         //PLAYER STATS
-        playerStatsCard = new JPanel(new GridLayout(8,1));
-        playerStatsCard.setBounds(1050, 25, 180, 670);
-        playerStatsCard.setBackground(Color.white);
-        playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
-        container.add(playerStatsCard);
-        createPlayerStatsCard(playerStatsCard);
+        playerStatsCard.setBounds(width+50, 25, 180, height+70);
+        playerStatsCard.setVisible(true);
+        
+        townArea();
     }
     
     public static void exitGameScene()
     {
         if(mainTextPanel   != null) mainTextPanel.setVisible(false);
         if(gameButtonPanel != null) gameButtonPanel.setVisible(false);
+        if(playerStatsCard != null) playerStatsCard.setVisible(false);
+    }    
+    
+    static void townArea()
+    {
+        position = "Town";
+        
+        updateMainTextArea("You have arrived at Town...");
+        updateGameButtonText();
     }
     
-    static void constantButtons()
+    static void updateGameButtonText()
     {
-        //initialise size varibles
-        width = 120;
-        height = 30;
-        
-        //MAIN MENU
-        mainMenuPanel = new JPanel(new GridBagLayout());
-        mainMenuPanel.setBounds(25,windowY-height*2-25,width,height);
-        container.add(mainMenuPanel);
-        
-        mainMenuButton = new JButton("Main Menu");
-        mainMenuButton.setBackground(Color.white);
-        mainMenuButton.setForeground(Color.black);
-        mainMenuButton.setFont(pixelFont.deriveFont(20f));
-        mainMenuButton.setFocusPainted(false);
-        mainMenuPanel.add(mainMenuButton);
-        
-        mainMenuButton.addActionListener((ActionEvent e) -> 
-        {     
-            startGame();
-        });
-        
-        //QUIT
-        gQuitPanel = new JPanel(new GridBagLayout());
-        gQuitPanel.setBounds(windowX-width-25,windowY-height*2-25,width,height);
-        container.add(gQuitPanel);
-        
-        gQuitButton = new JButton("Quit");
-        gQuitButton.setBackground(Color.white);
-        gQuitButton.setForeground(Color.black);
-        gQuitButton.setFont(pixelFont.deriveFont(20f));
-        gQuitButton.setFocusPainted(false);
-        gQuitPanel.add(gQuitButton);
-        
-        gQuitButton.addActionListener((ActionEvent e) -> 
+        switch(position)
         {
-            System.exit(0);
-        }); 
-        
-        //reset size variables
-        width = 240;
-        height = 30;
-        
-        //MINI TITLE
-        miniTitlePanel = new JPanel(new GridBagLayout());
-        miniTitlePanel.setBounds((windowX/2) - (width/2), windowY-height*2-25, width, height);
-        container.add(miniTitlePanel);
-        
-        miniTitleText = new JLabel("Moni's RPG Adventure v0.1");
-        miniTitleText.setForeground(Color.black);
-        miniTitleText.setFont(pixelFont.deriveFont(2, 20f));
-        miniTitlePanel.add(miniTitleText);
+            case "Town":
+                gameButton1.setText("( Adventure )");
+                gameButton2.setText("( Rest )");
+                gameButton3.setText("( Shop )");
+                gameButton4.setText("( Save )");
+                break;
+            case "Inn":
+                gameButton1.setText("( Yes )");
+                gameButton2.setText("( No )");
+                gameButton3.setText("");
+                gameButton4.setText("");
+                break;
+            case "Shop":
+                gameButton1.setText("( Buy )");
+                gameButton2.setText("( Sell )");
+                gameButton3.setText("( Exit )");
+                gameButton4.setText("");
+                break;
+            case "Adventure":
+                gameButton1.setText("( Explore )");
+                gameButton2.setText("( Inventory )");
+                gameButton3.setText("( Town )");
+                gameButton4.setText("");
+                break;
+            case "Combat":
+                gameButton1.setText("( Fight )");
+                gameButton2.setText("( Inventory )");
+                gameButton3.setText("( Run )");
+                gameButton4.setText("");
+                break;
+            case "Menu":
+                gameButton1.setText("( Exit )");
+                gameButton2.setText("");
+                gameButton3.setText("");
+                gameButton4.setText("");
+                break;
+        }
     }
     
-    static void disableConstantButtons()
+    static void updateMainTextArea(String text)
     {
-        if(mainMenuPanel  != null) mainMenuPanel.setVisible(false);
-        if(miniTitlePanel != null) miniTitlePanel.setVisible(false);
-        if(gQuitPanel     != null) gQuitPanel.setVisible(false);
-    }        
+        textAreaText += "\n\n"+text;
+        mainTextArea.setText(textAreaText);
+    }
+        
+    static void createPlayerStatsCard(JPanel parentPanel)
+    {
+        playerNameLabel = new JLabel("[ Name ] Player");
+        playerNameLabel.setForeground(Color.black);
+        playerNameLabel.setFont(pixelFont);
+        playerNameLabel.setHorizontalAlignment(JTextField.CENTER);
+        playerNameLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(playerNameLabel);
+        
+        hpLabel = new JLabel("[ HP ] 10 / 10");
+        hpLabel.setForeground(Color.black);
+        hpLabel.setFont(pixelFont);
+        hpLabel.setHorizontalAlignment(JTextField.CENTER);
+        hpLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(hpLabel);
+        
+        strLabel = new JLabel("[ Strength ] 0");
+        strLabel.setForeground(Color.black);
+        strLabel.setFont(pixelFont);
+        strLabel.setHorizontalAlignment(JTextField.CENTER);
+        strLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(strLabel);
+        
+        intLabel = new JLabel("[ Intellect ] 0");
+        intLabel.setForeground(Color.black);
+        intLabel.setFont(pixelFont);
+        intLabel.setHorizontalAlignment(JTextField.CENTER);
+        intLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(intLabel);
+        
+        defLabel = new JLabel("[ Defence ] 0");
+        defLabel.setForeground(Color.black);
+        defLabel.setFont(pixelFont);
+        defLabel.setHorizontalAlignment(JTextField.CENTER);
+        defLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(defLabel);
+        
+        levelLabel = new JLabel("[ Level ] 1");
+        levelLabel.setForeground(Color.black);
+        levelLabel.setFont(pixelFont);
+        levelLabel.setHorizontalAlignment(JTextField.CENTER);
+        levelLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(levelLabel);
+        
+        xpLabel = new JLabel("[ XP ] 0");
+        xpLabel.setForeground(Color.black);
+        xpLabel.setFont(pixelFont);
+        xpLabel.setHorizontalAlignment(JTextField.CENTER);
+        xpLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(xpLabel);
+        
+        goldLabel = new JLabel("[ Gold ] 0");
+        goldLabel.setForeground(Color.black);
+        goldLabel.setFont(pixelFont);
+        goldLabel.setHorizontalAlignment(JTextField.CENTER);
+        goldLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(goldLabel);
+        
+        /*
+        areaLabel = new JLabel("[ Area ] Town");
+        areaLabel.setForeground(Color.black);
+        areaLabel.setFont(pixelFont);
+        areaLabel.setHorizontalAlignment(JTextField.CENTER);
+        areaLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(areaLabel);
+        */
+    } 
     
     static Font createCustomFont()
     {
@@ -682,5 +703,6 @@ public class GameGUI
             System.err.println("Error: "+e.getMessage());
         }        
         return null;
-    }
+    }    
+    
 }

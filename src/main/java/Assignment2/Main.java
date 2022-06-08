@@ -10,7 +10,7 @@ public class Main
     {
         PlayerStats playerStats = new PlayerStats();
         
-        GameGUI.createWindow();
-        GameGUI.startGame();
+        SetupGUI.createWindow();
+        SetupGUI.startGame();
     }
 }
