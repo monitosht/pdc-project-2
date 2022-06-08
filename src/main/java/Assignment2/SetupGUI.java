@@ -673,9 +673,8 @@ public class SetupGUI
         hp.setHorizontalAlignment(JLabel.CENTER);
         parentPanel.add(hp);
         
-        icon = new JLabel("PLAYER ICON");
-        icon.setForeground(Color.black);
-        icon.setFont(pixelFont);
+        icon = new JLabel();
+        icon.setIcon(new javax.swing.ImageIcon("./resources/player_icon.png"));
         icon.setHorizontalAlignment(JLabel.CENTER);        
         parentPanel.add(icon);
     }
@@ -698,8 +697,6 @@ public class SetupGUI
         
         icon = new JLabel();
         icon.setIcon(new javax.swing.ImageIcon("./resources/enemy_icon.png"));
-        //icon.setForeground(Color.black);
-        //icon.setFont(pixelFont);
         icon.setHorizontalAlignment(JLabel.CENTER);        
         parentPanel.add(icon);
     }
