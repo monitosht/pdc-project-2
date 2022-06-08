@@ -82,6 +82,11 @@ public class GameGUI
     static JPanel mainTextPanel;
     static JTextArea mainTextArea;    
     
+    static JPanel gameButtonPanel;
+    static JButton gameButton1, gameButton2, gameButton3, gameButton4;
+    
+    static JPanel playerStatsCard;
+    
     public static void createWindow()
     {        
         //create main JFrame
@@ -138,8 +143,7 @@ public class GameGUI
         buttonPanel.add(newGameButton);
         
         newGameButton.addActionListener((ActionEvent e) -> 
-        {
-            System.out.println("'New Game' button pressed.");
+        {           
             characterCreation(0);            
             constantButtons();
         });        
@@ -435,17 +439,14 @@ public class GameGUI
                 {
                     case 0 -> 
                     {
-                        System.out.println("pressed once");
                         characterCreation(1);
                     }
                     case 1 -> 
                     {
-                        System.out.println("pressed twice");
                         characterCreation(2);
                     }
                     case 2 -> 
                     {                    
-                        System.out.println("pressed tree times");
                         gameScene();
                     }
                 }               
@@ -455,6 +456,65 @@ public class GameGUI
         {
             confirmPanel.setVisible(true);
         }
+    }
+    
+    static void createPlayerStatsCard(JPanel parentPanel)
+    {
+        JLabel playerName = new JLabel("[ Name ] Player");
+        playerName.setForeground(Color.black);
+        playerName.setFont(pixelFont);
+        playerName.setHorizontalAlignment(JTextField.CENTER);
+        playerName.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(playerName);
+        
+        JLabel hp = new JLabel("[ HP ] 10 / 10");
+        hp.setForeground(Color.black);
+        hp.setFont(pixelFont);
+        hp.setHorizontalAlignment(JTextField.CENTER);
+        hp.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(hp);
+        
+        JLabel str = new JLabel("[ Strength ] 0");
+        str.setForeground(Color.black);
+        str.setFont(pixelFont);
+        str.setHorizontalAlignment(JTextField.CENTER);
+        str.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(str);
+        
+        JLabel intt = new JLabel("[ Intellect ] 0");
+        intt.setForeground(Color.black);
+        intt.setFont(pixelFont);
+        intt.setHorizontalAlignment(JTextField.CENTER);
+        intt.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(intt);
+        
+        JLabel def = new JLabel("[ Defence ] 0");
+        def.setForeground(Color.black);
+        def.setFont(pixelFont);
+        def.setHorizontalAlignment(JTextField.CENTER);
+        def.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(def);
+        
+        JLabel lvl = new JLabel("[ Level ] 1");
+        lvl.setForeground(Color.black);
+        lvl.setFont(pixelFont);
+        lvl.setHorizontalAlignment(JTextField.CENTER);
+        lvl.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(lvl);
+        
+        JLabel xp = new JLabel("[ XP ] 0");
+        xp.setForeground(Color.black);
+        xp.setFont(pixelFont);
+        xp.setHorizontalAlignment(JTextField.CENTER);
+        xp.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(xp);
+        
+        JLabel gold = new JLabel("[ Gold ] 0");
+        gold.setForeground(Color.black);
+        gold.setFont(pixelFont);
+        gold.setHorizontalAlignment(JTextField.CENTER);
+        gold.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(gold);
     }
     
     static void exitCharacterCreation()
@@ -493,12 +553,57 @@ public class GameGUI
         mainTextArea.setEditable(false);        
         
         JScrollPane scrollTextArea = new JScrollPane(mainTextArea);
-        mainTextPanel.add(scrollTextArea);        
+        mainTextPanel.add(scrollTextArea);     
+        
+        //reset height
+        height = 50;
+        
+        //GAME BUTTONS
+        gameButtonPanel = new JPanel(new GridLayout(1, 4, 25, 0));
+        gameButtonPanel.setBounds(25, 645, width, height);
+        container.add(gameButtonPanel);
+        
+        gameButton1 = new JButton("[ A ]");
+        gameButton1.setBackground(Color.white);
+        gameButton1.setForeground(Color.black);
+        gameButton1.setFont(pixelFont);
+        gameButton1.setFocusPainted(false);
+        gameButtonPanel.add(gameButton1);
+        
+        gameButton2 = new JButton("[ B ]");
+        gameButton2.setBackground(Color.white);
+        gameButton2.setForeground(Color.black);
+        gameButton2.setFont(pixelFont);
+        gameButton2.setFocusPainted(false);
+        gameButtonPanel.add(gameButton2);
+        
+        gameButton3 = new JButton("[ C ]");
+        gameButton3.setBackground(Color.white);
+        gameButton3.setForeground(Color.black);
+        gameButton3.setFont(pixelFont);
+        gameButton3.setFocusPainted(false);
+        gameButtonPanel.add(gameButton3);
+        
+        gameButton4 = new JButton("[ D ]");
+        gameButton4.setBackground(Color.white);
+        gameButton4.setForeground(Color.black);
+        gameButton4.setFont(pixelFont);
+        gameButton4.setFocusPainted(false);
+        gameButtonPanel.add(gameButton4);
+        
+        //PLAYER STATS
+        playerStatsCard = new JPanel(new GridLayout(8,1));
+        playerStatsCard.setBounds(1050, 25, 180, 670);
+        playerStatsCard.setBackground(Color.white);
+        playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
+        container.add(playerStatsCard);
+        createPlayerStatsCard(playerStatsCard);
     }
     
     public static void exitGameScene()
     {
-        if(mainTextPanel != null) mainTextPanel.setVisible(false);
+        if(mainTextPanel   != null) mainTextPanel.setVisible(false);
+        if(gameButtonPanel != null) gameButtonPanel.setVisible(false);
     }
     
     static void constantButtons()
