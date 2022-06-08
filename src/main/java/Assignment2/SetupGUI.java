@@ -110,8 +110,11 @@ public class SetupGUI
     public static void startGame()
     {
         //disable uneeded GUI elements
-        exitCharacterCreation();
+        exitBuyMenu();
+        exitSellMenu();
+        exitCombatScene();
         exitGameScene();
+         exitCharacterCreation();   
         disableConstantButtons();
         
         //initialise size varibles for title panel
@@ -501,7 +504,6 @@ public class SetupGUI
         mainTextPanel.setBounds(25, 25, width, height);        
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
-        //mainTextPanel.setVisible(true);
         
         GameplayGUI.textAreaText = "Game Started!";
         
@@ -580,8 +582,6 @@ public class SetupGUI
     static JPanel playerPanel;
     static JPanel enemyPanel;
     
-    
-    static String combatText;
     static JPanel combatTextPanel;
     static JTextArea combatTextArea;
     
@@ -599,7 +599,6 @@ public class SetupGUI
             combatContainer = new JPanel();
             combatContainer.setBounds(25, 25, width, (2*height)/3);
             combatContainer.setBackground(Color.white);
-            //combatContainer.setBorder(BorderFactory.createLineBorder(Color.black));
             container.add(combatContainer);
             
             combatPanel = new JPanel(new GridLayout(1,3,30,0));
@@ -625,27 +624,31 @@ public class SetupGUI
         }
         
         if(combatTextPanel == null)
-        {
-            combatText = "Combat Report:\n\n";
-            
+        {     
             combatTextPanel = new JPanel(new GridLayout(1,1));
             combatTextPanel.setBounds(25, 25 + (2*height)/3, width, height/3);
             combatTextPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             combatTextPanel.setBackground(Color.red);
-            container.add(combatTextPanel);   
+            container.add(combatTextPanel);
+            
+            GameplayGUI.combatText = "What will you do?";
             
             combatTextArea = new JTextArea();
-            combatTextArea.setText(combatText);
             combatTextArea.setForeground(Color.black);
             combatTextArea.setFont(pixelFont);
+            combatTextArea.setText(GameplayGUI.combatText);
             combatTextArea.setMargin(new Insets(10,10,10,10));
             combatTextArea.setLineWrap(true);
             combatTextArea.setEditable(false); 
-            combatTextPanel.add(combatTextArea);
+            
+            JScrollPane scrollTextArea = new JScrollPane(combatTextArea);
+            combatTextPanel.add(scrollTextArea);
         }
         else
         {
             combatTextPanel.setVisible(true);
+            GameplayGUI.combatText = "What will you do?";
+            combatTextArea.setText(GameplayGUI.combatText);
         }
     }
     
@@ -700,7 +703,11 @@ public class SetupGUI
         inCombat = false;
         if(combatContainer != null) combatContainer.setVisible(false);
         if(combatTextPanel != null) combatTextPanel.setVisible(false);
-        mainTextPanel.setVisible(true);
+        if(mainTextPanel   != null)
+        {
+            mainTextPanel.setVisible(true);
+            GameplayGUI.updateMainTextArea("Returned to (location name).");
+        }    
     }
     
     public static void createInventoryBox()
@@ -720,11 +727,11 @@ public class SetupGUI
         { 
             if(inCombat == true)
             {
-                combatText += "\nUsed "+playerInput+"!";
+                GameplayGUI.updateCombatTextArea("Used "+playerInput+"!");
             }            
             else
             {
-                GameplayGUI.updateMainTextArea("\nUsed "+playerInput+"!");
+                GameplayGUI.updateMainTextArea("Used "+playerInput+"!");
             }
             System.out.println("use "+playerInput); 
         }
@@ -782,8 +789,8 @@ public class SetupGUI
     
     public static void exitBuyMenu()
     {
-        if(buyPanel != null) buyPanel.setVisible(false);
-        mainTextPanel.setVisible(true);
+        if(buyPanel      != null) buyPanel.setVisible(false);
+        if(mainTextPanel != null) mainTextPanel.setVisible(true);
     }
     
     public static void createSellMenu()
@@ -825,10 +832,10 @@ public class SetupGUI
     }
     
     public static void exitSellMenu()
-    {
+    {        
         if(sellScrollPane != null) sellScrollPane.setVisible(false);
+        if(mainTextPanel  != null) mainTextPanel.setVisible(true);
         //if(sellPanel != null) sellPanel.setVisible(false);
-        mainTextPanel.setVisible(true);
     }
         
     static void createPlayerStatsCard(JPanel parentPanel)

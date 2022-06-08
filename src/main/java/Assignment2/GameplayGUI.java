@@ -12,7 +12,10 @@ import static Assignment2.SetupGUI.gameButton4;
 public class GameplayGUI 
 {      
     static String textAreaText;    
+    static String combatText;
     static String position;
+    
+    static int continueChoice;
     
     static void townArea(int choice)
     {
@@ -64,13 +67,16 @@ public class GameplayGUI
         {
             case 1: //buy
                 updateMainTextArea("Shopkeeper: Take a look at our wide selection of items!");
-                SetupGUI.createBuyMenu();
-                returnEvent(0);
+                continueChoice = 1;
+                continueEvent(0, 0);
+                
                 break;
             case 2: //sell
                 updateMainTextArea("Shopkeeper: Lets see what you've got to offer...");
-                SetupGUI.createSellMenu();
-                returnEvent(0);
+                //SetupGUI.createSellMenu();
+                //returnEvent(0);
+                continueChoice = 2;
+                continueEvent(0, 0);
                 break;
             case 3: //exit
                 updateMainTextArea("You leave the store.");
@@ -93,9 +99,11 @@ public class GameplayGUI
             case 1: //explore
                 updateMainTextArea("You progress further into the (location name)");
                 updateMainTextArea("...\nEnemy encoutered!");
-                updateMainTextArea("What will you do?");
-                position = "Combat";
-                SetupGUI.createCombatScene();
+                continueChoice = 3;
+                continueEvent(0, 0);
+                //updateCombatTextArea("What will you do?");
+                //position = "Combat";
+                //SetupGUI.createCombatScene();
                 break;
             case 2: //inventory
                 SetupGUI.createInventoryBox();
@@ -119,14 +127,17 @@ public class GameplayGUI
         switch(choice)
         {
             case 1: //fight
+                updateCombatTextArea("The (enemy name) has been defeated!\n[ You earned 0 XP & 0 Gold ]");                  
+                continueChoice = 4;
+                continueEvent(0, 0);
                 break;
             case 2: //inventory
                 SetupGUI.createInventoryBox();
                 break;
             case 3: //run
-                updateMainTextArea("You safetely got away from the (enemy name).");                
-                position = "Adventure";
-                SetupGUI.exitCombatScene();
+                updateCombatTextArea("You safetely got away from the (enemy name).");             
+                continueChoice = 5;
+                continueEvent(0, 0);
                 break;
         }        
         updateGameButtonText();
@@ -139,7 +150,7 @@ public class GameplayGUI
         
         switch(choice)
         {
-            case 1: //exit
+            case 1: //return
                 SetupGUI.exitBuyMenu();
                 SetupGUI.exitSellMenu();
                 townArea(0);
@@ -149,10 +160,51 @@ public class GameplayGUI
         } 
     }
     
+    static void continueEvent(int choice, int choice2)
+    {
+        position = "Continue";
+        
+        switch(choice)
+        {
+            case 1: //continue
+                switch(choice2)
+                {
+                    case 1: //buy menu
+                        SetupGUI.createBuyMenu();
+                        returnEvent(0);
+                        break;
+                    case 2: //sell menu
+                        SetupGUI.createSellMenu();
+                        returnEvent(0);
+                        break;
+                    case 3: //entering combat
+                        SetupGUI.createCombatScene();
+                        position = "Combat";                        
+                        break;
+                    case 4: //return from won combat                        
+                        SetupGUI.exitCombatScene();
+                        position = "Adventure";
+                        break;
+                    case 5: //run from combat
+                        SetupGUI.exitCombatScene();
+                        position = "Adventure";                        
+                        break;
+                }
+                break;                
+        }
+        updateGameButtonText();
+    }
+    
     static void updateMainTextArea(String text)
     {
         textAreaText += "\n\n"+text;
         SetupGUI.mainTextArea.setText(textAreaText);
+    }
+    
+    static void updateCombatTextArea(String text)
+    {
+        combatText += "\n\n"+text;
+        SetupGUI.combatTextArea.setText(combatText);
     }
     
     static void updateGameButtonText()
@@ -195,6 +247,11 @@ public class GameplayGUI
                 gameButton3.setText("");
                 gameButton4.setText("");
                 break;
+            case "Continue":
+                gameButton1.setText("( Continue )");
+                gameButton2.setText("");
+                gameButton3.setText("");
+                gameButton4.setText("");
         }
     }
 }

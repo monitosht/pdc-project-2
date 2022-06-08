@@ -62,6 +62,14 @@ public class GameButtonHandler implements ActionListener
                     case "A" -> GameplayGUI.returnEvent(1);
                 }
                 break;
+            case "Continue":
+            {
+                switch(selection)
+                {
+                    case "A" -> GameplayGUI.continueEvent(1, GameplayGUI.continueChoice);
+                }
+                break;
+            }
         }
     }   
 }
