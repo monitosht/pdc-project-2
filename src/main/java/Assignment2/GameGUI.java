@@ -35,12 +35,15 @@ public class GameGUI
     static JButton creditsButton;
     static JButton quitButton;       
     
-    //BUTTONS
-    static JPanel gQuitPanel;
-    static JButton gQuitButton;
-    
+    //CONSTANTS
     static JPanel mainMenuPanel;
     static JButton mainMenuButton;    
+    
+    static JPanel miniTitlePanel;
+    static JLabel miniTitleText;
+    
+    static JPanel gQuitPanel;
+    static JButton gQuitButton;
     
     //CHARACTER CREATION
     static int stage;
@@ -63,8 +66,7 @@ public class GameGUI
     static JLabel defText, defValue;
     static JButton defMinus, defPlus;   
     
-    static JPanel confirmPanel;
-    
+    static JPanel confirmPanel;    
     static JButton confirmButton;
     
     //stage 2
@@ -99,6 +101,7 @@ public class GameGUI
     {
         //disable uneeded GUI elements
         exitCharacterCreation();
+        exitGameScene();
         disableConstantButtons();
         
         //initialise size varibles for title panel
@@ -473,31 +476,46 @@ public class GameGUI
         confirmPanel.setVisible(false);
         
         //initialise size variables
-        width = 900;
+        width = 1000;
         height = 600;
         
         //initialise main text panel
-        mainTextPanel = new JPanel();
-        mainTextPanel.setBounds(100, 100, width, height);
+        mainTextPanel = new JPanel(new GridLayout(1,1));
+        mainTextPanel.setBounds(25, 25, width, height);        
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
+        
+        mainTextArea = new JTextArea(5,20);
+        mainTextArea.setText("test\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest\ntest");
+        mainTextArea.setForeground(Color.black);
+        mainTextArea.setFont(pixelFont);
+        mainTextArea.setLineWrap(true);
+        mainTextArea.setEditable(false);        
+        
+        JScrollPane scrollTextArea = new JScrollPane(mainTextArea);
+        mainTextPanel.add(scrollTextArea);        
+    }
+    
+    public static void exitGameScene()
+    {
+        if(mainTextPanel != null) mainTextPanel.setVisible(false);
     }
     
     static void constantButtons()
     {
         //initialise size varibles
-        width = 160;
-        height = 40;
+        width = 120;
+        height = 30;
         
         //MAIN MENU
         mainMenuPanel = new JPanel(new GridBagLayout());
-        mainMenuPanel.setBounds(50,50,width,height);
+        mainMenuPanel.setBounds(25,windowY-height*2-25,width,height);
         container.add(mainMenuPanel);
         
         mainMenuButton = new JButton("Main Menu");
         mainMenuButton.setBackground(Color.white);
         mainMenuButton.setForeground(Color.black);
-        mainMenuButton.setFont(pixelFont);
+        mainMenuButton.setFont(pixelFont.deriveFont(20f));
         mainMenuButton.setFocusPainted(false);
         mainMenuPanel.add(mainMenuButton);
         
@@ -508,13 +526,13 @@ public class GameGUI
         
         //QUIT
         gQuitPanel = new JPanel(new GridBagLayout());
-        gQuitPanel.setBounds(windowX-width-50,50,width,height);
+        gQuitPanel.setBounds(windowX-width-25,windowY-height*2-25,width,height);
         container.add(gQuitPanel);
         
         gQuitButton = new JButton("Quit");
         gQuitButton.setBackground(Color.white);
         gQuitButton.setForeground(Color.black);
-        gQuitButton.setFont(pixelFont);
+        gQuitButton.setFont(pixelFont.deriveFont(20f));
         gQuitButton.setFocusPainted(false);
         gQuitPanel.add(gQuitButton);
         
@@ -522,12 +540,27 @@ public class GameGUI
         {
             System.exit(0);
         }); 
+        
+        //reset size variables
+        width = 240;
+        height = 30;
+        
+        //MINI TITLE
+        miniTitlePanel = new JPanel(new GridBagLayout());
+        miniTitlePanel.setBounds((windowX/2) - (width/2), windowY-height*2-25, width, height);
+        container.add(miniTitlePanel);
+        
+        miniTitleText = new JLabel("Moni's RPG Adventure v0.1");
+        miniTitleText.setForeground(Color.black);
+        miniTitleText.setFont(pixelFont.deriveFont(2, 20f));
+        miniTitlePanel.add(miniTitleText);
     }
     
     static void disableConstantButtons()
     {
-        if(mainMenuPanel != null) mainMenuPanel.setVisible(false);
-        if(gQuitPanel    != null) gQuitPanel.setVisible(false);
+        if(mainMenuPanel  != null) mainMenuPanel.setVisible(false);
+        if(miniTitlePanel != null) miniTitlePanel.setVisible(false);
+        if(gQuitPanel     != null) gQuitPanel.setVisible(false);
     }        
     
     static Font createCustomFont()
