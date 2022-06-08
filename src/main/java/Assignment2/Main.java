@@ -11,6 +11,6 @@ public class Main
         PlayerStats playerStats = new PlayerStats();
         
         GameGUI.createWindow();
-        GameGUI.mainMenu();
+        GameGUI.startGame();
     }
 }
