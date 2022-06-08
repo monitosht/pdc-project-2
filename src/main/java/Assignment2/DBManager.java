@@ -11,7 +11,7 @@ public final class DBManager
 {
     private static final String USER_NAME = "pdc";
     private static final String PASSWORD = "pdc";
-    private static final String URL = "jdbc:derby:PlayerStatsDB_Ebd"; //create=true";
+    private static final String URL = "jdbc:derby:GameDataDB_Edb"; //create=true";
     
     Connection conn;
     
