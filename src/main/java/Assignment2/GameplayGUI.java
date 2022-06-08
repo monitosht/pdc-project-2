@@ -42,7 +42,7 @@ public class GameplayGUI
         {
             case 1: //yes
                 updateMainTextArea("You sleep soundly through the night and awaken well rested.\nYour health has been fully restored!");
-                position = "Return";
+                returnEvent(0);
                 break;
             case 2: //no
                 updateMainTextArea("You decline the offer and leave the Inn.");
@@ -64,11 +64,13 @@ public class GameplayGUI
         {
             case 1: //buy
                 updateMainTextArea("Shopkeeper: Take a look at our wide selection of items!");
-                position = "Return";
+                SetupGUI.createBuyMenu();
+                returnEvent(0);
                 break;
             case 2: //sell
                 updateMainTextArea("Shopkeeper: Lets see what you've got to offer...");
-                position = "Return";
+                SetupGUI.createSellMenu();
+                returnEvent(0);
                 break;
             case 3: //exit
                 updateMainTextArea("You leave the store.");
@@ -93,8 +95,10 @@ public class GameplayGUI
                 updateMainTextArea("...\nEnemy encoutered!");
                 updateMainTextArea("What will you do?");
                 position = "Combat";
+                SetupGUI.createCombatScene();
                 break;
             case 2: //inventory
+                SetupGUI.createInventoryBox();
                 break;
             case 3: //town
                 updateMainTextArea("Returned to Town.");
@@ -117,14 +121,32 @@ public class GameplayGUI
             case 1: //fight
                 break;
             case 2: //inventory
+                SetupGUI.createInventoryBox();
                 break;
             case 3: //run
-                updateMainTextArea("You safetely got away from the (enemy name).");
-                //updateMainTextArea("\nCurrently at: (location name).");
+                updateMainTextArea("You safetely got away from the (enemy name).");                
                 position = "Adventure";
+                SetupGUI.exitCombatScene();
                 break;
         }        
         updateGameButtonText();
+    }
+    
+    static void returnEvent(int choice)
+    {
+        position = "Return";
+        updateGameButtonText();
+        
+        switch(choice)
+        {
+            case 1: //exit
+                SetupGUI.exitBuyMenu();
+                SetupGUI.exitSellMenu();
+                townArea(0);
+                break;
+            default:
+                break;
+        } 
     }
     
     static void updateMainTextArea(String text)

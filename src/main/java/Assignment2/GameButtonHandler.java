@@ -19,24 +19,12 @@ public class GameButtonHandler implements ActionListener
             case "Town":
                 switch(selection)
                 {
-                    case "A":
-                        System.out.println("Selected 'Adventure'");
-                        GameplayGUI.adventureArea(0);
-                        break;
-                    case "B":
-                        System.out.println("Selected 'Rest'");
-                        GameplayGUI.innArea(0);
-                        break;
-                    case "C":
-                        System.out.println("Selected 'Shop'");
-                        GameplayGUI.shopArea(0);
-                        break;
-                    case "D":
-                        System.out.println("Selected 'Save'");
-                        break;
+                    case "A" -> GameplayGUI.adventureArea(0);
+                    case "B" -> GameplayGUI.innArea(0);
+                    case "C" -> GameplayGUI.shopArea(0);
+                    case "D" -> System.out.println("Selected 'Save'");
                 }
-                break;
-                
+                break;                
             case "Inn":
                 switch(selection)
                 {
@@ -44,7 +32,6 @@ public class GameButtonHandler implements ActionListener
                     case "B" -> GameplayGUI.innArea(2);
                 }
                 break;
-
             case "Shop":
                 switch(selection)
                 {
@@ -53,7 +40,6 @@ public class GameButtonHandler implements ActionListener
                     case "C" -> GameplayGUI.shopArea(3);
                 }
                 break;
-
             case "Adventure":
                 switch(selection)
                 {
@@ -62,7 +48,6 @@ public class GameButtonHandler implements ActionListener
                     case "C" -> GameplayGUI.adventureArea(3);
                 }
                 break;
-
             case "Combat":
                 switch(selection)
                 {
@@ -71,14 +56,12 @@ public class GameButtonHandler implements ActionListener
                     case "C" -> GameplayGUI.combatArea(3);
                 }
                 break;
-
             case "Return":
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.townArea(0);
+                    case "A" -> GameplayGUI.returnEvent(1);
                 }
                 break;
-
         }
     }   
 }

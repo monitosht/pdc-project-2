@@ -84,6 +84,14 @@ public class SetupGUI
     static JLabel strLabel, intLabel, defLabel;
     static JLabel levelLabel, xpLabel, goldLabel;
     
+    //SHOP MENUS
+    static JPanel buyPanel;
+    static JPanel sellPanel;
+    static JScrollPane sellScrollPane;
+    
+    //INVENTORY POPUP
+    static JOptionPane inventoryBox;
+    
     public static void createWindow()
     {        
         //create main JFrame
@@ -493,13 +501,15 @@ public class SetupGUI
         mainTextPanel.setBounds(25, 25, width, height);        
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
+        //mainTextPanel.setVisible(true);
         
         GameplayGUI.textAreaText = "Game Started!";
         
-        mainTextArea = new JTextArea(5,20);
+        mainTextArea = new JTextArea();
         mainTextArea.setText(GameplayGUI.textAreaText);
         mainTextArea.setForeground(Color.black);
         mainTextArea.setFont(pixelFont);
+        mainTextArea.setMargin(new Insets(10,10,10,10));
         mainTextArea.setLineWrap(true);
         mainTextArea.setEditable(false);        
         
@@ -559,7 +569,267 @@ public class SetupGUI
         if(mainTextPanel   != null) mainTextPanel.setVisible(false);
         if(gameButtonPanel != null) gameButtonPanel.setVisible(false);
         if(playerStatsCard != null) playerStatsCard.setVisible(false);
+        if(buyPanel        != null) buyPanel.setVisible(false);
+        if(sellPanel        != null) sellPanel.setVisible(false);
     }       
+    
+    //COMBAT SCENE
+    static boolean inCombat = false;
+    static JPanel combatContainer;    
+    static JPanel combatPanel;
+    static JPanel playerPanel;
+    static JPanel enemyPanel;
+    
+    
+    static String combatText;
+    static JPanel combatTextPanel;
+    static JTextArea combatTextArea;
+    
+    public static void createCombatScene()
+    {
+        mainTextPanel.setVisible(false);
+        
+        //initialise variables
+        inCombat = true;
+        width = 1000;
+        height = 600;
+        
+        if(combatPanel == null)
+        {
+            combatContainer = new JPanel();
+            combatContainer.setBounds(25, 25, width, (2*height)/3);
+            combatContainer.setBackground(Color.white);
+            //combatContainer.setBorder(BorderFactory.createLineBorder(Color.black));
+            container.add(combatContainer);
+            
+            combatPanel = new JPanel(new GridLayout(1,3,30,0));
+            combatPanel.setPreferredSize(new Dimension(width-200, (2*height)/3));
+            combatPanel.setBackground(Color.white);
+            combatContainer.add(combatPanel);
+            
+            playerPanel = new JPanel(new GridLayout(3,1));
+            playerPanel.setBackground(Color.white);
+            createPlayerCombatCard(playerPanel);
+            combatPanel.add(playerPanel);            
+            
+            combatPanel.add(new JLabel()); //to make center of the grid empty
+            
+            enemyPanel = new JPanel(new GridLayout(3,1));
+            enemyPanel.setBackground(Color.white);
+            createEnemyCombatCard(enemyPanel);
+            combatPanel.add(enemyPanel);
+        }
+        else
+        {
+            combatContainer.setVisible(true);
+        }
+        
+        if(combatTextPanel == null)
+        {
+            combatText = "Combat Report:\n\n";
+            
+            combatTextPanel = new JPanel(new GridLayout(1,1));
+            combatTextPanel.setBounds(25, 25 + (2*height)/3, width, height/3);
+            combatTextPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            combatTextPanel.setBackground(Color.red);
+            container.add(combatTextPanel);   
+            
+            combatTextArea = new JTextArea();
+            combatTextArea.setText(combatText);
+            combatTextArea.setForeground(Color.black);
+            combatTextArea.setFont(pixelFont);
+            combatTextArea.setMargin(new Insets(10,10,10,10));
+            combatTextArea.setLineWrap(true);
+            combatTextArea.setEditable(false); 
+            combatTextPanel.add(combatTextArea);
+        }
+        else
+        {
+            combatTextPanel.setVisible(true);
+        }
+    }
+    
+    public static void createPlayerCombatCard(JPanel parentPanel)
+    {
+        JLabel name, hp, icon;
+        
+        name = new JLabel("[ Player Name ]");
+        name.setForeground(Color.black);
+        name.setFont(pixelFont);
+        name.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(name);
+        
+        hp = new JLabel("cHP / mHP");
+        hp.setForeground(Color.black);
+        hp.setFont(pixelFont);
+        hp.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(hp);
+        
+        icon = new JLabel("X PLAYER ICON X");
+        icon.setForeground(Color.black);
+        icon.setFont(pixelFont);
+        icon.setHorizontalAlignment(JLabel.CENTER);        
+        parentPanel.add(icon);
+    }
+    
+    public static void createEnemyCombatCard(JPanel parentPanel)
+    {
+        JLabel name, hp, icon;
+        
+        name = new JLabel("[ Enemy Name ]");
+        name.setForeground(Color.black);
+        name.setFont(pixelFont);
+        name.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(name);
+        
+        hp = new JLabel("cHP / mHP");
+        hp.setForeground(Color.black);
+        hp.setFont(pixelFont);
+        hp.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(hp);
+        
+        icon = new JLabel("X ENEMY ICON X");
+        icon.setForeground(Color.black);
+        icon.setFont(pixelFont);
+        icon.setHorizontalAlignment(JLabel.CENTER);        
+        parentPanel.add(icon);
+    }
+    
+    public static void exitCombatScene()
+    {
+        inCombat = false;
+        if(combatContainer != null) combatContainer.setVisible(false);
+        if(combatTextPanel != null) combatTextPanel.setVisible(false);
+        mainTextPanel.setVisible(true);
+    }
+    
+    public static void createInventoryBox()
+    {
+        Object[] items = {"potion", "sword", "potion"};
+        Object defaultSelection = items[0];
+        
+        //inventoryBox = new JOptionPane();
+        
+        JLabel boxText = new JLabel("Select an Item to use:");
+        boxText.setFont(pixelFont.deriveFont(20f));
+        
+        UIManager.put("OptionPane.okButtonText", "Use");
+        UIManager.put("OptionPane.cancelButtonText", "Exit");
+        String playerInput = (String)JOptionPane.showInputDialog(null, boxText, "Inventory", JOptionPane.PLAIN_MESSAGE, null, items, defaultSelection);
+        if(playerInput != null)
+        { 
+            if(inCombat == true)
+            {
+                combatText += "\nUsed "+playerInput+"!";
+            }            
+            else
+            {
+                GameplayGUI.updateMainTextArea("\nUsed "+playerInput+"!");
+            }
+            System.out.println("use "+playerInput); 
+        }
+    }
+    
+    public static void createBuyMenu()
+    {
+        mainTextPanel.setVisible(false);
+        
+        //initialise size variables
+        width = 1000;
+        height = 600;        
+        
+        if(buyPanel == null) //initialise buy panel if it doesnt exist
+        {
+            buyPanel = new JPanel(new GridLayout(3,3,10,10));
+            buyPanel.setBounds(25, 25, width, height);
+            buyPanel.setBackground(Color.white);
+            buyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            container.add(buyPanel);
+            
+            JButton b1, b2, b3, b4, b5;
+            
+            b1 = new JButton("Item");
+            b1.setBackground(Color.blue);
+            b1.setForeground(Color.white);
+            b1.setFont(pixelFont);
+            buyPanel.add(b1);
+            b2 = new JButton("Item [ BUY ]");
+            b2.setBackground(Color.blue);
+            b2.setForeground(Color.white);
+            b2.setFont(pixelFont);
+            buyPanel.add(b2);
+            b3 = new JButton("Item");
+            b3.setBackground(Color.blue);
+            b3.setForeground(Color.white);
+            b3.setFont(pixelFont);
+            buyPanel.add(b3);
+            b4 = new JButton("Item");
+            b4.setBackground(Color.blue);
+            b4.setForeground(Color.white);
+            b4.setFont(pixelFont);
+            buyPanel.add(b4);
+            b5 = new JButton("Item");
+            b5.setBackground(Color.blue);
+            b5.setForeground(Color.white);
+            b5.setFont(pixelFont);
+            buyPanel.add(b5);
+        }
+        else //if the buy panel already exists, enable it
+        {
+            buyPanel.setVisible(true);
+        }
+    }
+    
+    public static void exitBuyMenu()
+    {
+        if(buyPanel != null) buyPanel.setVisible(false);
+        mainTextPanel.setVisible(true);
+    }
+    
+    public static void createSellMenu()
+    {
+        mainTextPanel.setVisible(false);
+        
+        //initialise size variables
+        width = 1000;
+        height = 600;
+        
+        int sellItemsSize = 12;
+        
+        if(sellPanel == null || sellScrollPane == null) //initialise sell panel if it doesnt exist
+        {
+            sellPanel = new JPanel(new GridLayout(sellItemsSize/3,3,10,10));
+            sellPanel.setPreferredSize(new Dimension(width, height));
+            //sellPanel.setBounds(25, 25, width, height*3);
+            sellPanel.setBackground(Color.white);
+            sellPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            
+            sellScrollPane = new JScrollPane(sellPanel);
+            sellPanel.setAutoscrolls(true);
+            sellScrollPane.setBounds(25, 25, width, height);
+            container.add(sellScrollPane);
+            
+            for(int i = 0; i < sellItemsSize; i++)
+            {
+                JButton b = new JButton("Button"+i);
+                b.setBackground(Color.red);
+                b.setForeground(Color.white);
+                b.setFont(pixelFont);
+                sellPanel.add(b);
+            }
+        }
+        else //if the sell panel already exists, enable it
+        {
+            sellScrollPane.setVisible(true);
+        }
+    }
+    
+    public static void exitSellMenu()
+    {
+        if(sellScrollPane != null) sellScrollPane.setVisible(false);
+        //if(sellPanel != null) sellPanel.setVisible(false);
+        mainTextPanel.setVisible(true);
+    }
         
     static void createPlayerStatsCard(JPanel parentPanel)
     {
