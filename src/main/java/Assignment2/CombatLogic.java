@@ -22,8 +22,7 @@ public class CombatLogic
             int index = (int)(Math.random() * GameManager.enemies.size());
             currentEnemy = GameManager.enemies.get(index);
             
-        } while(currentEnemy.getLevel() != GameManager.player.getLevel()); //Ensure that the player only encouters enemies of the same level  
-        System.out.println(currentEnemy.getName());
+        } while(currentEnemy.getLevel() != GameManager.player.getLevel()); //Ensure that the player only encouters enemies of the same level
     }
     
     public static boolean combatEvent(Enemy enemy) //call when the Fight button is selected
@@ -70,6 +69,7 @@ public class CombatLogic
             if(player.getCurrentHP() <= 0)
             {
                 player.setCurrentHP(0);
+                updatePlayerCombatCard();
                 GameManager.gameOver();
 
                 combatEnded = true;
@@ -79,31 +79,6 @@ public class CombatLogic
         updateEnemyCombatCard(currentEnemy);
         
         return(combatEnded);
-    }
-    
-    public static void takeDamage(Enemy enemy)
-    {
-        int damageTaken = enemy.Attack() - player.Defend();        
-        if(damageTaken <= 0) damageTaken = 1;
-        
-        int missCheck = GameManager.rand.nextInt(9);        
-        if(missCheck == 0) updateCombatTextArea("The "+enemy.getName()+"'s attack missed!");
-        else
-        {
-            player.setCurrentHP(player.getCurrentHP() - damageTaken);
-            updateCombatTextArea("The "+enemy.getName()+" attacked you and dealt "+damageTaken+" damage...");
-        }
-        
-        if(player.getCurrentHP() <= 0)
-        {
-            player.setCurrentHP(0);
-            GameManager.gameOver();
-            
-            //end combat (TEMP)
-            GUILogic.continueChoice = 5;
-            GUILogic.continueEvent(0, 0);
-            //return to adventure area (TEMP)
-        }
     }
     
     public static boolean runFromCombat(Enemy enemy)
@@ -130,11 +105,8 @@ public class CombatLogic
             if(player.getCurrentHP() <= 0)
             {
                 player.setCurrentHP(0);
-                GameManager.gameOver();
-
-                //end combat              
-                GUILogic.continueChoice = 5;
-                GUILogic.continueEvent(0, 0);
+                updatePlayerCombatCard();
+                GameManager.gameOver();                
             }
             return false;
         }

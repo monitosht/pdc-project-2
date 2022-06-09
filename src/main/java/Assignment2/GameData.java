@@ -60,8 +60,6 @@ public class GameData
             
             if(rs.next()) //player with same name already exists
             {
-                System.out.println("Save data \""+player.getName()+"\" exists.");
-                
                 //ask to overrite                
                 if(GUISetup.createSavePrompt() == 0)
                 {
@@ -88,8 +86,6 @@ public class GameData
             }
             else //save data does not exist yet
             {
-                System.out.println("save data does not exist");
-                
                 query = "INSERT INTO player_data VALUES ('"
                         +player.getName()+"',"
                         +player.getCurrentHP()+","
@@ -172,6 +168,21 @@ public class GameData
         {
             System.err.println("SQLException: " + e.getMessage());
         }            
+    }
+    
+    public void removeSaveData()
+    {        
+        try
+        {
+            statement = conn.createStatement();
+            
+            String query = "DELETE FROM player_data WHERE name = '"+player.getName()+"'";
+            statement.executeUpdate(query); 
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
     }
     
     public void readEnemyList()

@@ -36,7 +36,6 @@ public class GUILogic
     public static void createPlayer(String name, int _startPoints)
     {
         newPlayer = new Player(name);
-        System.out.println("Player name set to "+name);
         
         startPoints = _startPoints;
         points = startPoints;
@@ -320,6 +319,7 @@ public class GUILogic
                         break;
                     case 3: //entering combat
                         GUISetup.createCombatScene();
+                        CombatLogic.updatePlayerCombatCard();
                         combatArea(0);                       
                         break;
                     case 4: //combat event recap

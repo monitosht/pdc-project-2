@@ -58,9 +58,15 @@ public class GameManager
     
     static void gameOver()
     {
-        System.out.println("Game Over!");
-        //prompt text
-        //remove save from database
-        //restart game
+        gameDataDB.removeSaveData();        
+        
+        if(GUISetup.gameOverPrompt() == 0)
+        {
+            GUISetup.createMainMenu();
+        }
+        else
+        {
+            System.exit(0);
+        }
     }
 }

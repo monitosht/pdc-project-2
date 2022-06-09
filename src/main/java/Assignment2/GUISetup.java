@@ -927,7 +927,7 @@ public class GUISetup
         JLabel boxText = new JLabel("Save data with this name already exists. Overwrite with this save data?");
         boxText.setFont(pixelFont.deriveFont(20f));
         
-        return JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
+        return JOptionPane.showConfirmDialog(null, boxText, "Save Overwrite Warning", JOptionPane.YES_NO_OPTION);
     }
     
     public static void createBuyMenu()
@@ -1029,6 +1029,16 @@ public class GUISetup
         if(sellScrollPane != null) sellScrollPane.setVisible(false);
         if(mainTextPanel  != null) mainTextPanel.setVisible(true);
         //if(sellPanel != null) sellPanel.setVisible(false);
+    }
+    
+    public static int gameOverPrompt()
+    {
+        Object[] options = {"Main Menu", "Quit!"};
+        
+        JLabel boxText = new JLabel("You Died... Thanks for playing!");
+        boxText.setFont(pixelFont.deriveFont(20f));
+        
+        return JOptionPane.showOptionDialog(null, boxText, "GAME OVER", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
     }
         
     static void createPlayerStatsCard(JPanel parentPanel)
