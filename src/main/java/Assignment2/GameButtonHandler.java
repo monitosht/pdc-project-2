@@ -22,7 +22,7 @@ public class GameButtonHandler implements ActionListener
                     case "A" -> GameplayGUI.adventureArea(0);
                     case "B" -> GameplayGUI.innArea(0);
                     case "C" -> GameplayGUI.shopArea(0);
-                    case "D" -> System.out.println("Selected 'Save'");
+                    case "D" -> GameManager.gameDataDB.writePlayerSaveData();
                 }
                 break;                
             case "Inn":

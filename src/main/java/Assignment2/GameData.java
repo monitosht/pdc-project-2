@@ -16,6 +16,33 @@ public class GameData
     {
         dbManager = new DBManager();
         conn = dbManager.getConnection();
+        
+        try 
+        {
+            statement = conn.createStatement();
+        } 
+        catch (SQLException e) 
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+    }
+    
+    public static void main(String[] args) 
+    {
+        GameData data = new GameData();
+
+        try 
+        {
+            data.statement.addBatch("CREATE TABLE player_data (name VARCHAR(50), current_HP INT, max_HP INT, strength INT, intellect INT, defence INT, xp INT, level INT, gold INT)");
+            data.statement.addBatch("INSERT INTO player_data VALUES ('Moni',15,20,7,0,3,3,1,25)");
+            data.statement.executeBatch();
+        } 
+        catch (SQLException e) 
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+        
+        data.closeConnection();
     }
     
     public void writePlayerSaveData()
@@ -49,17 +76,8 @@ public class GameData
         }
     }
     
-    public void getAllStats()
+    public void closeConnection() 
     {
-        try 
-        {
-            statement = conn.createStatement();        
-            String query = "SELECT * FROM PLAYER_STATS";
-            statement.executeUpdate(query);
-        } 
-        catch(SQLException ex) 
-        {
-            System.err.println("SQLException: "+ex.getMessage());
-        }        
+        this.dbManager.closeConnections();
     }
 }

@@ -11,7 +11,7 @@ public final class DBManager
 {
     private static final String USER_NAME = "pdc";
     private static final String PASSWORD = "pdc";
-    private static final String URL = "jdbc:derby:GameDataDB_Edb"; //create=true";
+    private static final String URL = "jdbc:derby:GameDataDB_Edb; create=true";    
     
     Connection conn;
     
@@ -30,6 +30,21 @@ public final class DBManager
         catch(SQLException ex) 
         {
             System.err.println("SQLException: "+ex.getMessage());
+        }
+    }
+    
+    public void closeConnections() 
+    {
+        if (conn != null) 
+        {
+            try 
+            {
+                conn.close();
+            } 
+            catch (SQLException e) 
+            {
+                System.err.println("SQLException: "+e.getMessage());
+            }
         }
     }
     
