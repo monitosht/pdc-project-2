@@ -110,6 +110,7 @@ public class GUISetup
     static JLabel playerNameLabel, hpLabel;
     static JLabel strLabel, intLabel, defLabel;
     static JLabel levelLabel, xpLabel, goldLabel;
+    static JLabel locationLabel;
     
     // </editor-fold>
     
@@ -579,7 +580,7 @@ public class GUISetup
                 height = 320;
                 
                 //initialise stats panel
-                playerStatsCard = new JPanel(new GridLayout(8,1));
+                playerStatsCard = new JPanel(new GridLayout(9,1));
                 playerStatsCard.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
                 playerStatsCard.setBackground(Color.white);
                 playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -744,7 +745,7 @@ public class GUISetup
         //PLAYER STATS
         if(playerStatsCard == null)
         {
-            playerStatsCard = new JPanel(new GridLayout(8,1));
+            playerStatsCard = new JPanel(new GridLayout(9,1));
             playerStatsCard.setBounds(width+50, 25, (width/5) - 20, height+70);
             playerStatsCard.setBackground(Color.white);
             playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -759,7 +760,7 @@ public class GUISetup
             createPlayerStatsCard(playerStatsCard);
         }
         
-        GUILogic.townArea(1);
+        GUILogic.townArea(0);
     }
     
     public static void exitGameScene()
@@ -1041,72 +1042,72 @@ public class GUISetup
         return JOptionPane.showOptionDialog(null, boxText, "GAME OVER", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
     }
         
+    
+    
     static void createPlayerStatsCard(JPanel parentPanel)
     {
-        playerNameLabel = new JLabel("[ Name ] Player");
+        playerNameLabel = new JLabel("[ Name ]");
         playerNameLabel.setForeground(Color.black);
-        playerNameLabel.setFont(pixelFont);
+        playerNameLabel.setFont(pixelFont.deriveFont(1));
         playerNameLabel.setHorizontalAlignment(JTextField.CENTER);
         playerNameLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(playerNameLabel);
         
-        hpLabel = new JLabel("[ HP ] 10 / 10");
+        locationLabel = new JLabel("[ Location ]");
+        locationLabel.setForeground(Color.black);
+        locationLabel.setFont(pixelFont);
+        locationLabel.setHorizontalAlignment(JTextField.CENTER);
+        locationLabel.setVerticalAlignment(JTextField.CENTER);
+        parentPanel.add(locationLabel);
+        
+        hpLabel = new JLabel("[ HP ]");
         hpLabel.setForeground(Color.black);
         hpLabel.setFont(pixelFont);
         hpLabel.setHorizontalAlignment(JTextField.CENTER);
         hpLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(hpLabel);
         
-        strLabel = new JLabel("[ Strength ] 0");
+        strLabel = new JLabel("[ Strength ]");
         strLabel.setForeground(Color.black);
         strLabel.setFont(pixelFont);
         strLabel.setHorizontalAlignment(JTextField.CENTER);
         strLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(strLabel);
         
-        intLabel = new JLabel("[ Intellect ] 0");
+        intLabel = new JLabel("[ Intellect ]");
         intLabel.setForeground(Color.black);
         intLabel.setFont(pixelFont);
         intLabel.setHorizontalAlignment(JTextField.CENTER);
         intLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(intLabel);
         
-        defLabel = new JLabel("[ Defence ] 0");
+        defLabel = new JLabel("[ Defence ]");
         defLabel.setForeground(Color.black);
         defLabel.setFont(pixelFont);
         defLabel.setHorizontalAlignment(JTextField.CENTER);
         defLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(defLabel);
         
-        levelLabel = new JLabel("[ Level ] 1");
+        levelLabel = new JLabel("[ Level ]");
         levelLabel.setForeground(Color.black);
         levelLabel.setFont(pixelFont);
         levelLabel.setHorizontalAlignment(JTextField.CENTER);
         levelLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(levelLabel);
         
-        xpLabel = new JLabel("[ XP ] 0");
+        xpLabel = new JLabel("[ XP ]");
         xpLabel.setForeground(Color.black);
         xpLabel.setFont(pixelFont);
         xpLabel.setHorizontalAlignment(JTextField.CENTER);
         xpLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(xpLabel);
         
-        goldLabel = new JLabel("[ Gold ] 0");
+        goldLabel = new JLabel("[ Gold ]");
         goldLabel.setForeground(Color.black);
         goldLabel.setFont(pixelFont);
         goldLabel.setHorizontalAlignment(JTextField.CENTER);
         goldLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(goldLabel);
-        
-        /*
-        areaLabel = new JLabel("[ Area ] Town");
-        areaLabel.setForeground(Color.black);
-        areaLabel.setFont(pixelFont);
-        areaLabel.setHorizontalAlignment(JTextField.CENTER);
-        areaLabel.setVerticalAlignment(JTextField.CENTER);
-        parentPanel.add(areaLabel);
-        */
         
         GUILogic.updatePlayerCard();
     } 

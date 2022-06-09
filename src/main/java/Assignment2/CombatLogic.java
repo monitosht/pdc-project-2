@@ -134,7 +134,7 @@ public class CombatLogic
         if(GUISetup.enemyHP == null)
             return;
         
-        GUISetup.enemyName.setText(""+enemy.getName());
+        GUISetup.enemyName.setText("[ "+enemy.getName()+" ]");
         GUISetup.enemyHP.setText("[ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
     }
 }

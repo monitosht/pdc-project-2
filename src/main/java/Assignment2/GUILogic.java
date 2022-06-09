@@ -115,19 +115,22 @@ public class GUILogic
     */    
     static void townArea(int choice)
     {
-        position = "Town";        
+        position = "Town";    
+        updatePlayerCard();
         
         switch(choice)
         {
-            case 1: //arrived for the first time
+            case 0://arrive for the first time
+                Story.storyIntro(); //fall through
+            case 1: 
                 GameManager.act = player.getLevel();
-                Story.storyIntro();
                 Story.progressStory(GameManager.act);
+                updateMainTextArea("You have arrived at Town...");
                 break;
             case 2: //returrned to town
                 updateMainTextArea("Returned to Town.");
                 break;
-            default: //arrived at town                   
+            case 3: //no prompt
                 break;
         }        
         updateGameButtonText();
@@ -210,12 +213,13 @@ public class GUILogic
     static void adventureArea(int choice)
     {
         position = "Adventure";
-        updateGameButtonText();
+        updateGameButtonText();        
+        updatePlayerCard();
         
         switch(choice)
         {
             case 1: //explore
-                updateMainTextArea("You progress further into the (location name)");
+                updateMainTextArea("You progress further into the "+GameManager.getCurrentLocation()+"...");
                 
                 CombatLogic.setRandomEnemy();
                 updateMainTextArea("...\nEnemy encoutered! <"+CombatLogic.currentEnemy.getName()+">");
@@ -226,11 +230,13 @@ public class GUILogic
                 GUISetup.createInventoryBox();
                 break;
             case 3: //town
-                updateMainTextArea("Returned to Town.");
-                position = "Town";
+                townArea(2);                
+                break;
+            case 4: //adventure
+                updateMainTextArea("Returned to the "+GameManager.getCurrentLocation()+".");
                 break;
             default:
-                updateMainTextArea("Departed on an adventure at (location name)!");
+                updateMainTextArea("Departed on an adventure to the "+GameManager.getCurrentLocation()+"!");
                 break;
         }
         updateGameButtonText();
@@ -249,7 +255,8 @@ public class GUILogic
                     if(GameManager.levelledUp)
                     {
                         GameManager.levelledUp = false;
-                        //progress story calls continueEvent method
+                        continueChoice = 6;
+                        continueEvent(0,0); 
                     }
                     else
                     {
@@ -292,7 +299,7 @@ public class GUILogic
             case 1: //return
                 GUISetup.exitBuyMenu();
                 GUISetup.exitSellMenu();
-                townArea(0);
+                townArea(3);
                 break;
             default:
                 break;
@@ -326,16 +333,12 @@ public class GUILogic
                         break;
                     case 5: //return from combat                        
                         GUISetup.exitCombatScene();                        
-                        updateMainTextArea("Returned to (location name).");
-                        position = "Adventure";
+                        adventureArea(4);
                         break;
                     case 6: //force return to town
                         GUISetup.exitCombatScene();
-                        adventureArea(3);
-                        break;
-                    case 7: //return to town, arrived prompt
-                        townArea(0);
-                        updateMainTextArea("You have arrived at Town...");
+                        //adventureArea(3);
+                        townArea(1);
                         break;
                 }
                 break;                
@@ -405,7 +408,13 @@ public class GUILogic
     
     static void updatePlayerCard()
     {
-        GUISetup.playerNameLabel.setText(""+GameManager.player.getName());
+        if(GUISetup.playerStatsCard == null) return;
+        
+        GUISetup.playerNameLabel.setText(""+GameManager.player.getName());  
+        
+        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Shop")) GUISetup.locationLabel.setText("<Town>");
+        else GUISetup.locationLabel.setText("<"+GameManager.getCurrentLocation()+">");
+        
         GUISetup.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
         GUISetup.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());
         GUISetup.intLabel.setText("[ INTELLECT ] "+GameManager.player.getIntellect());

@@ -78,17 +78,20 @@ public class Story
             {
                 updateMainTextArea("""
                 Act 5: Defeat the Dragon!
-                ------------------------------
-                After a hard-fought battle with the forces of the Imperial City you have emerged victorious and prevented any harm from reaching to your beloved home.
+                -------------------------------
+                After a hard-fought battle with the forces of the Imperial City you have emerged victorious and 
+                prevented any harm from reaching to your beloved home.
+                                   
                 On the path back to town you notice struggling villages, scorched crops and destroyed land. You are fully aware of what this must mean - the great terror has once again shown itself.
 
-                The final yet most dangerous threat to these lands is none other than the Red Dragon! For decades this creature has wreaked havoc on anything in its path, burning lives, homes and cities to the ground.
+                The final yet most dangerous threat to these lands is none other than the Red Dragon! 
+                For decades this creature has wreaked havoc on anything in its path, burning lives, homes and 
+                cities to the ground.
 
-                This final battle will be the most difficult yet most necessary one, have you progressed enough during your journey to conquer this challenge?""");
+                This final battle will be the most difficult yet most necessary one, have you progressed enough
+                during your journey to conquer this challenge?""");
             }
         }
-        GUILogic.continueChoice = 7;
-        GUILogic.continueEvent(0,0);
     }
     
     public static void storyOutro()

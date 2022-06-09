@@ -26,12 +26,12 @@ public class GameManager
     public static String[] locations = {"Town Outskirts", "Dartshaw Hollow", "Hissing Forest", "Imperial City Castle", "The Final Battle"};
     public static boolean levelledUp;
     
-    static void levelUp()
+    public static void levelUp()
     {
         if(player.getXP() > (player.getLevel()*10))
-        {
+        {            
             levelledUp = true;
-            
+                
             player.setLevel(player.getLevel()+1);
             player.setMaxHP(player.getMaxHP() + 5);
             player.setStrength(player.getStrength() + 2);
@@ -47,16 +47,10 @@ public class GameManager
              +"\n[ STRENGTH ] "+(player.getStrength() - 2)+" >> "+player.getStrength()
              +"\n[ INTELLECT ] "+(player.getIntellect() - 2)+" >> "+player.getIntellect()
              +"\n[ DEFENCE ]   "+(player.getDefence() - 2)+" >> "+player.getDefence());
-            
-            if(act != 5)
-            {                
-                act = player.getLevel();
-                Story.progressStory(act);            
-            }
         }
     }
     
-    static void gameOver()
+    public static void gameOver()
     {
         gameDataDB.removeSaveData();        
         
@@ -68,5 +62,10 @@ public class GameManager
         {
             System.exit(0);
         }
+    }
+    
+    public static String getCurrentLocation()
+    {
+        return locations[act-1];
     }
 }
