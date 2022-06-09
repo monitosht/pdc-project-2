@@ -23,4 +23,24 @@ public class GameManager
     public static Random rand = new Random();
     
     public static int act = 1;
+    
+    static void levelUp()
+    {
+        if(player.getXP() > (player.getLevel()*4))
+        {
+            System.out.println("Checking for level up...");
+            //level up
+            //set xp to 0
+            //print text
+            //change act
+        }
+    }
+    
+    static void gameOver()
+    {
+        System.out.println("Game Over!");
+        //prompt text
+        //remove save from database
+        //restart game
+    }
 }

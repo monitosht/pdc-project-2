@@ -196,6 +196,7 @@ public class GUILogic
             case 1: //explore
                 updateMainTextArea("You progress further into the (location name)");
                 updateMainTextArea("...\nEnemy encoutered!");
+                CombatLogic.setRandomEnemy();
                 continueChoice = 3;
                 continueEvent(0, 0);
                 //updateCombatTextArea("What will you do?");
@@ -224,17 +225,24 @@ public class GUILogic
         switch(choice)
         {
             case 1: //fight
-                updateCombatTextArea("The (enemy name) has been defeated!\n[ You earned 0 XP & 0 Gold ]");                  
+                CombatLogic.combatEvent(CombatLogic.testEnemy);
                 continueChoice = 4;
-                continueEvent(0, 0);
+                continueEvent(0,0);
                 break;
             case 2: //inventory
                 GUISetup.createInventoryBox();
                 break;
             case 3: //run
-                updateCombatTextArea("You safetely got away from the (enemy name).");             
-                continueChoice = 5;
-                continueEvent(0, 0);
+                if(CombatLogic.runFromCombat(CombatLogic.testEnemy)) 
+                {
+                    continueChoice = 6;
+                    continueEvent(0,0);
+                }
+                else
+                {
+                    continueChoice = 4;
+                    continueEvent(0,0);
+                }
                 break;
         }        
         updateGameButtonText();
@@ -278,11 +286,15 @@ public class GUILogic
                         GUISetup.createCombatScene();
                         position = "Combat";                        
                         break;
-                    case 4: //return from won combat                        
+                    case 4: //combat event recap
+                        combatArea(0); 
+                        System.out.println("turn end");
+                        break;
+                    case 5: //return from won combat                        
                         GUISetup.exitCombatScene();
                         position = "Adventure";
                         break;
-                    case 5: //run from combat
+                    case 6: //run from combat
                         GUISetup.exitCombatScene();
                         position = "Adventure";                        
                         break;

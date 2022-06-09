@@ -136,6 +136,9 @@ public class GUISetup
     static JPanel combatTextPanel;
     static JTextArea combatTextArea;
     
+    static JLabel playerName, playerHP, playerIcon;
+    static JLabel enemyName, enemyHP, enemyIcon;
+    
     // </editor-fold>
     
     /*
@@ -796,18 +799,24 @@ public class GUISetup
             
             vsLabel = new JLabel("VERSUS");
             vsLabel.setForeground(Color.orange);
-            vsLabel.setFont(pixelFont.deriveFont(2, 30f));
+            vsLabel.setFont(pixelFont.deriveFont(3, 40f));
             vsLabel.setHorizontalAlignment(JLabel.CENTER);
             combatPanel.add(vsLabel);
             
             enemyPanel = new JPanel(new GridLayout(3,1));
             enemyPanel.setBackground(Color.white);
-            createEnemyCombatCard(enemyPanel);
             combatPanel.add(enemyPanel);
+            
+            Enemy enemy = CombatLogic.testEnemy;
+            createEnemyCombatCard(enemy, enemyPanel);
         }
         else
         {
             combatContainer.setVisible(true);
+            enemyPanel.removeAll();
+            
+            Enemy enemy = CombatLogic.testEnemy;
+            createEnemyCombatCard(enemy, enemyPanel);
         }
         
         if(combatTextPanel == null)
@@ -837,55 +846,53 @@ public class GUISetup
             GUILogic.combatText = "What will you do?";
             combatTextArea.setText(GUILogic.combatText);
         }
-    }
+    }   
     
     public static void createPlayerCombatCard(JPanel parentPanel)
     {
-        JLabel name, hp, icon;
+        playerName = new JLabel("[ "+GameManager.player.getName()+" ]");
+        playerName.setForeground(Color.blue);
+        playerName.setFont(pixelFont.deriveFont(1, 28f));
+        playerName.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(playerName);
         
-        name = new JLabel("[ Player Name ]");
-        name.setForeground(Color.blue);
-        name.setFont(pixelFont);
-        name.setHorizontalAlignment(JLabel.CENTER);
-        parentPanel.add(name);
+        playerHP = new JLabel(GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
+        playerHP.setForeground(Color.black);
+        playerHP.setFont(pixelFont.deriveFont(40f));
+        playerHP.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(playerHP);
         
-        hp = new JLabel("cHP / mHP");
-        hp.setForeground(Color.black);
-        hp.setFont(pixelFont);
-        hp.setHorizontalAlignment(JLabel.CENTER);
-        parentPanel.add(hp);
-        
-        icon = new JLabel();
-        icon.setIcon(new javax.swing.ImageIcon("./resources/player_icon.png"));
-        icon.setHorizontalAlignment(JLabel.CENTER);        
-        parentPanel.add(icon);
+        playerIcon = new JLabel();
+        playerIcon.setIcon(new javax.swing.ImageIcon("./resources/player_icon.png"));
+        playerIcon.setHorizontalAlignment(JLabel.CENTER);        
+        parentPanel.add(playerIcon);
     }
     
-    public static void createEnemyCombatCard(JPanel parentPanel)
+    public static void createEnemyCombatCard(Enemy enemy, JPanel parentPanel)
     {
-        JLabel name, hp, icon;
+        enemyName = new JLabel("[ "+enemy.getName()+" ]");
+        enemyName.setForeground(Color.red);
+        enemyName.setFont(pixelFont.deriveFont(1, 28f));
+        enemyName.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(enemyName);
         
-        name = new JLabel("[ Enemy Name ]");
-        name.setForeground(Color.red);
-        name.setFont(pixelFont);
-        name.setHorizontalAlignment(JLabel.CENTER);
-        parentPanel.add(name);
+        enemyHP = new JLabel(enemy.getCurrentHP()+" / "+enemy.getMaxHP());
+        enemyHP.setForeground(Color.black);
+        enemyHP.setFont(pixelFont.deriveFont(40f));
+        enemyHP.setHorizontalAlignment(JLabel.CENTER);
+        parentPanel.add(enemyHP);
         
-        hp = new JLabel("cHP / mHP");
-        hp.setForeground(Color.black);
-        hp.setFont(pixelFont);
-        hp.setHorizontalAlignment(JLabel.CENTER);
-        parentPanel.add(hp);
-        
-        icon = new JLabel();
-        icon.setIcon(new javax.swing.ImageIcon("./resources/enemy_icon.png"));
-        icon.setHorizontalAlignment(JLabel.CENTER);        
-        parentPanel.add(icon);
+        enemyIcon = new JLabel();
+        enemyIcon.setIcon(new javax.swing.ImageIcon("./resources/enemy_icon.png"));
+        enemyIcon.setHorizontalAlignment(JLabel.CENTER);        
+        parentPanel.add(enemyIcon);
     }
     
     public static void exitCombatScene()
     {
         inCombat = false;
+        //if(playerStatsCard != null) GUILogic.updatePlayerCard();
+        
         if(combatContainer != null) combatContainer.setVisible(false);
         if(combatTextPanel != null) combatTextPanel.setVisible(false);
         if(mainTextPanel   != null)

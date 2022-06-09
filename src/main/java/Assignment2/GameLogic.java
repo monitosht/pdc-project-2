@@ -27,5 +27,5 @@ public class GameLogic
             //you cant afford to rent a room
             updateMainTextArea("You do not have enough gold to rent a room for the night... You leave the Inn.");
         }
-    }
+    }  
 }

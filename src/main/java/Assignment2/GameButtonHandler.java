@@ -51,9 +51,9 @@ public class GameButtonHandler implements ActionListener
             case "Combat":
                 switch(selection)
                 {
-                    case "A" -> GUILogic.combatArea(1);
-                    case "B" -> GUILogic.combatArea(2);
-                    case "C" -> GUILogic.combatArea(3);
+                    case "A" -> GUILogic.combatArea(1); //fight
+                    case "B" -> GUILogic.combatArea(2); //inventory 
+                    case "C" -> GUILogic.combatArea(3); //run
                 }
                 break;
             case "Return":
