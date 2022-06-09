@@ -23,16 +23,36 @@ public class GameManager
     public static Random rand = new Random();
     
     public static int act = 1;
+    public static String[] locations = {"Town Outskirts", "Dartshaw Hollow", "Hissing Forest", "Imperial City Castle", "The Final Battle"};
+    public static boolean levelledUp;
     
     static void levelUp()
     {
-        if(player.getXP() > (player.getLevel()*4))
+        if(player.getXP() > (player.getLevel()*10))
         {
-            System.out.println("Checking for level up...");
-            //level up
-            //set xp to 0
-            //print text
-            //change act
+            levelledUp = true;
+            
+            player.setLevel(player.getLevel()+1);
+            player.setMaxHP(player.getMaxHP() + 5);
+            player.setStrength(player.getStrength() + 2);
+            player.setIntellect(player.getIntellect() + 2);
+            player.setDefence(player.getDefence() + 2);            
+            player.setXP(0);
+            
+            GUILogic.updateCombatTextArea("You levelled up!");
+            
+            GUILogic.updateCombatTextArea(
+                "[ LEVEL ]      "+(player.getLevel() - 1)+" >> "+player.getLevel()
+             +"\n[ MAX HP ]   "+(player.getMaxHP() - 5)+" >> "+player.getMaxHP()
+             +"\n[ STRENGTH ] "+(player.getStrength() - 2)+" >> "+player.getStrength()
+             +"\n[ INTELLECT ] "+(player.getIntellect() - 2)+" >> "+player.getIntellect()
+             +"\n[ DEFENCE ]   "+(player.getDefence() - 2)+" >> "+player.getDefence());
+            
+            if(act != 5)
+            {                
+                act = player.getLevel();
+                //Story.progressStory(act);            
+            }
         }
     }
     

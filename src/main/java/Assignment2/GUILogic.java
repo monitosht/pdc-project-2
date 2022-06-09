@@ -4,6 +4,7 @@ import static Assignment2.GUISetup.gameButton1;
 import static Assignment2.GUISetup.gameButton2;
 import static Assignment2.GUISetup.gameButton3;
 import static Assignment2.GUISetup.gameButton4;
+import static Assignment2.GameManager.player;
 
 /**
  * @author Monitosh Thaker | 17000777
@@ -141,7 +142,7 @@ public class GUILogic
         switch(choice)
         {
             case 1: //yes
-                GameLogic.restEvent();
+                restEvent();
                 returnEvent(0);
                 break;
             case 2: //no
@@ -154,6 +155,27 @@ public class GUILogic
         }
         updateGameButtonText();
     }
+    
+    static void restEvent()
+    {
+        if((player.getGold() > 25) && (player.getCurrentHP() != player.getMaxHP()))
+        {
+            player.setGold(player.getGold() - 25);
+            player.setCurrentHP(player.getMaxHP());
+            updateMainTextArea("You sleep soundly through the night and awaken well rested.\nYour health has been fully restored!");
+            CombatLogic.updatePlayerCombatCard();
+        }
+        else if(player.getCurrentHP() == player.getMaxHP())
+        {
+            // you're already at full health
+            updateMainTextArea("Your energy is high and you do not feel the urge to rest (You are already at full health).");
+        }
+        else
+        {
+            //you cant afford to rent a room
+            updateMainTextArea("You do not have enough gold to rent a room for the night... You leave the Inn.");
+        }
+    } 
     
     static void shopArea(int choice)
     {
@@ -195,13 +217,11 @@ public class GUILogic
         {
             case 1: //explore
                 updateMainTextArea("You progress further into the (location name)");
-                updateMainTextArea("...\nEnemy encoutered!");
+                
                 CombatLogic.setRandomEnemy();
+                updateMainTextArea("...\nEnemy encoutered! <"+CombatLogic.currentEnemy.getName()+">");
                 continueChoice = 3;
                 continueEvent(0, 0);
-                //updateCombatTextArea("What will you do?");
-                //position = "Combat";
-                //SetupGUI.createCombatScene();
                 break;
             case 2: //inventory
                 GUISetup.createInventoryBox();
@@ -225,17 +245,33 @@ public class GUILogic
         switch(choice)
         {
             case 1: //fight
-                CombatLogic.combatEvent(CombatLogic.testEnemy);
-                continueChoice = 4;
-                continueEvent(0,0);
+                if(CombatLogic.combatEvent(CombatLogic.currentEnemy))
+                {
+                    if(GameManager.levelledUp)
+                    {
+                        GameManager.levelledUp = false;
+                        continueChoice = 6;
+                        continueEvent(0,0);
+                    }
+                    else
+                    {
+                        continueChoice = 5;
+                        continueEvent(0,0);                        
+                    }                    
+                }
+                else 
+                {
+                    continueChoice = 4;
+                    continueEvent(0,0);
+                }        
                 break;
             case 2: //inventory
                 GUISetup.createInventoryBox();
                 break;
             case 3: //run
-                if(CombatLogic.runFromCombat(CombatLogic.testEnemy)) 
+                if(CombatLogic.runFromCombat(CombatLogic.currentEnemy)) 
                 {
-                    continueChoice = 6;
+                    continueChoice = 5;
                     continueEvent(0,0);
                 }
                 else
@@ -284,19 +320,19 @@ public class GUILogic
                         break;
                     case 3: //entering combat
                         GUISetup.createCombatScene();
-                        position = "Combat";                        
+                        combatArea(0);                       
                         break;
                     case 4: //combat event recap
                         combatArea(0); 
-                        System.out.println("turn end");
                         break;
-                    case 5: //return from won combat                        
-                        GUISetup.exitCombatScene();
+                    case 5: //return from combat                        
+                        GUISetup.exitCombatScene();                        
+                        updateMainTextArea("Returned to (location name).");
                         position = "Adventure";
                         break;
-                    case 6: //run from combat
+                    case 6: //force return to town
                         GUISetup.exitCombatScene();
-                        position = "Adventure";                        
+                        adventureArea(3);
                         break;
                 }
                 break;                
@@ -304,6 +340,9 @@ public class GUILogic
         updateGameButtonText();
     }
     
+    /*
+    * GUI Update Methods
+    */    
     static void updateMainTextArea(String text)
     {
         if(GUISetup.mainTextArea == null) 

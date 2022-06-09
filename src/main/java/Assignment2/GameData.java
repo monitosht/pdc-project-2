@@ -130,11 +130,6 @@ public class GameData
             }
             
             GameManager.numSaveData = GameManager.saves.size();
-            
-            for(int i=0;i<GameManager.saves.size();i++)
-            {
-                System.out.println(GameManager.saves.get(i));                
-            }
         }
         catch(SQLException e)
         {
@@ -168,8 +163,7 @@ public class GameData
                 loadedPlayer.setLevel(rs.getInt("level"));
                 loadedPlayer.setGold(rs.getInt("gold"));
                 
-                GameManager.player = loadedPlayer;                
-                System.out.println(GameManager.player.getName() +" "+GameManager.player.getStrength());
+                GameManager.player = loadedPlayer;
                 
                 GUISetup.createGameScene(); 
             }
@@ -182,7 +176,7 @@ public class GameData
     
     public void readEnemyList()
     {
-        GameManager.enemies = new ArrayList<Enemy>();
+        GameManager.enemies = new ArrayList<>();
         
         try
         {
@@ -206,11 +200,6 @@ public class GameData
                 
                 Enemy enemy = new Enemy(name, maxHP, strength, intellect, defence, xp, level, reward);
                 GameManager.enemies.add(enemy);
-            }
-            
-            for(Enemy e : GameManager.enemies)
-            {
-                System.out.println(e.getName());
             }
         }
         catch(SQLException e)

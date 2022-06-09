@@ -10,7 +10,7 @@ import static Assignment2.GUILogic.updateCombatTextArea;
 public class CombatLogic 
 {
     //public static Enemy enemy = getRandomEnemy();
-    public static Enemy testEnemy;
+    public static Enemy currentEnemy;
     static int turn = 0;
     
     public static void setRandomEnemy()
@@ -20,40 +20,17 @@ public class CombatLogic
         do
         {
             int index = (int)(Math.random() * GameManager.enemies.size());
-            testEnemy = GameManager.enemies.get(index);
+            currentEnemy = GameManager.enemies.get(index);
             
-        } while(testEnemy.getLevel() != GameManager.player.getLevel()); //Ensure that the player only encouters enemies of the same level  
-        System.out.println(testEnemy.getName());
+        } while(currentEnemy.getLevel() != GameManager.player.getLevel()); //Ensure that the player only encouters enemies of the same level  
+        System.out.println(currentEnemy.getName());
     }
     
-    public static Enemy getRandomEnemy()
-    {
-        GameManager.gameDataDB.readEnemyList();
-        Enemy randEnemy = null;
-        
-        do
-        {
-            int index = (int)(Math.random() * GameManager.enemies.size());
-            randEnemy = GameManager.enemies.get(index);
-            
-        } while(randEnemy.getLevel() != GameManager.player.getLevel()); //Ensure that the player only encouters enemies of the same level       
-        
-        return randEnemy;
-    }
-    
-    public static void combatEvent(Enemy enemy)
+    public static boolean combatEvent(Enemy enemy) //call when the Fight button is selected
     {
         updateCombatTextArea("TURN "+(++turn));
-            
-        dealDamage(enemy);
-        takeDamage(enemy); 
-
-        updatePlayerCombatCard();
-        updateEnemyCombatCard(testEnemy);
-    }
-    
-    public static void dealDamage(Enemy enemy) //call when the Fight button is selected
-    {
+        boolean combatEnded = false;
+        
         int damageDealt = player.Attack() - enemy.Defend();        
         if(damageDealt <= 0) damageDealt = 1;
         
@@ -71,15 +48,37 @@ public class CombatLogic
             
             player.setXP(player.getXP() + enemy.getXP());
             player.setGold(player.getGold() + enemy.getReward());
+            
+            updateCombatTextArea("The "+enemy.getName()+" has been defeated! \n[You earned "+enemy.getXP()+" EXP & "+enemy.getReward()+" Gold]");               
             GameManager.levelUp();  
             
-            updateCombatTextArea("The "+enemy.getName()+" has been defeated! \n[You earned "+enemy.getXP()+" EXP & "+enemy.getReward()+" Gold]");        
-            
-            //end combat              
-            //continueChoice = x;
-            //continueEvent(0, 0);
-            //return to adventure area
+            combatEnded = true;
         }
+        else
+        {
+            int damageTaken = enemy.Attack() - player.Defend();        
+            if(damageTaken <= 0) damageTaken = 1;
+        
+            missCheck = GameManager.rand.nextInt(9);        
+            if(missCheck == 0) updateCombatTextArea("The "+enemy.getName()+"'s attack missed!");
+            else
+            {
+                player.setCurrentHP(player.getCurrentHP() - damageTaken);
+                updateCombatTextArea("The "+enemy.getName()+" attacked you and dealt "+damageTaken+" damage...");
+            }
+
+            if(player.getCurrentHP() <= 0)
+            {
+                player.setCurrentHP(0);
+                GameManager.gameOver();
+
+                combatEnded = true;
+            }
+        }        
+        updatePlayerCombatCard();
+        updateEnemyCombatCard(currentEnemy);
+        
+        return(combatEnded);
     }
     
     public static void takeDamage(Enemy enemy)
@@ -100,10 +99,10 @@ public class CombatLogic
             player.setCurrentHP(0);
             GameManager.gameOver();
             
-            //end combat              
-            //continueChoice = x;
-            //continueEvent(0, 0);
-            //return to adventure area
+            //end combat (TEMP)
+            GUILogic.continueChoice = 5;
+            GUILogic.continueEvent(0, 0);
+            //return to adventure area (TEMP)
         }
     }
     
@@ -116,10 +115,6 @@ public class CombatLogic
             updateCombatTextArea("You safely got away from the "+enemy.getName()+".");
             
             return true;
-            //end combat
-            //continueChoice = x;
-            //continueEvent(0, 0);
-            //return to adventure area
         }
         else
         {
@@ -138,9 +133,8 @@ public class CombatLogic
                 GameManager.gameOver();
 
                 //end combat              
-                //continueChoice = x;
-                //continueEvent(0, 0);
-                //return to adventure area
+                GUILogic.continueChoice = 5;
+                GUILogic.continueEvent(0, 0);
             }
             return false;
         }

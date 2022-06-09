@@ -807,7 +807,7 @@ public class GUISetup
             enemyPanel.setBackground(Color.white);
             combatPanel.add(enemyPanel);
             
-            Enemy enemy = CombatLogic.testEnemy;
+            Enemy enemy = CombatLogic.currentEnemy;
             createEnemyCombatCard(enemy, enemyPanel);
         }
         else
@@ -815,7 +815,7 @@ public class GUISetup
             combatContainer.setVisible(true);
             enemyPanel.removeAll();
             
-            Enemy enemy = CombatLogic.testEnemy;
+            Enemy enemy = CombatLogic.currentEnemy;
             createEnemyCombatCard(enemy, enemyPanel);
         }
         
@@ -895,11 +895,7 @@ public class GUISetup
         
         if(combatContainer != null) combatContainer.setVisible(false);
         if(combatTextPanel != null) combatTextPanel.setVisible(false);
-        if(mainTextPanel   != null)
-        {
-            mainTextPanel.setVisible(true);
-            GUILogic.updateMainTextArea("Returned to (location name).");
-        }    
+        if(mainTextPanel   != null) mainTextPanel.setVisible(true);    
     }
     
     public static void createInventoryBox()

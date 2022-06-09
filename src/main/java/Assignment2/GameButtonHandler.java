@@ -28,24 +28,24 @@ public class GameButtonHandler implements ActionListener
             case "Inn":
                 switch(selection)
                 {
-                    case "A" -> GUILogic.innArea(1);
-                    case "B" -> GUILogic.innArea(2);
+                    case "A" -> GUILogic.innArea(1); //yes
+                    case "B" -> GUILogic.innArea(2); //no
                 }
                 break;
             case "Shop":
                 switch(selection)
                 {
-                    case "A" -> GUILogic.shopArea(1);
-                    case "B" -> GUILogic.shopArea(2);
-                    case "C" -> GUILogic.shopArea(3);
+                    case "A" -> GUILogic.shopArea(1); //buy
+                    case "B" -> GUILogic.shopArea(2); //sell
+                    case "C" -> GUILogic.shopArea(3); //exit
                 }
                 break;
             case "Adventure":
                 switch(selection)
                 {
-                    case "A" -> GUILogic.adventureArea(1);
-                    case "B" -> GUILogic.adventureArea(2);
-                    case "C" -> GUILogic.adventureArea(3);
+                    case "A" -> GUILogic.adventureArea(1); //explore
+                    case "B" -> GUILogic.adventureArea(2); //inventory
+                    case "C" -> GUILogic.adventureArea(3); //town
                 }
                 break;
             case "Combat":
