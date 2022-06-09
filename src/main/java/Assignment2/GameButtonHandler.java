@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 /**
  * @author Monitosh Thaker | 17000777
- * COMP603 Assignment 1
+ * COMP603 Assignment 2
  */
 public class GameButtonHandler implements ActionListener
 {

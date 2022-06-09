@@ -8,7 +8,7 @@ public class Main
 {
     public static void main(String[] args) 
     {
-        PlayerStats playerStats = new PlayerStats();
+        GameData gameDataDB = new GameData();
         
         SetupGUI.createWindow();
         SetupGUI.startGame();

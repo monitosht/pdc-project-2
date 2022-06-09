@@ -7,13 +7,13 @@ package Assignment2;
 
 import java.sql.*;
 
-public class PlayerStats 
+public class GameData 
 {
     private final DBManager dbManager;
     private final Connection conn;
     private Statement statement;
     
-    PlayerStats()
+    GameData()
     {
         dbManager = new DBManager();
         conn = dbManager.getConnection();

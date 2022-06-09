@@ -7,7 +7,7 @@ import static Assignment2.SetupGUI.gameButton4;
 
 /**
  * @author Monitosh Thaker | 17000777
- * COMP603 Assignment 1
+ * COMP603 Assignment 2
  */
 public class GameplayGUI 
 {      
