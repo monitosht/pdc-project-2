@@ -141,7 +141,7 @@ public class GUILogic
         switch(choice)
         {
             case 1: //yes
-                updateMainTextArea("You sleep soundly through the night and awaken well rested.\nYour health has been fully restored!");
+                GameLogic.restEvent();
                 returnEvent(0);
                 break;
             case 2: //no

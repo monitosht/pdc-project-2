@@ -1,15 +1,14 @@
 package Assignment2;
 
-/**
- * @author Monitosh Thaker | 17000777
- * COMP603 Assignment 2
- */
-
 import java.io.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+/**
+ * @author Monitosh Thaker | 17000777
+ * COMP603 Assignment 2
+ */
 public class GUISetup 
 { 
     /*
@@ -684,10 +683,11 @@ public class GUISetup
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
         
-        GUILogic.textAreaText = "Game Started!";
+        GUILogic.textAreaText = "<game started>";
         
         mainTextArea = new JTextArea();
         mainTextArea.setText(GUILogic.textAreaText);
+        mainTextArea.setBackground(new Color(250,250,250)); //slightly off-white
         mainTextArea.setForeground(Color.black);
         mainTextArea.setFont(pixelFont);
         mainTextArea.setMargin(new Insets(10,10,10,10));
@@ -742,7 +742,7 @@ public class GUISetup
         if(playerStatsCard == null)
         {
             playerStatsCard = new JPanel(new GridLayout(8,1));
-            playerStatsCard.setBounds(width+50, 25, 180, height+70);
+            playerStatsCard.setBounds(width+50, 25, (width/5) - 20, height+70);
             playerStatsCard.setBackground(Color.white);
             playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
             container.add(playerStatsCard);
@@ -750,7 +750,7 @@ public class GUISetup
         }
         else
         {
-            playerStatsCard.setBounds(width+50, 25, 180, height+70);
+            playerStatsCard.setBounds(width+50, 25, (width/5) - 20, height+70);
             playerStatsCard.setVisible(true);
             playerStatsCard.removeAll();
             createPlayerStatsCard(playerStatsCard);

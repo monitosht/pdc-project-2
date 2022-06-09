@@ -1,8 +1,8 @@
 package Assignment2;
 
 import java.sql.*;
-import static Assignment2.GameManager.player;
 import java.util.ArrayList;
+import static Assignment2.GameManager.player;
 
 /**
  * @author Monitosh Thaker | 17000777
