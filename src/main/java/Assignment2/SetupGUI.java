@@ -93,7 +93,7 @@ public class SetupGUI
     static JOptionPane inventoryBox;
     
     public static void createWindow()
-    {        
+    {                    
         //create main JFrame
         gameWindow = new JFrame();
         gameWindow.setTitle("Moni's RPG Adventure");
@@ -109,12 +109,16 @@ public class SetupGUI
     
     public static void startGame()
     {
+        //initialise player saves
+        GameManager.gameDataDB.readPlayerSaveData();
+        
         //disable uneeded GUI elements
         exitBuyMenu();
         exitSellMenu();
         exitCombatScene();
         exitGameScene();
         exitCharacterCreation();   
+        exitContinueScene();
         disableConstantButtons();
         
         //initialise size varibles for title panel
@@ -166,7 +170,8 @@ public class SetupGUI
         
         continueButton.addActionListener((ActionEvent e) -> 
         {
-            System.out.println("'Continue' button pressed.");
+            createContinueScene();
+            constantButtons();
         });
         
         //CREDITS
@@ -206,7 +211,75 @@ public class SetupGUI
         buttonPanel.setVisible(false);
     }
     
-    static void constantButtons()
+    //CONTINUE SCENE
+    static JPanel savePanel;
+    static JScrollPane saveScrollPane;
+    
+    public static void createContinueScene()
+    {
+        //disable unneeded GUI elements
+        exitMainMenu();
+        
+        //TITLE        
+        titlePanel.setVisible(true); //reset the title panel with a new heading
+        titleLabel.setText("Select Save Data");
+        
+        width = 800;
+        height = 450;
+        
+        if(GameManager.numSaveData != 0)
+        {
+            savePanel = new JPanel(new GridLayout(GameManager.numSaveData, 1));
+            savePanel.setPreferredSize(new Dimension(width-25, (height/4)*(GameManager.numSaveData)));
+            savePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            savePanel.setBackground(Color.white); 
+
+            saveScrollPane = new JScrollPane(savePanel);
+            saveScrollPane.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
+            container.add(saveScrollPane);
+            
+            createContinueButtons();
+        }
+        else
+        {
+            savePanel = new JPanel(new GridLayout(1, 1));
+            savePanel.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
+            savePanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            savePanel.setBackground(Color.white);
+            container.add(savePanel);            
+            
+            JLabel empty = new JLabel("No Save Data Exists");
+            empty.setForeground(Color.black);
+            empty.setFont(pixelFont.deriveFont(30f));
+            empty.setHorizontalAlignment(JTextField.CENTER);
+            empty.setVerticalAlignment(JTextField.CENTER);
+            savePanel.add(empty);
+        }
+    }
+    
+    public static void createContinueButtons()
+    {
+        for (String save : GameManager.saves) 
+        {
+            JButton button = new JButton(save);
+            button.setBackground(Color.white);
+            button.setForeground(Color.black);
+            button.setFont(pixelFont.deriveFont(30f));
+            button.setHorizontalAlignment(JTextField.CENTER);
+            button.setVerticalAlignment(JTextField.CENTER);
+            button.setFocusPainted(false);
+            savePanel.add(button);
+        }
+    }
+    
+    public static void exitContinueScene()
+    {
+        if(titlePanel     != null) titlePanel.setVisible(false);  
+        if(saveScrollPane != null) saveScrollPane.setVisible(false);  
+        if(savePanel      != null) savePanel.setVisible(false);  
+    }
+    
+    public static void constantButtons()
     {
         //initialise size varibles
         width = 120;
@@ -261,14 +334,14 @@ public class SetupGUI
         miniTitlePanel.add(miniTitleText);
     }
     
-    static void disableConstantButtons()
+    public static void disableConstantButtons()
     {
         if(mainMenuPanel  != null) mainMenuPanel.setVisible(false);
         if(miniTitlePanel != null) miniTitlePanel.setVisible(false);
         if(gQuitPanel     != null) gQuitPanel.setVisible(false);
     }    
     
-    static void characterCreation(int _stage)
+    public static void characterCreation(int _stage)
     {
         //disable unneeded GUI elements
         exitMainMenu();
@@ -517,7 +590,7 @@ public class SetupGUI
         }
     }
     
-    static void exitCharacterCreation()
+    public static void exitCharacterCreation()
     {        
         if(titlePanel      != null) titlePanel.setVisible(false);    
         if(confirmPanel    != null) confirmPanel.setVisible(false);          
@@ -775,9 +848,8 @@ public class SetupGUI
     }
     
     public static int createSavePrompt()
-    {
-        String text = "Save data with this name already exists.\nOverwrite with this save data?\n(Selecting No will continue without saving)";
-        JLabel boxText = new JLabel(text);
+    {            
+        JLabel boxText = new JLabel("Save data with this name already exists. Overwrite with this save data?");
         boxText.setFont(pixelFont.deriveFont(20f));
         
         return JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
@@ -958,7 +1030,9 @@ public class SetupGUI
     {
         try 
         {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/pixel_font.ttf")).deriveFont(24f);            
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/pixel_font.ttf")).deriveFont(24f);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(font);            
             return font;
         } 
         catch (IOException|FontFormatException e) 
@@ -966,6 +1040,5 @@ public class SetupGUI
             System.err.println("Error: "+e.getMessage());
         }        
         return null;
-    }    
-    
+    }   
 }

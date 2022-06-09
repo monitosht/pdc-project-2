@@ -2,6 +2,7 @@ package Assignment2;
 
 import java.sql.*;
 import static Assignment2.GameManager.player;
+import java.util.ArrayList;
 
 /**
  * @author Monitosh Thaker | 17000777
@@ -77,11 +78,12 @@ public class GameData
                         +"WHERE name = '"+player.getName()+"'";
                 
                         statement.executeUpdate(query);
-                        GameplayGUI.updateMainTextArea("Game Saved! (Overwritten)");
+                        GameplayGUI.updateMainTextArea("Game save updated!");
                 }
                 else //if no return
                 {
-                    GameplayGUI.updateMainTextArea("The save data was not overwritten.");
+                    GameplayGUI.updateMainTextArea("Save data was not overwritten.");
+                    System.out.println("did not save");
                 }  
             }
             else //save data does not exist yet
@@ -100,7 +102,37 @@ public class GameData
                         +player.getGold()+")";
                 
                 statement.executeUpdate(query);
-                GameplayGUI.updateMainTextArea("Game Saved!");
+                GameplayGUI.updateMainTextArea("Game saved!");
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+    }
+    
+    public void readPlayerSaveData()
+    {
+        try
+        {
+            ResultSet rs = null;
+            
+            statement = conn.createStatement();
+            
+            String query = "SELECT * FROM player_data";
+            rs = statement.executeQuery(query);
+            
+            while(rs.next())
+            {
+                String name = rs.getString("name");
+                GameManager.saves.add(name);
+            }
+            
+            GameManager.numSaveData = GameManager.saves.size();
+            
+            for(int i=0;i<GameManager.saves.size();i++)
+            {
+                System.out.println(GameManager.saves.get(i));                
             }
         }
         catch(SQLException e)
