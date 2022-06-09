@@ -8,7 +8,7 @@ public class Main
 {
     public static void main(String[] args) 
     {
-        GameData gameDataDB = new GameData();
+        GameManager.gameDataDB = new GameData();
         
         SetupGUI.createWindow();
         SetupGUI.startGame();

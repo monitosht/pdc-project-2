@@ -8,7 +8,7 @@ package Assignment2;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+//import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class SetupGUI 
@@ -313,7 +313,7 @@ public class SetupGUI
                 promptPanel.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
                 container.add(promptPanel);
                 
-                promptText = new JLabel("Points Remaining: 10");
+                promptText = new JLabel("Points Remaining: "+GameLogic.points);
                 promptText.setForeground(Color.black);
                 promptText.setFont(pixelFont.deriveFont(30f));
                 promptText.setHorizontalAlignment(JLabel.CENTER);
@@ -339,6 +339,8 @@ public class SetupGUI
                 strMinus.setForeground(Color.black);
                 strMinus.setFont(pixelFont);
                 strMinus.setFocusPainted(false);
+                strMinus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(0, "str")); 
+                    
                 statsPanel.add(strMinus);
                 
                 strValue = new JLabel("0");
@@ -354,6 +356,8 @@ public class SetupGUI
                 strPlus.setForeground(Color.black);
                 strPlus.setFont(pixelFont);
                 strPlus.setFocusPainted(false);
+                strPlus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(1, "str")); 
+                        
                 statsPanel.add(strPlus);
                 
                 //INTELLECT
@@ -367,6 +371,7 @@ public class SetupGUI
                 intMinus.setForeground(Color.black);
                 intMinus.setFont(pixelFont);
                 intMinus.setFocusPainted(false);
+                intMinus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(0, "int")); 
                 statsPanel.add(intMinus);
                 
                 intValue = new JLabel("0");
@@ -382,6 +387,7 @@ public class SetupGUI
                 intPlus.setForeground(Color.black);
                 intPlus.setFont(pixelFont);
                 intPlus.setFocusPainted(false);
+                intPlus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(1, "int")); 
                 statsPanel.add(intPlus);
                 
                 //DEFENSE
@@ -395,6 +401,7 @@ public class SetupGUI
                 defMinus.setForeground(Color.black);
                 defMinus.setFont(pixelFont);
                 defMinus.setFocusPainted(false);
+                defMinus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(0, "def")); 
                 statsPanel.add(defMinus);
                 
                 defValue = new JLabel("0");
@@ -410,6 +417,7 @@ public class SetupGUI
                 defPlus.setForeground(Color.black);
                 defPlus.setFont(pixelFont);
                 defPlus.setFocusPainted(false);
+                defPlus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(1, "def")); 
                 statsPanel.add(defPlus);
             }
             case 2 -> //confirm and start game
@@ -461,11 +469,39 @@ public class SetupGUI
                 {
                     case 0 -> 
                     {
-                        characterCreation(1);
+                        if(!nameField.getText().equals(""))
+                        {                            
+                            GameLogic.createPlayer(nameField.getText(), 10);
+                            characterCreation(1); 
+                        }
+                        else
+                        {
+                            JLabel boxText = new JLabel("You cannot leave your name blank.");
+                            boxText.setFont(pixelFont.deriveFont(20f));
+                            
+                            JOptionPane.showMessageDialog(null, boxText, "Name Input Error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                     case 1 -> 
                     {
-                        characterCreation(2);
+                        if(GameLogic.points > 0)
+                        {
+                            JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
+                            boxText.setFont(pixelFont.deriveFont(20f));
+                            
+                            int choice = JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
+                            
+                            if(choice == 0)
+                            {
+                                GameLogic.confirmAttributes();
+                                characterCreation(2); 
+                            }
+                        }
+                        else
+                        {
+                            GameLogic.confirmAttributes();
+                            characterCreation(2); 
+                        }
                     }
                     case 2 -> 
                     {                    
@@ -906,6 +942,8 @@ public class SetupGUI
         areaLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(areaLabel);
         */
+        
+        GameLogic.updatePlayerCard();
     } 
     
     static Font createCustomFont()

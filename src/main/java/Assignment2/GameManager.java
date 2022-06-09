@@ -1,5 +1,6 @@
 package Assignment2;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -8,5 +9,15 @@ import java.util.Random;
  */
 public class GameManager 
 {
+    public static Player player;
+    
+    public static GameData gameDataDB;
+    
+    public static ArrayList<Item> inventory = new ArrayList<>();
+    public static ArrayList<Item> items;
+    public static ArrayList<Enemy> enemies;
+    
     public static Random rand = new Random();
+    
+    public static int act = 1;
 }
