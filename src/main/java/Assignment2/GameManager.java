@@ -47,6 +47,8 @@ public class GameManager
              +"\n[ STRENGTH ] "+(player.getStrength() - 2)+" >> "+player.getStrength()
              +"\n[ INTELLECT ] "+(player.getIntellect() - 2)+" >> "+player.getIntellect()
              +"\n[ DEFENCE ]   "+(player.getDefence() - 2)+" >> "+player.getDefence());
+            
+            if(player.getLevel() > 5) gameCompleted();
         }
     }
     
@@ -64,7 +66,15 @@ public class GameManager
         }
     }
     
-    public static boolean gameCompleted()
+    public static void gameCompleted()
+    {
+        Story.storyOutro();        
+        
+        GUISetup.gameCompletedPrompt();
+        GameManager.gameDataDB.writePlayerSaveData(); //autosave
+    }
+    
+    public static boolean checkGameCompleted()
     {
         if(act > 5)
         {
@@ -77,7 +87,7 @@ public class GameManager
     public static String getCurrentLocation()
     {
         String s;
-        if(act == 0) s = "<Town>";
+        if(act == 0 || act == 6) s = "<Town>";
         else s = locations[act-1];
         return s;
     }

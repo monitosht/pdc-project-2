@@ -877,7 +877,7 @@ public class GUISetup
         enemyName.setHorizontalAlignment(JLabel.CENTER);
         parentPanel.add(enemyName);
         
-        enemyHP = new JLabel(enemy.getCurrentHP()+" / "+enemy.getMaxHP());
+        enemyHP = new JLabel(" [ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
         enemyHP.setForeground(Color.black);
         enemyHP.setFont(pixelFont.deriveFont(40f));
         enemyHP.setHorizontalAlignment(JLabel.CENTER);
@@ -1039,7 +1039,7 @@ public class GUISetup
         JLabel boxText = new JLabel("You Died... Thanks for playing!");
         boxText.setFont(pixelFont.deriveFont(20f));
         
-        return JOptionPane.showOptionDialog(null, boxText, "GAME OVER", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
+        return JOptionPane.showOptionDialog(null, boxText, "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
     }
     
     public static void gameCompletedPrompt()

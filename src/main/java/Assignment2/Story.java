@@ -91,16 +91,27 @@ public class Story
                 This final battle will be the most difficult yet most necessary one, have you progressed enough
                 during your journey to conquer this challenge?""");
             }
+            case 6 ->
+            {
+                updateMainTextArea("""
+                You have completed the game - Thanks for playing!
+                --------------------------------------------------------------""");
+                storyOutro();
+            }
         }
     }
     
     public static void storyOutro()
     {
         updateMainTextArea("""
-        You have done the unthinkable have slain the mighty Red Dragon. This feat has not gone unnoticed, your town and nearby villages hail you as a true hero and protector.
+        Epilogue
+        ----------
+        You have done the unthinkable have slain the mighty Red Dragon. This feat has not gone unnoticed,
+        your town and nearby villages hail you as a true hero and protector.
+                           
         have successfully cleansed your home of all the looming evil that had threatened it in the past,
         allowing you to put a stop your adventure once again and enjoy a peaceful life.
-                           
+                                              
         ...                   
         For now.""");
     }

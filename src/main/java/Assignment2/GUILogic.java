@@ -214,7 +214,7 @@ public class GUILogic
     
     static void adventureArea(int choice)
     {        
-        if(GameManager.gameCompleted()) return;
+        if(GameManager.checkGameCompleted()) return;
         
         position = "Adventure";
         
