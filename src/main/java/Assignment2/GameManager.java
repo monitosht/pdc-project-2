@@ -13,7 +13,7 @@ public class GameManager
     
     public static GameData gameDataDB;
     
-    public static ArrayList<String> saves = new ArrayList<>();
+    public static ArrayList<String> saves;
     public static int numSaveData = 0;
     
     public static ArrayList<Item> inventory = new ArrayList<>();

@@ -115,6 +115,7 @@ public class GameData
     {
         try
         {
+            GameManager.saves = new ArrayList<>();
             ResultSet rs = null;
             
             statement = conn.createStatement();

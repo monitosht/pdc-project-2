@@ -108,8 +108,8 @@ public class SetupGUI
     }
     
     public static void startGame()
-    {
-        //initialise player saves
+    {        
+        //reinitialise save data
         GameManager.gameDataDB.readPlayerSaveData();
         
         //disable uneeded GUI elements
@@ -229,10 +229,12 @@ public class SetupGUI
         
         if(GameManager.numSaveData != 0)
         {
-            savePanel = new JPanel(new GridLayout(GameManager.numSaveData, 1));
-            savePanel.setPreferredSize(new Dimension(width-25, (height/4)*(GameManager.numSaveData)));
+            if(GameManager.numSaveData > 4) savePanel = new JPanel(new GridLayout(GameManager.numSaveData, 1));
+            else savePanel = new JPanel(new GridLayout(4, 1));
+            
+            savePanel.setPreferredSize(new Dimension(width-25, (height/4)*(GameManager.numSaveData)-25));
             savePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            savePanel.setBackground(Color.white); 
+            //savePanel.setBackground(Color.white); 
 
             saveScrollPane = new JScrollPane(savePanel);
             saveScrollPane.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
@@ -245,7 +247,7 @@ public class SetupGUI
             savePanel = new JPanel(new GridLayout(1, 1));
             savePanel.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
             savePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            savePanel.setBackground(Color.white);
+            //savePanel.setBackground(Color.white);
             container.add(savePanel);            
             
             JLabel empty = new JLabel("No Save Data Exists");
@@ -259,16 +261,29 @@ public class SetupGUI
     
     public static void createContinueButtons()
     {
+        savePanel.removeAll();
+        
         for (String save : GameManager.saves) 
+            {
+                JButton button = new JButton(save);
+                button.setBackground(Color.white);
+                button.setForeground(Color.black);
+                button.setFont(pixelFont.deriveFont(30f));
+                button.setHorizontalAlignment(JTextField.CENTER);
+                button.setVerticalAlignment(JTextField.CENTER);
+                button.setFocusPainted(false);
+                savePanel.add(button);
+            } 
+        
+        if(GameManager.numSaveData < 4)
         {
-            JButton button = new JButton(save);
-            button.setBackground(Color.white);
-            button.setForeground(Color.black);
-            button.setFont(pixelFont.deriveFont(30f));
-            button.setHorizontalAlignment(JTextField.CENTER);
-            button.setVerticalAlignment(JTextField.CENTER);
-            button.setFocusPainted(false);
-            savePanel.add(button);
+            int emptyLabels = 4 - GameManager.numSaveData;
+            
+            for(int i = 0; i < emptyLabels; i++)
+            {
+                JLabel empty = new JLabel();
+                savePanel.add(empty);
+            }
         }
     }
     
