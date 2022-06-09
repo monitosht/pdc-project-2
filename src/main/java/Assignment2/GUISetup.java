@@ -53,6 +53,13 @@ public class GUISetup
     
     // </editor-fold>
     
+    // <editor-fold defaultstate="collapsed" desc="Credits Scene Variables"> 
+    
+    static JPanel creditsPanel; 
+    static JTextArea creditsText;
+    
+    // </editor-fold>
+    
     // <editor-fold defaultstate="collapsed" desc="Constant Button Variables">  
     
     static JPanel mainMenuPanel;
@@ -168,6 +175,7 @@ public class GUISetup
         exitCombatScene();
         exitGameScene();
         exitCharacterCreation();   
+        exitCreditsScene();
         exitContinueScene();
         disableConstantButtons();
         
@@ -234,7 +242,8 @@ public class GUISetup
         
         creditsButton.addActionListener((ActionEvent e) -> 
         {
-            System.out.println("'Credits' button pressed.");
+            createCreditsScene();
+            constantButtons();
         });
         
         //QUIT
@@ -348,6 +357,62 @@ public class GUISetup
         if(titlePanel     != null) titlePanel.setVisible(false);  
         if(saveScrollPane != null) saveScrollPane.setVisible(false);  
         if(savePanel      != null) savePanel.setVisible(false);  
+    }
+    
+    public static void createCreditsScene()
+    {
+        //disable unneeded GUI elements
+        exitMainMenu();
+        
+        //TITLE        
+        titlePanel.setVisible(true); //reset the title panel with a new heading
+        titleLabel.setText("Credits");
+        
+        width = 800;
+        height = 450;
+        
+        creditsPanel = new JPanel(new GridLayout(1,1));
+        creditsPanel.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
+        creditsPanel.setBackground(Color.white);
+        creditsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        container.add(creditsPanel);
+        
+        creditsText = new JTextArea("Test");
+        creditsText.setForeground(Color.black);
+        creditsText.setFont(pixelFont.deriveFont(22f));
+        creditsText.setMargin(new Insets(10,10,10,10));
+        creditsText.setLineWrap(true);
+        creditsText.setEditable(false);        
+        creditsPanel.add(creditsText);
+        
+        String text =
+                """
+                Welcome to Moni's RPG Adventure!
+                --------------------------------------------
+                
+                Instructions:
+                [1] Press the correct (button) that corresponds to the action you would like to take.
+                [2] When in battle, you will take turns to damage the enemy, use items or try and 
+                escape. You can defeat your enemy by reducing their health to 0.
+                [3] If your health is reduced to 0 at any point, the game will be over, your player will
+                permanently die and your save file will be deleted.
+                [4] Any items that you find or purchase will go into your inventory from which 
+                they can only be used (consumed/equipped) during an adventure or battle.
+                [5] The item inventory is global and can be accessed by any player save data.
+                [6] The game must be saved manually whenever the player wishes to. 
+                You can find the (save) button in the main <Town> area.
+                [7] The goal of the game is to make your way through the world, leveling up through 
+                adventuring until you can face and defeat the final boss!
+                
+                Credits: Program & art made by Monitosh Thaker | 17000777 | COMP603 Assignment 2
+                """;
+        
+        creditsText.setText(text);
+    }
+    
+    public static void exitCreditsScene()
+    {
+        if(creditsPanel != null) creditsPanel.setVisible(false);
     }
     
     public static void constantButtons()
