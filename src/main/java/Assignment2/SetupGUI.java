@@ -108,10 +108,7 @@ public class SetupGUI
     }
     
     public static void startGame()
-    {        
-        //reinitialise save data
-        GameManager.gameDataDB.readPlayerSaveData();
-        
+    {      
         //disable uneeded GUI elements
         exitBuyMenu();
         exitSellMenu();
@@ -217,6 +214,9 @@ public class SetupGUI
     
     public static void createContinueScene()
     {
+        //reinitialise save data
+        GameManager.gameDataDB.readPlayerSaveData();
+        
         //disable unneeded GUI elements
         exitMainMenu();
         
@@ -263,17 +263,24 @@ public class SetupGUI
     {
         savePanel.removeAll();
         
-        for (String save : GameManager.saves) 
-            {
-                JButton button = new JButton(save);
-                button.setBackground(Color.white);
-                button.setForeground(Color.black);
-                button.setFont(pixelFont.deriveFont(30f));
-                button.setHorizontalAlignment(JTextField.CENTER);
-                button.setVerticalAlignment(JTextField.CENTER);
-                button.setFocusPainted(false);
-                savePanel.add(button);
-            } 
+        for(int i = 0; i < GameManager.saves.size(); i++)
+        {
+            final int final_i = i;
+            
+            JButton button = new JButton(GameManager.saves.get(i));
+            button.setBackground(Color.white);
+            button.setForeground(Color.black);
+            button.setFont(pixelFont.deriveFont(30f));
+            button.setHorizontalAlignment(JTextField.CENTER);
+            button.setVerticalAlignment(JTextField.CENTER);
+            button.setFocusPainted(false);
+            
+            button.addActionListener((ActionEvent e) -> 
+            {           
+                GameManager.gameDataDB.loadSaveData(GameManager.saves.get(final_i));
+            });
+            savePanel.add(button);
+        }
         
         if(GameManager.numSaveData < 4)
         {
@@ -523,7 +530,7 @@ public class SetupGUI
                 width = 300;
                 height = 320;
                 
-                //initialise container panel
+                //initialise stats panel
                 playerStatsCard = new JPanel(new GridLayout(8,1));
                 playerStatsCard.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
                 playerStatsCard.setBackground(Color.white);
@@ -618,6 +625,7 @@ public class SetupGUI
     public static void createGameScene()
     {
         //disable unneeded GUI elements
+        exitContinueScene();
         exitCharacterCreation();
         
         //initialise size variables
@@ -685,8 +693,22 @@ public class SetupGUI
         gameButton4.setActionCommand("D");
         
         //PLAYER STATS
-        playerStatsCard.setBounds(width+50, 25, 180, height+70);
-        playerStatsCard.setVisible(true);
+        if(playerStatsCard == null)
+        {
+            playerStatsCard = new JPanel(new GridLayout(8,1));
+            playerStatsCard.setBounds(width+50, 25, 180, height+70);
+            playerStatsCard.setBackground(Color.white);
+            playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
+            container.add(playerStatsCard);
+            createPlayerStatsCard(playerStatsCard);            
+        }
+        else
+        {
+            playerStatsCard.setBounds(width+50, 25, 180, height+70);
+            playerStatsCard.setVisible(true);
+            playerStatsCard.removeAll();
+            createPlayerStatsCard(playerStatsCard);
+        }
         
         GameplayGUI.townArea(1);
     }
@@ -697,7 +719,7 @@ public class SetupGUI
         if(gameButtonPanel != null) gameButtonPanel.setVisible(false);
         if(playerStatsCard != null) playerStatsCard.setVisible(false);
         if(buyPanel        != null) buyPanel.setVisible(false);
-        if(sellPanel        != null) sellPanel.setVisible(false);
+        if(sellPanel       != null) sellPanel.setVisible(false);
     }       
     
     //COMBAT SCENE

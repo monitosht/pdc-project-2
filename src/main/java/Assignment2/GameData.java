@@ -142,6 +142,44 @@ public class GameData
         }
     }
     
+    public void loadSaveData(String saveName)
+    {
+        try
+        {
+            ResultSet rs = null;
+            
+            statement = conn.createStatement();
+            
+            String query = "SELECT * FROM player_data WHERE name = '"+saveName+"'";
+            rs = statement.executeQuery(query);
+            
+            if(rs.next()) //build loaded player 
+            {
+                Player loadedPlayer = new Player(rs.getString("name"));                
+                
+                loadedPlayer.setCurrentHP(rs.getInt("current_HP"));
+                loadedPlayer.setMaxHP(rs.getInt("max_HP"));
+                
+                loadedPlayer.setStrength(rs.getInt("strength"));
+                loadedPlayer.setIntellect(rs.getInt("intellect"));
+                loadedPlayer.setDefence(rs.getInt("defence"));
+                
+                loadedPlayer.setXP(rs.getInt("xp"));
+                loadedPlayer.setLevel(rs.getInt("level"));
+                loadedPlayer.setGold(rs.getInt("gold"));
+                
+                GameManager.player = loadedPlayer;                
+                System.out.println(GameManager.player.getName() +" "+GameManager.player.getStrength());
+                
+                SetupGUI.createGameScene(); 
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }            
+    }
+    
     public void closeConnection() 
     {
         this.dbManager.closeConnections();
