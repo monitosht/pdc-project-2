@@ -11,6 +11,6 @@ public class Main
         GameManager.gameDataDB = new GameData();        
         
         GUISetup.createWindow();
-        GUISetup.startGame();
+        GUISetup.createMainMenu();
     }
 }

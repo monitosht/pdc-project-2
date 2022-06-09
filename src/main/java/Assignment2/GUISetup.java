@@ -12,19 +12,28 @@ import javax.swing.*;
 
 public class GUISetup 
 { 
+    /*
+    * VARIABLES
+    */
+    // <editor-fold defaultstate="collapsed" desc="Font Variables">
+    
     static Font pixelFont = createCustomFont();
     static Font titleFont = new Font("Arial", Font.PLAIN, 70);
-    static Font normalFont = new Font("Times New Roman", Font.PLAIN, 26);        
+    static Font normalFont = new Font("Times New Roman", Font.PLAIN, 26); 
     
-    static GameButtonHandler gameButtonHandler = new GameButtonHandler();
+    // </editor-fold>          
     
-    //GAME WINDOW
+    // <editor-fold defaultstate="collapsed" desc="Game Window Variables">
+    
     static int windowX = 1280; 
     static int windowY = 800;
     static JFrame gameWindow;
-    static Container container;    
+    static Container container;   
     
-    //MAIN MENU   
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Main Menu Variables">   
+    
     static int width, height;
     
     static JPanel titlePanel;
@@ -34,9 +43,19 @@ public class GUISetup
     static JButton newGameButton;
     static JButton continueButton;
     static JButton creditsButton;
-    static JButton quitButton;       
+    static JButton quitButton;  
     
-    //CONSTANTS
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Continue Scene Variables">  
+    
+    static JPanel savePanel;
+    static JScrollPane saveScrollPane;
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Constant Button Variables">  
+    
     static JPanel mainMenuPanel;
     static JButton mainMenuButton;    
     
@@ -46,7 +65,10 @@ public class GUISetup
     static JPanel gQuitPanel;
     static JButton gQuitButton;
     
-    //CHARACTER CREATION
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Character Creation Variables">  
+    
     static int stage;
     
     static JPanel confirmPanel;    
@@ -70,20 +92,30 @@ public class GUISetup
     static JLabel defText, defValue;
     static JButton defMinus, defPlus; 
     
-    //GAMEPLAY        
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Game Scene Variables">         
+    
     static JPanel mainTextPanel;
     static JTextArea mainTextArea; 
     
     static JPanel gameButtonPanel;
     static JButton gameButton1, gameButton2, gameButton3, gameButton4;
+    static GameButtonHandler gameButtonHandler = new GameButtonHandler();
     
-    //PLAYER STATS CARD
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Player Card Variables">  
+    
     static JPanel playerStatsCard;
     static JLabel playerNameLabel, hpLabel;
     static JLabel strLabel, intLabel, defLabel;
     static JLabel levelLabel, xpLabel, goldLabel;
     
-    //SHOP MENUS
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Shop/Item Variables">  
+    
     static JPanel buyPanel;
     static JPanel sellPanel;
     static JScrollPane sellScrollPane;
@@ -91,6 +123,25 @@ public class GUISetup
     //INVENTORY POPUP
     static JOptionPane inventoryBox;
     
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Combat Scene Variables">  
+    
+    static boolean inCombat = false;
+    static JPanel combatContainer;    
+    static JPanel combatPanel;
+    static JPanel playerPanel;
+    static JLabel vsLabel;
+    static JPanel enemyPanel;
+    
+    static JPanel combatTextPanel;
+    static JTextArea combatTextArea;
+    
+    // </editor-fold>
+    
+    /*
+    * METHODS
+    */    
     public static void createWindow()
     {                    
         //create main JFrame
@@ -106,7 +157,7 @@ public class GUISetup
         container = gameWindow.getContentPane();
     }
     
-    public static void startGame()
+    public static void createMainMenu()
     {      
         //disable uneeded GUI elements
         exitBuyMenu();
@@ -205,11 +256,7 @@ public class GUISetup
     {
         titlePanel.setVisible(false);
         buttonPanel.setVisible(false);
-    }
-    
-    //CONTINUE SCENE
-    static JPanel savePanel;
-    static JScrollPane saveScrollPane;
+    }    
     
     public static void createContinueScene()
     {
@@ -320,7 +367,7 @@ public class GUISetup
         
         mainMenuButton.addActionListener((ActionEvent e) -> 
         {     
-            startGame();
+            createMainMenu();
         });
         
         //QUIT
@@ -720,17 +767,6 @@ public class GUISetup
         if(buyPanel        != null) buyPanel.setVisible(false);
         if(sellPanel       != null) sellPanel.setVisible(false);
     }       
-    
-    //COMBAT SCENE
-    static boolean inCombat = false;
-    static JPanel combatContainer;    
-    static JPanel combatPanel;
-    static JPanel playerPanel;
-    static JLabel vsLabel;
-    static JPanel enemyPanel;
-    
-    static JPanel combatTextPanel;
-    static JTextArea combatTextArea;
     
     public static void createCombatScene()
     {
