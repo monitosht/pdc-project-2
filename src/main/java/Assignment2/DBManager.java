@@ -1,12 +1,11 @@
 package Assignment2;
 
+import java.sql.*;
+
 /**
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-
-import java.sql.*;
-
 public final class DBManager 
 {
     private static final String USER_NAME = "pdc";
@@ -25,7 +24,7 @@ public final class DBManager
         try 
         {
             conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);            
-            System.out.println("connected to "+URL);
+            //System.out.println("connected to "+URL);
         } 
         catch(SQLException ex) 
         {

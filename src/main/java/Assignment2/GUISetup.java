@@ -827,12 +827,12 @@ public class GUISetup
             combatTextPanel.setBackground(Color.red);
             container.add(combatTextPanel);
             
-            GUILogic.combatText = "What will you do?";
+            CombatLogic.combatText = "What will you do?";
             
             combatTextArea = new JTextArea();
             combatTextArea.setForeground(Color.black);
             combatTextArea.setFont(pixelFont);
-            combatTextArea.setText(GUILogic.combatText);
+            combatTextArea.setText(CombatLogic.combatText);
             combatTextArea.setMargin(new Insets(10,10,10,10));
             combatTextArea.setLineWrap(true);
             combatTextArea.setEditable(false); 
@@ -843,8 +843,8 @@ public class GUISetup
         else
         {
             combatTextPanel.setVisible(true);
-            GUILogic.combatText = "What will you do?";
-            combatTextArea.setText(GUILogic.combatText);
+            CombatLogic.combatText = "What will you do?";
+            combatTextArea.setText(CombatLogic.combatText);
         }
     }   
     
@@ -913,7 +913,7 @@ public class GUISetup
         { 
             if(inCombat == true)
             {
-                GUILogic.updateCombatTextArea("Used "+playerInput+"!");
+                CombatLogic.updateCombatTextArea("Used "+playerInput+"!");
             }            
             else
             {

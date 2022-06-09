@@ -24,8 +24,7 @@ public class GUILogic
     public static int defValue;
     
     //Location / text / button variables
-    static String textAreaText;    
-    static String combatText;
+    static String textAreaText;  
     static String position;
     
     static int continueChoice;
@@ -121,13 +120,14 @@ public class GUILogic
         switch(choice)
         {
             case 1: //arrived for the first time
-                updateMainTextArea("You have arrived at Town...");
+                GameManager.act = player.getLevel();
+                Story.storyIntro();
+                Story.progressStory(GameManager.act);
                 break;
             case 2: //returrned to town
                 updateMainTextArea("Returned to Town.");
                 break;
-            default: //no message prompt     
-                //updateMainTextArea("<Town>");
+            default: //arrived at town                   
                 break;
         }        
         updateGameButtonText();
@@ -249,8 +249,7 @@ public class GUILogic
                     if(GameManager.levelledUp)
                     {
                         GameManager.levelledUp = false;
-                        continueChoice = 6;
-                        continueEvent(0,0);
+                        //progress story calls continueEvent method
                     }
                     else
                     {
@@ -334,6 +333,10 @@ public class GUILogic
                         GUISetup.exitCombatScene();
                         adventureArea(3);
                         break;
+                    case 7: //return to town, arrived prompt
+                        townArea(0);
+                        updateMainTextArea("You have arrived at Town...");
+                        break;
                 }
                 break;                
         }
@@ -350,15 +353,6 @@ public class GUILogic
         
         textAreaText += "\n\n"+text;
         GUISetup.mainTextArea.setText(textAreaText);
-    }
-    
-    static void updateCombatTextArea(String text)
-    {
-        if(GUISetup.combatTextArea == null) 
-            return;
-        
-        combatText += "\n\n"+text;
-        GUISetup.combatTextArea.setText(combatText);
     }
     
     static void updateGameButtonText()

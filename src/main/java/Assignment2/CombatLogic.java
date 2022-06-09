@@ -1,7 +1,6 @@
 package Assignment2;
 
 import static Assignment2.GameManager.player;
-import static Assignment2.GUILogic.updateCombatTextArea;
 
 /**
  * @author Monitosh Thaker | 17000777
@@ -11,6 +10,8 @@ public class CombatLogic
 {
     //public static Enemy enemy = getRandomEnemy();
     public static Enemy currentEnemy;
+      
+    static String combatText;
     static int turn = 0;
     
     public static void setRandomEnemy()
@@ -101,6 +102,7 @@ public class CombatLogic
             player.setCurrentHP(player.getCurrentHP() - damageTaken);
             
             updateCombatTextArea("The "+enemy.getName()+" attacked during your escape attempt and dealt "+damageTaken+" damage!");
+            updatePlayerCombatCard();
             
             if(player.getCurrentHP() <= 0)
             {
@@ -111,15 +113,27 @@ public class CombatLogic
             return false;
         }
     }
+    
+    static void updateCombatTextArea(String text)
+    {
+        if(GUISetup.combatTextArea == null) 
+            return;
+        
+        combatText += "\n\n"+text;
+        GUISetup.combatTextArea.setText(combatText);
+    }
         
     static void updatePlayerCombatCard()
     {
-        GUISetup.playerHP.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
+        if(GUISetup.playerHP != null) GUISetup.playerHP.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
         GUILogic.updatePlayerCard();
     }
     
     static void updateEnemyCombatCard(Enemy enemy)
     {
+        if(GUISetup.enemyHP == null)
+            return;
+        
         GUISetup.enemyName.setText(""+enemy.getName());
         GUISetup.enemyHP.setText("[ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
     }
