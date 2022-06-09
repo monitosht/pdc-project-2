@@ -10,7 +10,7 @@ public class Main
     {
         GameManager.gameDataDB = new GameData();        
         
-        SetupGUI.createWindow();
-        SetupGUI.startGame();
+        GUISetup.createWindow();
+        GUISetup.startGame();
     }
 }

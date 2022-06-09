@@ -1,22 +1,119 @@
 package Assignment2;
 
-import static Assignment2.SetupGUI.gameButton1;
-import static Assignment2.SetupGUI.gameButton2;
-import static Assignment2.SetupGUI.gameButton3;
-import static Assignment2.SetupGUI.gameButton4;
+import static Assignment2.GUISetup.gameButton1;
+import static Assignment2.GUISetup.gameButton2;
+import static Assignment2.GUISetup.gameButton3;
+import static Assignment2.GUISetup.gameButton4;
 
 /**
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class GameplayGUI 
+public class GUILogic 
 {      
+    //New game variables
+    public static Player newPlayer;
+    
+    public static int points;
+    public static int startPoints;
+    
+    //Attribute variables
+    public static int strValue ;
+    public static int intValue;
+    public static int defValue;
+    
+    //Location / text / button variables
     static String textAreaText;    
     static String combatText;
     static String position;
     
     static int continueChoice;
     
+    /*
+    * New game / player methods
+    */
+    public static void createPlayer(String name, int _startPoints)
+    {
+        newPlayer = new Player(name);
+        System.out.println("Player name set to "+name);
+        
+        startPoints = _startPoints;
+        points = startPoints;
+        
+        strValue = 0;
+        intValue = 0;
+        defValue = 0;
+    }
+    
+    public static void updateAttribute(int choice, String attribute)
+    {
+        switch(choice)
+        {
+            case 0: //decrease attribute value
+                switch(attribute)
+                {
+                    case "str":
+                        if(strValue > 0 && strValue <= startPoints)
+                        {
+                            strValue--;
+                            points++; 
+                        }
+                        break;
+                    case "int":
+                        if(intValue > 0 && intValue <= startPoints)
+                        {
+                            intValue--;
+                            points++; 
+                        }
+                        break;
+                    case "def":
+                        if(defValue > 0 && defValue <= startPoints)
+                        {
+                            defValue--;
+                            points++; 
+                        }
+                        break;
+                }
+                break;
+            case 1: //increase attribute value
+                if(points > 0)
+                {
+                    switch(attribute)
+                    {
+                        case "str":
+                            strValue++;
+                            points--;
+                            break;
+                        case "int":
+                            intValue++;
+                            points--;
+                            break;
+                        case "def":
+                            defValue++;
+                            points--;
+                            break;
+                    }
+                }
+                break;
+        }        
+        GUISetup.promptText.setText("Points Remaining: "+points);
+        GUISetup.strValue.setText(""+strValue);
+        GUISetup.intValue.setText(""+intValue);
+        GUISetup.defValue.setText(""+defValue);
+    }
+    
+    public static void setPlayer()
+    {
+        newPlayer.setStrength(strValue);
+        newPlayer.setIntellect(intValue);
+        newPlayer.setDefence(defValue);        
+        
+        GameManager.player = newPlayer;
+    }
+    
+    /*
+    * Location / Button methods
+    */    
     static void townArea(int choice)
     {
         position = "Town";        
@@ -106,7 +203,7 @@ public class GameplayGUI
                 //SetupGUI.createCombatScene();
                 break;
             case 2: //inventory
-                SetupGUI.createInventoryBox();
+                GUISetup.createInventoryBox();
                 break;
             case 3: //town
                 updateMainTextArea("Returned to Town.");
@@ -132,7 +229,7 @@ public class GameplayGUI
                 continueEvent(0, 0);
                 break;
             case 2: //inventory
-                SetupGUI.createInventoryBox();
+                GUISetup.createInventoryBox();
                 break;
             case 3: //run
                 updateCombatTextArea("You safetely got away from the (enemy name).");             
@@ -151,8 +248,8 @@ public class GameplayGUI
         switch(choice)
         {
             case 1: //return
-                SetupGUI.exitBuyMenu();
-                SetupGUI.exitSellMenu();
+                GUISetup.exitBuyMenu();
+                GUISetup.exitSellMenu();
                 townArea(0);
                 break;
             default:
@@ -170,23 +267,23 @@ public class GameplayGUI
                 switch(choice2)
                 {
                     case 1: //buy menu
-                        SetupGUI.createBuyMenu();
+                        GUISetup.createBuyMenu();
                         returnEvent(0);
                         break;
                     case 2: //sell menu
-                        SetupGUI.createSellMenu();
+                        GUISetup.createSellMenu();
                         returnEvent(0);
                         break;
                     case 3: //entering combat
-                        SetupGUI.createCombatScene();
+                        GUISetup.createCombatScene();
                         position = "Combat";                        
                         break;
                     case 4: //return from won combat                        
-                        SetupGUI.exitCombatScene();
+                        GUISetup.exitCombatScene();
                         position = "Adventure";
                         break;
                     case 5: //run from combat
-                        SetupGUI.exitCombatScene();
+                        GUISetup.exitCombatScene();
                         position = "Adventure";                        
                         break;
                 }
@@ -197,20 +294,20 @@ public class GameplayGUI
     
     static void updateMainTextArea(String text)
     {
-        if(SetupGUI.mainTextArea == null) 
+        if(GUISetup.mainTextArea == null) 
             return;
         
         textAreaText += "\n\n"+text;
-        SetupGUI.mainTextArea.setText(textAreaText);
+        GUISetup.mainTextArea.setText(textAreaText);
     }
     
     static void updateCombatTextArea(String text)
     {
-        if(SetupGUI.combatTextArea == null) 
+        if(GUISetup.combatTextArea == null) 
             return;
         
         combatText += "\n\n"+text;
-        SetupGUI.combatTextArea.setText(combatText);
+        GUISetup.combatTextArea.setText(combatText);
     }
     
     static void updateGameButtonText()
@@ -259,5 +356,17 @@ public class GameplayGUI
                 gameButton3.setText("");
                 gameButton4.setText("");
         }
+    }
+    
+    static void updatePlayerCard()
+    {
+        GUISetup.playerNameLabel.setText(""+GameManager.player.getName());
+        GUISetup.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
+        GUISetup.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());
+        GUISetup.intLabel.setText("[ INTELLECT ] "+GameManager.player.getIntellect());
+        GUISetup.defLabel.setText("[ DEFENCE ] "+GameManager.player.getDefence());
+        GUISetup.levelLabel.setText("[ LEVEL ] "+GameManager.player.getLevel());
+        GUISetup.xpLabel.setText("[ XP ] "+GameManager.player.getXP());
+        GUISetup.goldLabel.setText("[ GOLD ] "+GameManager.player.getGold());
     }
 }

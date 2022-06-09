@@ -14,59 +14,59 @@ public class GameButtonHandler implements ActionListener
     {
         String selection = e.getActionCommand();
         
-        switch(GameplayGUI.position)
+        switch(GUILogic.position)
         {
             case "Town":
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.adventureArea(0);
-                    case "B" -> GameplayGUI.innArea(0);
-                    case "C" -> GameplayGUI.shopArea(0);
+                    case "A" -> GUILogic.adventureArea(0);
+                    case "B" -> GUILogic.innArea(0);
+                    case "C" -> GUILogic.shopArea(0);
                     case "D" -> GameManager.gameDataDB.writePlayerSaveData();
                 }
                 break;                
             case "Inn":
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.innArea(1);
-                    case "B" -> GameplayGUI.innArea(2);
+                    case "A" -> GUILogic.innArea(1);
+                    case "B" -> GUILogic.innArea(2);
                 }
                 break;
             case "Shop":
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.shopArea(1);
-                    case "B" -> GameplayGUI.shopArea(2);
-                    case "C" -> GameplayGUI.shopArea(3);
+                    case "A" -> GUILogic.shopArea(1);
+                    case "B" -> GUILogic.shopArea(2);
+                    case "C" -> GUILogic.shopArea(3);
                 }
                 break;
             case "Adventure":
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.adventureArea(1);
-                    case "B" -> GameplayGUI.adventureArea(2);
-                    case "C" -> GameplayGUI.adventureArea(3);
+                    case "A" -> GUILogic.adventureArea(1);
+                    case "B" -> GUILogic.adventureArea(2);
+                    case "C" -> GUILogic.adventureArea(3);
                 }
                 break;
             case "Combat":
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.combatArea(1);
-                    case "B" -> GameplayGUI.combatArea(2);
-                    case "C" -> GameplayGUI.combatArea(3);
+                    case "A" -> GUILogic.combatArea(1);
+                    case "B" -> GUILogic.combatArea(2);
+                    case "C" -> GUILogic.combatArea(3);
                 }
                 break;
             case "Return":
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.returnEvent(1);
+                    case "A" -> GUILogic.returnEvent(1);
                 }
                 break;
             case "Continue":
             {
                 switch(selection)
                 {
-                    case "A" -> GameplayGUI.continueEvent(1, GameplayGUI.continueChoice);
+                    case "A" -> GUILogic.continueEvent(1, GUILogic.continueChoice);
                 }
                 break;
             }

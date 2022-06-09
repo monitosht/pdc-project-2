@@ -8,10 +8,9 @@ package Assignment2;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class SetupGUI 
+public class GUISetup 
 { 
     static Font pixelFont = createCustomFont();
     static Font titleFont = new Font("Arial", Font.PLAIN, 70);
@@ -408,7 +407,7 @@ public class SetupGUI
                 promptPanel.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
                 container.add(promptPanel);
                 
-                promptText = new JLabel("Points Remaining: "+GameLogic.points);
+                promptText = new JLabel("Points Remaining: "+GUILogic.points);
                 promptText.setForeground(Color.black);
                 promptText.setFont(pixelFont.deriveFont(30f));
                 promptText.setHorizontalAlignment(JLabel.CENTER);
@@ -434,7 +433,7 @@ public class SetupGUI
                 strMinus.setForeground(Color.black);
                 strMinus.setFont(pixelFont);
                 strMinus.setFocusPainted(false);
-                strMinus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(0, "str")); 
+                strMinus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(0, "str")); 
                     
                 statsPanel.add(strMinus);
                 
@@ -451,7 +450,7 @@ public class SetupGUI
                 strPlus.setForeground(Color.black);
                 strPlus.setFont(pixelFont);
                 strPlus.setFocusPainted(false);
-                strPlus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(1, "str")); 
+                strPlus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(1, "str")); 
                         
                 statsPanel.add(strPlus);
                 
@@ -466,7 +465,7 @@ public class SetupGUI
                 intMinus.setForeground(Color.black);
                 intMinus.setFont(pixelFont);
                 intMinus.setFocusPainted(false);
-                intMinus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(0, "int")); 
+                intMinus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(0, "int")); 
                 statsPanel.add(intMinus);
                 
                 intValue = new JLabel("0");
@@ -482,7 +481,7 @@ public class SetupGUI
                 intPlus.setForeground(Color.black);
                 intPlus.setFont(pixelFont);
                 intPlus.setFocusPainted(false);
-                intPlus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(1, "int")); 
+                intPlus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(1, "int")); 
                 statsPanel.add(intPlus);
                 
                 //DEFENSE
@@ -496,7 +495,7 @@ public class SetupGUI
                 defMinus.setForeground(Color.black);
                 defMinus.setFont(pixelFont);
                 defMinus.setFocusPainted(false);
-                defMinus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(0, "def")); 
+                defMinus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(0, "def")); 
                 statsPanel.add(defMinus);
                 
                 defValue = new JLabel("0");
@@ -512,7 +511,7 @@ public class SetupGUI
                 defPlus.setForeground(Color.black);
                 defPlus.setFont(pixelFont);
                 defPlus.setFocusPainted(false);
-                defPlus.addActionListener((ActionEvent e) -> GameLogic.updateAttribute(1, "def")); 
+                defPlus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(1, "def")); 
                 statsPanel.add(defPlus);
             }
             case 2 -> //confirm and start game
@@ -566,7 +565,7 @@ public class SetupGUI
                     {
                         if(!nameField.getText().equals(""))
                         {                            
-                            GameLogic.createPlayer(nameField.getText(), 10);
+                            GUILogic.createPlayer(nameField.getText(), 10);
                             characterCreation(1); 
                         }
                         else
@@ -579,7 +578,7 @@ public class SetupGUI
                     }
                     case 1 -> 
                     {
-                        if(GameLogic.points > 0)
+                        if(GUILogic.points > 0)
                         {
                             JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
                             boxText.setFont(pixelFont.deriveFont(20f));
@@ -588,13 +587,13 @@ public class SetupGUI
                             
                             if(choice == 0)
                             {
-                                GameLogic.setPlayer();
+                                GUILogic.setPlayer();
                                 characterCreation(2); 
                             }
                         }
                         else
                         {
-                            GameLogic.setPlayer();
+                            GUILogic.setPlayer();
                             characterCreation(2); 
                         }
                     }
@@ -638,10 +637,10 @@ public class SetupGUI
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
         
-        GameplayGUI.textAreaText = "Game Started!";
+        GUILogic.textAreaText = "Game Started!";
         
         mainTextArea = new JTextArea();
-        mainTextArea.setText(GameplayGUI.textAreaText);
+        mainTextArea.setText(GUILogic.textAreaText);
         mainTextArea.setForeground(Color.black);
         mainTextArea.setFont(pixelFont);
         mainTextArea.setMargin(new Insets(10,10,10,10));
@@ -710,7 +709,7 @@ public class SetupGUI
             createPlayerStatsCard(playerStatsCard);
         }
         
-        GameplayGUI.townArea(1);
+        GUILogic.townArea(1);
     }
     
     public static void exitGameScene()
@@ -783,12 +782,12 @@ public class SetupGUI
             combatTextPanel.setBackground(Color.red);
             container.add(combatTextPanel);
             
-            GameplayGUI.combatText = "What will you do?";
+            GUILogic.combatText = "What will you do?";
             
             combatTextArea = new JTextArea();
             combatTextArea.setForeground(Color.black);
             combatTextArea.setFont(pixelFont);
-            combatTextArea.setText(GameplayGUI.combatText);
+            combatTextArea.setText(GUILogic.combatText);
             combatTextArea.setMargin(new Insets(10,10,10,10));
             combatTextArea.setLineWrap(true);
             combatTextArea.setEditable(false); 
@@ -799,8 +798,8 @@ public class SetupGUI
         else
         {
             combatTextPanel.setVisible(true);
-            GameplayGUI.combatText = "What will you do?";
-            combatTextArea.setText(GameplayGUI.combatText);
+            GUILogic.combatText = "What will you do?";
+            combatTextArea.setText(GUILogic.combatText);
         }
     }
     
@@ -856,7 +855,7 @@ public class SetupGUI
         if(mainTextPanel   != null)
         {
             mainTextPanel.setVisible(true);
-            GameplayGUI.updateMainTextArea("Returned to (location name).");
+            GUILogic.updateMainTextArea("Returned to (location name).");
         }    
     }
     
@@ -875,11 +874,11 @@ public class SetupGUI
         { 
             if(inCombat == true)
             {
-                GameplayGUI.updateCombatTextArea("Used "+playerInput+"!");
+                GUILogic.updateCombatTextArea("Used "+playerInput+"!");
             }            
             else
             {
-                GameplayGUI.updateMainTextArea("Used "+playerInput+"!");
+                GUILogic.updateMainTextArea("Used "+playerInput+"!");
             }
         }
     }
@@ -1060,7 +1059,7 @@ public class SetupGUI
         parentPanel.add(areaLabel);
         */
         
-        GameLogic.updatePlayerCard();
+        GUILogic.updatePlayerCard();
     } 
     
     static Font createCustomFont()

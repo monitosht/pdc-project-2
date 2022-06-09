@@ -63,7 +63,7 @@ public class GameData
                 System.out.println("Save data \""+player.getName()+"\" exists.");
                 
                 //ask to overrite                
-                if(SetupGUI.createSavePrompt() == 0)
+                if(GUISetup.createSavePrompt() == 0)
                 {
                     //if yes, update query
                     query = "UPDATE player_data SET "
@@ -78,11 +78,11 @@ public class GameData
                         +"WHERE name = '"+player.getName()+"'";
                 
                         statement.executeUpdate(query);
-                        GameplayGUI.updateMainTextArea("Game save updated!");
+                        GUILogic.updateMainTextArea("Game save updated!");
                 }
                 else //if no return
                 {
-                    GameplayGUI.updateMainTextArea("Save data was not overwritten.");
+                    GUILogic.updateMainTextArea("Save data was not overwritten.");
                     System.out.println("did not save");
                 }  
             }
@@ -102,7 +102,7 @@ public class GameData
                         +player.getGold()+")";
                 
                 statement.executeUpdate(query);
-                GameplayGUI.updateMainTextArea("Game saved!");
+                GUILogic.updateMainTextArea("Game saved!");
             }
         }
         catch(SQLException e)
@@ -171,7 +171,7 @@ public class GameData
                 GameManager.player = loadedPlayer;                
                 System.out.println(GameManager.player.getName() +" "+GameManager.player.getStrength());
                 
-                SetupGUI.createGameScene(); 
+                GUISetup.createGameScene(); 
             }
         }
         catch(SQLException e)
