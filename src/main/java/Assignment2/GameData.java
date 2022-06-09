@@ -180,6 +180,45 @@ public class GameData
         }            
     }
     
+    public void readEnemyList()
+    {
+        GameManager.enemies = new ArrayList<Enemy>();
+        
+        try
+        {
+            ResultSet rs = null;
+            
+            statement = conn.createStatement();
+            
+            String query = "SELECT * FROM enemy_list";
+            rs = statement.executeQuery(query);
+            
+            while(rs.next())
+            {                             
+                String name = rs.getString("enemy_name");
+                int maxHP = rs.getInt("max_HP");
+                int strength = rs.getInt("strength");
+                int intellect = rs.getInt("intellect");
+                int defence = rs.getInt("defence");
+                int xp = rs.getInt("xp");
+                int level = rs.getInt("level");
+                int reward = rs.getInt("reward");
+                
+                Enemy enemy = new Enemy(name, maxHP, strength, intellect, defence, xp, level, reward);
+                GameManager.enemies.add(enemy);
+            }
+            
+            for(Enemy e : GameManager.enemies)
+            {
+                System.out.println(e.getName());
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+    }
+    
     public void closeConnection() 
     {
         this.dbManager.closeConnections();
