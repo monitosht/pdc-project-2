@@ -160,6 +160,7 @@ public class GameData
                 loadedPlayer.setGold(rs.getInt("gold"));
                 
                 GameManager.player = loadedPlayer;
+                GameManager.act = GameManager.player.getLevel();
                 
                 GUISetup.createGameScene(); 
             }

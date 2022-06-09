@@ -22,13 +22,13 @@ public class GameManager
     
     public static Random rand = new Random();
     
-    public static int act = 1;
-    public static String[] locations = {"Town Outskirts", "Dartshaw Hollow", "Hissing Forest", "Imperial City Castle", "The Final Battle"};
+    public static int act;
+    public static String[] locations = {"Town Outskirts", "Dartshaw Hollow", "Hissing Forest", "City Castle", "Final Battle"};
     public static boolean levelledUp;
     
     public static void levelUp()
     {
-        if(player.getXP() > (player.getLevel()*10))
+        if(player.getXP() >= (player.getLevel()*10))
         {            
             levelledUp = true;
                 
@@ -64,8 +64,21 @@ public class GameManager
         }
     }
     
+    public static boolean gameCompleted()
+    {
+        if(act > 5)
+        {
+            GUISetup.gameCompletedPrompt();
+            return true;
+        }
+        return false;
+    }
+    
     public static String getCurrentLocation()
     {
-        return locations[act-1];
+        String s;
+        if(act == 0) s = "<Town>";
+        else s = locations[act-1];
+        return s;
     }
 }

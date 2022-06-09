@@ -1041,9 +1041,15 @@ public class GUISetup
         
         return JOptionPane.showOptionDialog(null, boxText, "GAME OVER", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, options, options[0]);
     }
+    
+    public static void gameCompletedPrompt()
+    {
+        JLabel boxText = new JLabel("You have rid the town of all evil - the game has been completed!");
+        boxText.setFont(pixelFont.deriveFont(20f));
         
-    
-    
+        JOptionPane.showMessageDialog(null, boxText, "Game Completed", JOptionPane.INFORMATION_MESSAGE);
+    }      
+        
     static void createPlayerStatsCard(JPanel parentPanel)
     {
         playerNameLabel = new JLabel("[ Name ]");

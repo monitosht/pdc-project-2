@@ -108,6 +108,7 @@ public class GUILogic
         newPlayer.setDefence(defValue);        
         
         GameManager.player = newPlayer;
+        GameManager.act = 0;
     }
     
     /*
@@ -121,7 +122,8 @@ public class GUILogic
         switch(choice)
         {
             case 0://arrive for the first time
-                Story.storyIntro(); //fall through
+                System.out.println(GameManager.act);
+                if(GameManager.act == 0) Story.storyIntro(); //only display the prologue for new players
             case 1: 
                 GameManager.act = player.getLevel();
                 Story.progressStory(GameManager.act);
@@ -211,8 +213,11 @@ public class GUILogic
     }
     
     static void adventureArea(int choice)
-    {
+    {        
+        if(GameManager.gameCompleted()) return;
+        
         position = "Adventure";
+        
         updateGameButtonText();        
         updatePlayerCard();
         
