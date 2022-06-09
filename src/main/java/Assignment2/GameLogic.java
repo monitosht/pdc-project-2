@@ -86,7 +86,7 @@ public class GameLogic
         SetupGUI.defValue.setText(""+defValue);
     }
     
-    public static void confirmAttributes()
+    public static void setPlayer()
     {
         newPlayer.setStrength(strValue);
         newPlayer.setIntellect(intValue);

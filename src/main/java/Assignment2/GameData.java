@@ -1,6 +1,7 @@
 package Assignment2;
 
 import java.sql.*;
+import static Assignment2.GameManager.player;
 
 /**
  * @author Monitosh Thaker | 17000777
@@ -47,27 +48,59 @@ public class GameData
     
     public void writePlayerSaveData()
     {
-        ResultSet rs = null;
-        
         try
         {
+            ResultSet rs = null;
+            
             statement = conn.createStatement();
             
-            //DatabaseMetaData md = conn.getMetaData();
-            //ResultSet rs = md.getColumns(null, null, "player_data", "");
-            
-            String query = "SELECT * FROM player_data WHERE name = "+GameManager.player.getName();
+            String query = "SELECT * FROM player_data WHERE name = '"+player.getName()+"'";
             rs = statement.executeQuery(query);
             
             if(rs.next()) //player with same name already exists
             {
-                System.out.println("Save data \""+GameManager.player.getName()+"\" exists.");
+                System.out.println("Save data \""+player.getName()+"\" exists.");
+                
+                //ask to overrite                
+                if(SetupGUI.createSavePrompt() == 0)
+                {
+                    //if yes, update query
+                    query = "UPDATE player_data SET "
+                        +"current_HP =  "+player.getCurrentHP()+","
+                        +"max_HP     =  "+player.getMaxHP()+","
+                        +"strength   =  "+player.getStrength()+","
+                        +"intellect  =  "+player.getIntellect()+","
+                        +"defence    =  "+player.getDefence()+","
+                        +"xp         =  "+player.getXP()+","
+                        +"level      =  "+player.getLevel()+","
+                        +"gold       =  "+player.getGold()+" "
+                        +"WHERE name = '"+player.getName()+"'";
+                
+                        statement.executeUpdate(query);
+                        GameplayGUI.updateMainTextArea("Game Saved! (Overwritten)");
+                }
+                else //if no return
+                {
+                    GameplayGUI.updateMainTextArea("The save data was not overwritten.");
+                }  
             }
             else //save data does not exist yet
             {
                 System.out.println("save data does not exist");
-                //query = "INSERT INTO player_data VALUES (";
-                //statement.executeUpdate(query);
+                
+                query = "INSERT INTO player_data VALUES ('"
+                        +player.getName()+"',"
+                        +player.getCurrentHP()+","
+                        +player.getMaxHP()+","
+                        +player.getStrength()+","
+                        +player.getIntellect()+","
+                        +player.getDefence()+","
+                        +player.getXP()+","
+                        +player.getLevel()+","
+                        +player.getGold()+")";
+                
+                statement.executeUpdate(query);
+                GameplayGUI.updateMainTextArea("Game Saved!");
             }
         }
         catch(SQLException e)

@@ -197,12 +197,18 @@ public class GameplayGUI
     
     static void updateMainTextArea(String text)
     {
+        if(SetupGUI.mainTextArea == null) 
+            return;
+        
         textAreaText += "\n\n"+text;
         SetupGUI.mainTextArea.setText(textAreaText);
     }
     
     static void updateCombatTextArea(String text)
     {
+        if(SetupGUI.combatTextArea == null) 
+            return;
+        
         combatText += "\n\n"+text;
         SetupGUI.combatTextArea.setText(combatText);
     }

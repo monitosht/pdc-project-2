@@ -493,19 +493,20 @@ public class SetupGUI
                             
                             if(choice == 0)
                             {
-                                GameLogic.confirmAttributes();
+                                GameLogic.setPlayer();
                                 characterCreation(2); 
                             }
                         }
                         else
                         {
-                            GameLogic.confirmAttributes();
+                            GameLogic.setPlayer();
                             characterCreation(2); 
                         }
                     }
                     case 2 -> 
-                    {                    
-                        createGameScene();
+                    {                                            
+                        GameManager.gameDataDB.writePlayerSaveData(); //save new player data if confirmed
+                        createGameScene(); //continue to the main game scene
                     }
                 }               
             }); 
@@ -754,8 +755,6 @@ public class SetupGUI
         Object[] items = {"potion", "sword", "potion"};
         Object defaultSelection = items[0];
         
-        //inventoryBox = new JOptionPane();
-        
         JLabel boxText = new JLabel("Select an Item to use:");
         boxText.setFont(pixelFont.deriveFont(20f));
         
@@ -773,6 +772,15 @@ public class SetupGUI
                 GameplayGUI.updateMainTextArea("Used "+playerInput+"!");
             }
         }
+    }
+    
+    public static int createSavePrompt()
+    {
+        String text = "Save data with this name already exists.\nOverwrite with this save data?\n(Selecting No will continue without saving)";
+        JLabel boxText = new JLabel(text);
+        boxText.setFont(pixelFont.deriveFont(20f));
+        
+        return JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
     }
     
     public static void createBuyMenu()
@@ -950,9 +958,7 @@ public class SetupGUI
     {
         try 
         {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/pixel_font.ttf")).deriveFont(24f);
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            ge.registerFont(font);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/pixel_font.ttf")).deriveFont(24f);            
             return font;
         } 
         catch (IOException|FontFormatException e) 
