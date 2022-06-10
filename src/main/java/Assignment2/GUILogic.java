@@ -1,9 +1,9 @@
 package Assignment2;
 
-import static Assignment2.GUISetup.gameButton1;
-import static Assignment2.GUISetup.gameButton2;
-import static Assignment2.GUISetup.gameButton3;
-import static Assignment2.GUISetup.gameButton4;
+import static Assignment2.GUIHandler.gameButton1;
+import static Assignment2.GUIHandler.gameButton2;
+import static Assignment2.GUIHandler.gameButton3;
+import static Assignment2.GUIHandler.gameButton4;
 import static Assignment2.GameManager.player;
 
 /**
@@ -95,10 +95,10 @@ public class GUILogic
                 }
                 break;
         }        
-        GUISetup.promptText.setText("Points Remaining: "+points);
-        GUISetup.strValue.setText(""+strValue);
-        GUISetup.intValue.setText(""+intValue);
-        GUISetup.defValue.setText(""+defValue);
+        GUIHandler.promptText.setText("Points Remaining: "+points);
+        GUIHandler.strValue.setText(""+strValue);
+        GUIHandler.intValue.setText(""+intValue);
+        GUIHandler.defValue.setText(""+defValue);
     }
     
     public static void setPlayer()
@@ -232,7 +232,7 @@ public class GUILogic
                 continueEvent(0, 0);
                 break;
             case 2: //inventory
-                GUISetup.createInventoryBox();
+                GUIHandler.inventoryPrompt();
                 break;
             case 3: //town
                 townArea(2);                
@@ -276,7 +276,7 @@ public class GUILogic
                 }        
                 break;
             case 2: //inventory
-                GUISetup.createInventoryBox();
+                GUIHandler.inventoryPrompt();
                 break;
             case 3: //run
                 if(CombatLogic.runFromCombat(CombatLogic.currentEnemy)) 
@@ -302,8 +302,8 @@ public class GUILogic
         switch(choice)
         {
             case 1: //return
-                GUISetup.exitBuyMenu();
-                GUISetup.exitSellMenu();
+                GUIHandler.exitBuyMenu();
+                GUIHandler.exitSellMenu();
                 townArea(3);
                 break;
             default:
@@ -321,15 +321,15 @@ public class GUILogic
                 switch(choice2)
                 {
                     case 1: //buy menu
-                        GUISetup.createBuyMenu();
+                        GUIHandler.createBuyMenu();
                         returnEvent(0);
                         break;
                     case 2: //sell menu
-                        GUISetup.createSellMenu();
+                        GUIHandler.createSellMenu();
                         returnEvent(0);
                         break;
                     case 3: //entering combat
-                        GUISetup.createCombatScene();
+                        GUIHandler.createCombatScene();
                         CombatLogic.updatePlayerCombatCard();
                         combatArea(0);                       
                         break;
@@ -337,11 +337,11 @@ public class GUILogic
                         combatArea(0); 
                         break;
                     case 5: //return from combat                        
-                        GUISetup.exitCombatScene();                        
+                        GUIHandler.exitCombatScene();                        
                         adventureArea(4);
                         break;
                     case 6: //force return to town
-                        GUISetup.exitCombatScene();
+                        GUIHandler.exitCombatScene();
                         //adventureArea(3);
                         townArea(1);
                         break;
@@ -356,11 +356,11 @@ public class GUILogic
     */    
     static void updateMainTextArea(String text)
     {
-        if(GUISetup.mainTextArea == null) 
+        if(GUIHandler.mainTextArea == null) 
             return;
         
         textAreaText += "\n\n"+text;
-        GUISetup.mainTextArea.setText(textAreaText);
+        GUIHandler.mainTextArea.setText(textAreaText);
     }
     
     static void updateGameButtonText()
@@ -413,19 +413,19 @@ public class GUILogic
     
     static void updatePlayerCard()
     {
-        if(GUISetup.playerStatsCard == null) return;
+        if(GUIHandler.playerStatsCard == null) return;
         
-        GUISetup.playerNameLabel.setText(""+GameManager.player.getName());  
+        GUIHandler.playerNameLabel.setText(""+GameManager.player.getName());  
         
-        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Shop")) GUISetup.locationLabel.setText("<Town>");
-        else GUISetup.locationLabel.setText("<"+GameManager.getCurrentLocation()+">");
+        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Shop")) GUIHandler.locationLabel.setText("<Town>");
+        else GUIHandler.locationLabel.setText("<"+GameManager.getCurrentLocation()+">");
         
-        GUISetup.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
-        GUISetup.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());
-        GUISetup.intLabel.setText("[ INTELLECT ] "+GameManager.player.getIntellect());
-        GUISetup.defLabel.setText("[ DEFENCE ] "+GameManager.player.getDefence());
-        GUISetup.levelLabel.setText("[ LEVEL ] "+GameManager.player.getLevel());
-        GUISetup.xpLabel.setText("[ XP ] "+GameManager.player.getXP());
-        GUISetup.goldLabel.setText("[ GOLD ] "+GameManager.player.getGold());
+        GUIHandler.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
+        GUIHandler.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());
+        GUIHandler.intLabel.setText("[ INTELLECT ] "+GameManager.player.getIntellect());
+        GUIHandler.defLabel.setText("[ DEFENCE ] "+GameManager.player.getDefence());
+        GUIHandler.levelLabel.setText("[ LEVEL ] "+GameManager.player.getLevel());
+        GUIHandler.xpLabel.setText("[ XP ] "+GameManager.player.getXP());
+        GUIHandler.goldLabel.setText("[ GOLD ] "+GameManager.player.getGold());
     }
 }

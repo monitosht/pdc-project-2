@@ -116,25 +116,25 @@ public class CombatLogic
     
     static void updateCombatTextArea(String text)
     {
-        if(GUISetup.combatTextArea == null) 
+        if(GUIHandler.combatTextArea == null) 
             return;
         
         combatText += "\n\n"+text;
-        GUISetup.combatTextArea.setText(combatText);
+        GUIHandler.combatTextArea.setText(combatText);
     }
         
     static void updatePlayerCombatCard()
     {
-        if(GUISetup.playerHP != null) GUISetup.playerHP.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
+        if(GUIHandler.playerHP != null) GUIHandler.playerHP.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
         GUILogic.updatePlayerCard();
     }
     
     static void updateEnemyCombatCard(Enemy enemy)
     {
-        if(GUISetup.enemyHP == null)
+        if(GUIHandler.enemyHP == null)
             return;
         
-        GUISetup.enemyName.setText("[ "+enemy.getName()+" ]");
-        GUISetup.enemyHP.setText("[ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
+        GUIHandler.enemyName.setText("[ "+enemy.getName()+" ]");
+        GUIHandler.enemyHP.setText("[ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
     }
 }

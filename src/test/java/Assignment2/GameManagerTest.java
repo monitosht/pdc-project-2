@@ -35,7 +35,7 @@ public class GameManagerTest
         GameManager.player = new Player("Test Player"); //create a test player
         GameManager.player.setXP(10); //set enough xp to be able to level up        
         //required to test the gameOver method as the user can return to the main menu
-        GUISetup.createWindow(); 
+        GUIHandler.createWindow(); 
     }
     
     @After

@@ -57,7 +57,7 @@ public class GameManager
     {
         Story.storyOutro();        
         
-        GUISetup.gameCompletedPrompt();
+        GUIHandler.gameCompletedPrompt();
         gameDataDB.writePlayerSaveData(); //autosave
     }
     
@@ -65,9 +65,9 @@ public class GameManager
     {
         gameDataDB.removeSaveData();        
         
-        if(GUISetup.gameOverPrompt() == 0)
+        if(GUIHandler.gameOverPrompt() == 0)
         {
-            GUISetup.createMainMenu();
+            GUIHandler.createMainMenu();
         }
         else
         {
@@ -79,7 +79,7 @@ public class GameManager
     {
         if(act > 5)
         {
-            GUISetup.gameCompletedPrompt();
+            GUIHandler.gameCompletedPrompt();
             return true;
         }
         return false;

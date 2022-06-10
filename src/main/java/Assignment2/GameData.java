@@ -61,7 +61,7 @@ public class GameData
             if(rs.next()) //player with same name already exists
             {
                 //ask to overrite                
-                if(GUISetup.createSavePrompt() == 0)
+                if(GUIHandler.savePrompt() == 0)
                 {
                     //if yes, update query
                     query = "UPDATE player_data SET "
@@ -162,7 +162,7 @@ public class GameData
                 GameManager.player = loadedPlayer;
                 GameManager.act = GameManager.player.getLevel();
                 
-                GUISetup.createGameScene(); 
+                GUIHandler.createGameScene(); 
             }
         }
         catch(SQLException e)

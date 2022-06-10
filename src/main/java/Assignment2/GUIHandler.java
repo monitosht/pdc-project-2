@@ -9,19 +9,8 @@ import javax.swing.*;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class GUISetup 
+public class GUIHandler 
 { 
-    /*
-    * VARIABLES
-    */
-    // <editor-fold defaultstate="collapsed" desc="Font Variables">
-    
-    static Font pixelFont = createCustomFont();
-    static Font titleFont = new Font("Arial", Font.PLAIN, 70);
-    static Font normalFont = new Font("Times New Roman", Font.PLAIN, 26); 
-    
-    // </editor-fold>          
-    
     // <editor-fold defaultstate="collapsed" desc="Game Window Variables">
     
     static int windowX = 1280; 
@@ -60,16 +49,16 @@ public class GUISetup
     
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Constant Button Variables">  
+    // <editor-fold defaultstate="collapsed" desc="Constant Buttons Variables">  
     
-    static JPanel mainMenuPanel;
-    static JButton mainMenuButton;    
+    static JPanel constMenuPanel;
+    static JButton constMenuButton;    
     
-    static JPanel miniTitlePanel;
-    static JLabel miniTitleText;
+    static JPanel constTitlePanel;
+    static JLabel constTitleText;
     
-    static JPanel gQuitPanel;
-    static JButton gQuitButton;
+    static JPanel constQuitPanel;
+    static JButton constQuitButton;
     
     // </editor-fold>
     
@@ -111,27 +100,6 @@ public class GUISetup
     
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Player Card Variables">  
-    
-    static JPanel playerStatsCard;
-    static JLabel playerNameLabel, hpLabel;
-    static JLabel strLabel, intLabel, defLabel;
-    static JLabel levelLabel, xpLabel, goldLabel;
-    static JLabel locationLabel;
-    
-    // </editor-fold>
-    
-    // <editor-fold defaultstate="collapsed" desc="Shop/Item Variables">  
-    
-    static JPanel buyPanel;
-    static JPanel sellPanel;
-    static JScrollPane sellScrollPane;
-    
-    //INVENTORY POPUP
-    static JOptionPane inventoryBox;
-    
-    // </editor-fold>
-    
     // <editor-fold defaultstate="collapsed" desc="Combat Scene Variables">  
     
     static boolean inCombat = false;
@@ -149,9 +117,36 @@ public class GUISetup
     
     // </editor-fold>
     
-    /*
-    * METHODS
-    */    
+    // <editor-fold defaultstate="collapsed" desc="Shop/Item Variables">  
+    
+    static JPanel buyPanel;
+    static JPanel sellPanel;
+    static JScrollPane sellScrollPane;
+    
+    //INVENTORY POPUP
+    static JOptionPane inventoryBox;
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Player Card Variables">  
+    
+    static JPanel playerStatsCard;
+    static JLabel playerNameLabel, hpLabel;
+    static JLabel strLabel, intLabel, defLabel;
+    static JLabel levelLabel, xpLabel, goldLabel;
+    static JLabel locationLabel;
+    
+    // </editor-fold>
+    
+    // <editor-fold defaultstate="collapsed" desc="Font Variables">
+    
+    static Font pixelFont = createCustomFont();
+    static Font titleFont = new Font("Arial", Font.PLAIN, 70);
+    static Font normalFont = new Font("Times New Roman", Font.PLAIN, 26); 
+    
+    // </editor-fold>
+    
+    //Initialise JFrame / Game Window 
     public static void createWindow()
     {                    
         //create main JFrame
@@ -167,6 +162,7 @@ public class GUISetup
         container = gameWindow.getContentPane();
     }
     
+    //Main Menu Methods
     public static void createMainMenu()
     {      
         //disable uneeded GUI elements
@@ -270,6 +266,7 @@ public class GUISetup
         buttonPanel.setVisible(false);
     }    
     
+    //Continue Scene Methods
     public static void createContinueScene()
     {
         //reinitialise save data
@@ -359,6 +356,7 @@ public class GUISetup
         if(savePanel      != null) savePanel.setVisible(false);  
     }
     
+    //Credits Scene Methods
     public static void createCreditsScene()
     {
         //disable unneeded GUI elements
@@ -415,6 +413,7 @@ public class GUISetup
         if(creditsPanel != null) creditsPanel.setVisible(false);
     }
     
+    //Constant Buttons Methods
     public static void constantButtons()
     {
         //initialise size varibles
@@ -422,35 +421,35 @@ public class GUISetup
         height = 30;
         
         //MAIN MENU
-        mainMenuPanel = new JPanel(new GridBagLayout());
-        mainMenuPanel.setBounds(25,windowY-height*2-25,width,height);
-        container.add(mainMenuPanel);
+        constMenuPanel = new JPanel(new GridBagLayout());
+        constMenuPanel.setBounds(25,windowY-height*2-25,width,height);
+        container.add(constMenuPanel);
         
-        mainMenuButton = new JButton("Main Menu");
-        mainMenuButton.setBackground(Color.white);
-        mainMenuButton.setForeground(Color.black);
-        mainMenuButton.setFont(pixelFont.deriveFont(20f));
-        mainMenuButton.setFocusPainted(false);
-        mainMenuPanel.add(mainMenuButton);
+        constMenuButton = new JButton("Main Menu");
+        constMenuButton.setBackground(Color.white);
+        constMenuButton.setForeground(Color.black);
+        constMenuButton.setFont(pixelFont.deriveFont(20f));
+        constMenuButton.setFocusPainted(false);
+        constMenuPanel.add(constMenuButton);
         
-        mainMenuButton.addActionListener((ActionEvent e) -> 
+        constMenuButton.addActionListener((ActionEvent e) -> 
         {     
             createMainMenu();
         });
         
         //QUIT
-        gQuitPanel = new JPanel(new GridBagLayout());
-        gQuitPanel.setBounds(windowX-width-25,windowY-height*2-25,width,height);
-        container.add(gQuitPanel);
+        constQuitPanel = new JPanel(new GridBagLayout());
+        constQuitPanel.setBounds(windowX-width-25,windowY-height*2-25,width,height);
+        container.add(constQuitPanel);
         
-        gQuitButton = new JButton("Quit");
-        gQuitButton.setBackground(Color.white);
-        gQuitButton.setForeground(Color.black);
-        gQuitButton.setFont(pixelFont.deriveFont(20f));
-        gQuitButton.setFocusPainted(false);
-        gQuitPanel.add(gQuitButton);
+        constQuitButton = new JButton("Quit");
+        constQuitButton.setBackground(Color.white);
+        constQuitButton.setForeground(Color.black);
+        constQuitButton.setFont(pixelFont.deriveFont(20f));
+        constQuitButton.setFocusPainted(false);
+        constQuitPanel.add(constQuitButton);
         
-        gQuitButton.addActionListener((ActionEvent e) -> 
+        constQuitButton.addActionListener((ActionEvent e) -> 
         {
             System.exit(0);
         }); 
@@ -460,23 +459,24 @@ public class GUISetup
         height = 30;
         
         //MINI TITLE
-        miniTitlePanel = new JPanel(new GridBagLayout());
-        miniTitlePanel.setBounds((windowX/2) - (width/2), windowY-height*2-25, width, height);
-        container.add(miniTitlePanel);
+        constTitlePanel = new JPanel(new GridBagLayout());
+        constTitlePanel.setBounds((windowX/2) - (width/2), windowY-height*2-25, width, height);
+        container.add(constTitlePanel);
         
-        miniTitleText = new JLabel("Moni's RPG Adventure v0.1");
-        miniTitleText.setForeground(Color.black);
-        miniTitleText.setFont(pixelFont.deriveFont(2, 20f));
-        miniTitlePanel.add(miniTitleText);
+        constTitleText = new JLabel("Moni's RPG Adventure v0.1");
+        constTitleText.setForeground(Color.black);
+        constTitleText.setFont(pixelFont.deriveFont(2, 20f));
+        constTitlePanel.add(constTitleText);
     }
     
     public static void disableConstantButtons()
     {
-        if(mainMenuPanel  != null) mainMenuPanel.setVisible(false);
-        if(miniTitlePanel != null) miniTitlePanel.setVisible(false);
-        if(gQuitPanel     != null) gQuitPanel.setVisible(false);
+        if(constMenuPanel  != null) constMenuPanel.setVisible(false);
+        if(constTitlePanel != null) constTitlePanel.setVisible(false);
+        if(constQuitPanel     != null) constQuitPanel.setVisible(false);
     }    
     
+    //Character Creation Methods
     public static void characterCreation(int _stage)
     {
         //disable unneeded GUI elements
@@ -736,6 +736,7 @@ public class GUISetup
         if(playerStatsCard != null) playerStatsCard.setVisible(false);    
     }   
      
+    //Main Game Scene Methods
     public static void createGameScene()
     {
         //disable unneeded GUI elements
@@ -837,6 +838,7 @@ public class GUISetup
         if(sellPanel       != null) sellPanel.setVisible(false);
     }       
     
+    //Combat Scene Methods
     public static void createCombatScene()
     {
         mainTextPanel.setVisible(false);
@@ -964,38 +966,7 @@ public class GUISetup
         if(mainTextPanel   != null) mainTextPanel.setVisible(true);    
     }
     
-    public static void createInventoryBox()
-    {
-        Object[] items = {"potion", "sword", "potion"};
-        Object defaultSelection = items[0];
-        
-        JLabel boxText = new JLabel("Select an Item to use:");
-        boxText.setFont(pixelFont.deriveFont(20f));
-        
-        UIManager.put("OptionPane.okButtonText", "Use");
-        UIManager.put("OptionPane.cancelButtonText", "Exit");
-        String playerInput = (String)JOptionPane.showInputDialog(null, boxText, "Inventory", JOptionPane.PLAIN_MESSAGE, null, items, defaultSelection);
-        if(playerInput != null)
-        { 
-            if(inCombat == true)
-            {
-                CombatLogic.updateCombatTextArea("Used "+playerInput+"!");
-            }            
-            else
-            {
-                GUILogic.updateMainTextArea("Used "+playerInput+"!");
-            }
-        }
-    }
-    
-    public static int createSavePrompt()
-    {            
-        JLabel boxText = new JLabel("Save data with this name already exists. Overwrite with this save data?");
-        boxText.setFont(pixelFont.deriveFont(20f));
-        
-        return JOptionPane.showConfirmDialog(null, boxText, "Save Overwrite Warning", JOptionPane.YES_NO_OPTION);
-    }
-    
+    //Shop Methods
     public static void createBuyMenu()
     {
         mainTextPanel.setVisible(false);
@@ -1097,6 +1068,35 @@ public class GUISetup
         //if(sellPanel != null) sellPanel.setVisible(false);
     }
     
+    //Dialog Prompt Methods
+    public static int savePrompt()
+    {            
+        JLabel boxText = new JLabel("Save data with this name already exists. Overwrite with this save data?");
+        boxText.setFont(pixelFont.deriveFont(20f));
+        
+        return JOptionPane.showConfirmDialog(null, boxText, "Save Overwrite Warning", JOptionPane.YES_NO_OPTION);
+    }
+    
+    public static void inventoryPrompt()
+    {
+        Object[] items = {"potion", "sword", "potion"};
+        Object defaultSelection = items[0];
+        
+        JLabel boxText = new JLabel("Select an Item to use:");
+        boxText.setFont(pixelFont.deriveFont(20f));
+        
+        UIManager.put("OptionPane.okButtonText", "Use");
+        UIManager.put("OptionPane.cancelButtonText", "Exit");
+        String playerInput = (String)JOptionPane.showInputDialog(null, boxText, "Inventory", JOptionPane.PLAIN_MESSAGE, null, items, defaultSelection);
+        if(playerInput != null)
+        { 
+            if(inCombat == true)
+                CombatLogic.updateCombatTextArea("Used "+playerInput+"!");
+            else
+                GUILogic.updateMainTextArea("Used "+playerInput+"!");
+        }
+    }
+    
     public static int gameOverPrompt()
     {
         Object[] options = {"Main Menu", "Quit!"};
@@ -1113,8 +1113,9 @@ public class GUISetup
         boxText.setFont(pixelFont.deriveFont(20f));
         
         JOptionPane.showMessageDialog(null, boxText, "Game Completed", JOptionPane.INFORMATION_MESSAGE);
-    }      
+    }  
         
+    //Reuseability Methods
     static void createPlayerStatsCard(JPanel parentPanel)
     {
         playerNameLabel = new JLabel("[ Name ]");
@@ -1183,6 +1184,7 @@ public class GUISetup
         GUILogic.updatePlayerCard();
     } 
     
+    //Graphics Methods
     static Font createCustomFont()
     {
         try 
