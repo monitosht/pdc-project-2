@@ -979,13 +979,20 @@ public class GUIHandler
         
         if(!GameManager.items.isEmpty())
         {
+            int num;
+            
+            if((GameManager.items.size() % 2) != 0)
+                num = GameManager.items.size()+ 1;
+            else
+                num = GameManager.items.size();
+            
             if(GameManager.items.size() > 6)
-                buyPanel = new JPanel(new GridLayout(GameManager.items.size(), 2));            
+                buyPanel = new JPanel(new GridLayout(num/2, 2));            
             else 
-                buyPanel = new JPanel(new GridLayout(6, 2));
+                buyPanel = new JPanel(new GridLayout(3, 2));
             
             
-            buyPanel.setPreferredSize(new Dimension(width/2, (height/6)*GameManager.items.size()));
+            buyPanel.setPreferredSize(new Dimension(width/2 - 25, (height/6)*GameManager.items.size() - 25));
             buyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             buyScrollPane = new JScrollPane(buyPanel);
@@ -996,10 +1003,10 @@ public class GUIHandler
             {
                 final int final_i = i;
 
-                JButton button = new JButton("[ Item ] "+GameManager.items.get(i).getName() + " [ Price ] "+GameManager.items.get(i).getPrice());
+                JButton button = new JButton("[ "+GameManager.items.get(i).getName() + " ] Price: "+GameManager.items.get(i).getPrice()+" Gold");
                 button.setBackground(Color.LIGHT_GRAY);
                 button.setForeground(Color.black);
-                button.setFont(pixelFont.deriveFont(30f));
+                button.setFont(pixelFont.deriveFont(1, 25f));
                 button.setHorizontalAlignment(JTextField.CENTER);
                 button.setVerticalAlignment(JTextField.CENTER);
                 button.setFocusPainted(false);
@@ -1007,6 +1014,22 @@ public class GUIHandler
                 //button.addActionListener((ActionEvent e) -> GameManager.items.get(final_i).Use());
 
                 buyPanel.add(button);
+            }
+            
+            if(GameManager.items.size() < 6)
+            {
+                int emptyLabels = 6 - GameManager.items.size();
+
+                for(int i = 0; i < emptyLabels; i++)
+                {
+                    JLabel empty = new JLabel();
+                    savePanel.add(empty);
+                }
+            }
+            else if((GameManager.items.size() % 2) != 0)
+            {
+                JLabel empty = new JLabel();
+                savePanel.add(empty);
             }
         }
         else
