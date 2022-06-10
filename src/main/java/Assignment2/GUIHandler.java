@@ -514,7 +514,7 @@ public class GUIHandler
                 promptPanel.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
                 container.add(promptPanel);
                 
-                promptText = new JLabel("Points Remaining: "+NewGameLogic.points);
+                promptText = new JLabel("Points Remaining: "+CreatePlayer.points);
                 promptText.setForeground(Color.black);
                 promptText.setFont(pixelFont.deriveFont(30f));
                 promptText.setHorizontalAlignment(JLabel.CENTER);
@@ -540,7 +540,7 @@ public class GUIHandler
                 strMinus.setForeground(Color.black);
                 strMinus.setFont(pixelFont);
                 strMinus.setFocusPainted(false);
-                strMinus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(0, "str")); 
+                strMinus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(0, "str")); 
                     
                 statsPanel.add(strMinus);
                 
@@ -557,7 +557,7 @@ public class GUIHandler
                 strPlus.setForeground(Color.black);
                 strPlus.setFont(pixelFont);
                 strPlus.setFocusPainted(false);
-                strPlus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(1, "str")); 
+                strPlus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(1, "str")); 
                         
                 statsPanel.add(strPlus);
                 
@@ -572,7 +572,7 @@ public class GUIHandler
                 intMinus.setForeground(Color.black);
                 intMinus.setFont(pixelFont);
                 intMinus.setFocusPainted(false);
-                intMinus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(0, "int")); 
+                intMinus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(0, "int")); 
                 statsPanel.add(intMinus);
                 
                 intValue = new JLabel("0");
@@ -588,7 +588,7 @@ public class GUIHandler
                 intPlus.setForeground(Color.black);
                 intPlus.setFont(pixelFont);
                 intPlus.setFocusPainted(false);
-                intPlus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(1, "int")); 
+                intPlus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(1, "int")); 
                 statsPanel.add(intPlus);
                 
                 //DEFENSE
@@ -602,7 +602,7 @@ public class GUIHandler
                 defMinus.setForeground(Color.black);
                 defMinus.setFont(pixelFont);
                 defMinus.setFocusPainted(false);
-                defMinus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(0, "def")); 
+                defMinus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(0, "def")); 
                 statsPanel.add(defMinus);
                 
                 defValue = new JLabel("0");
@@ -618,7 +618,7 @@ public class GUIHandler
                 defPlus.setForeground(Color.black);
                 defPlus.setFont(pixelFont);
                 defPlus.setFocusPainted(false);
-                defPlus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(1, "def")); 
+                defPlus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(1, "def")); 
                 statsPanel.add(defPlus);
             }
             case 2 -> //confirm and start game
@@ -672,7 +672,7 @@ public class GUIHandler
                     {
                         if(!nameField.getText().equals(""))
                         {                            
-                            NewGameLogic.createPlayer(nameField.getText(), 10);
+                            CreatePlayer.createPlayer(nameField.getText(), 10);
                             characterCreation(1); 
                         }
                         else
@@ -685,7 +685,7 @@ public class GUIHandler
                     }
                     case 1 -> 
                     {
-                        if(NewGameLogic.points > 0)
+                        if(CreatePlayer.points > 0)
                         {
                             JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
                             boxText.setFont(pixelFont.deriveFont(20f));
@@ -694,13 +694,13 @@ public class GUIHandler
                             
                             if(choice == 0)
                             {
-                                NewGameLogic.setPlayer();
+                                CreatePlayer.setPlayer();
                                 characterCreation(2); 
                             }
                         }
                         else
                         {
-                            NewGameLogic.setPlayer();
+                            CreatePlayer.setPlayer();
                             characterCreation(2); 
                         }
                     }
@@ -867,7 +867,7 @@ public class GUIHandler
             enemyPanel.setBackground(Color.white);
             combatPanel.add(enemyPanel);
             
-            Enemy enemy = CombatLogic.currentEnemy;
+            Enemy enemy = CombatHandler.currentEnemy;
             createEnemyCombatCard(enemy, enemyPanel);
         }
         else
@@ -875,7 +875,7 @@ public class GUIHandler
             combatContainer.setVisible(true);
             enemyPanel.removeAll();
             
-            Enemy enemy = CombatLogic.currentEnemy;
+            Enemy enemy = CombatHandler.currentEnemy;
             createEnemyCombatCard(enemy, enemyPanel);
         }
         

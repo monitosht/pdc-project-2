@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class CombatLogicTest 
+public class CombatHandlerTest 
 {           
     //<editor-fold defaultstate="collapsed" desc="Unused Methods">
     
-    public CombatLogicTest(){        
+    public CombatHandlerTest(){        
     }
     
     @BeforeClass
@@ -37,28 +37,28 @@ public class CombatLogicTest
     {
         GameManager.gameDataDB = new GameData(); //initialise database
         GameManager.player = new Player("Test Player"); //create test player
-        CombatLogic.setRandomEnemy(); //set the curentEnemy to a viable random enemy
+        CombatHandler.setRandomEnemy(); //set the curentEnemy to a viable random enemy
     }
     
     /**
-     * Test of setRandomEnemy method, of class CombatLogic.
+     * Test of setRandomEnemy method, of class CombatHandler.
      */
     @Test
     public void testSetRandomEnemy() 
     {
         System.out.println("setRandomEnemy");
         
-        CombatLogic.currentEnemy = null; //reset the currentEnemy for this test case
-        CombatLogic.setRandomEnemy(); //reset the currentEnemy to a new enemy using this method
+        CombatHandler.currentEnemy = null; //reset the currentEnemy for this test case
+        CombatHandler.setRandomEnemy(); //reset the currentEnemy to a new enemy using this method
         
         boolean expResult = true; //as currentEnemy should now contain an enemy object
-        boolean result = (CombatLogic.currentEnemy != null); //check if currentEnemy is null
+        boolean result = (CombatHandler.currentEnemy != null); //check if currentEnemy is null
         
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of combatEvent method, of class CombatLogic.
+     * Test of combatEvent method, of class CombatHandler.
      */
     @Test
     public void testCombatEvent() 
@@ -70,13 +70,13 @@ public class CombatLogicTest
         boolean expResult = false; //as this would mean that neither the player or enemy have died
         
         //it's not possible for a combatEvent (called for the first time) between a new player and a level 1 enemy to return true
-        boolean result = CombatLogic.combatEvent(CombatLogic.currentEnemy);
+        boolean result = CombatHandler.combatEvent(CombatHandler.currentEnemy);
         
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of runFromCombat method, of class CombatLogic.
+     * Test of runFromCombat method, of class CombatHandler.
      */    
     @Test
     public void testRunFromCombat() 
@@ -89,7 +89,7 @@ public class CombatLogicTest
         do{            
             //false means that the player was unsuccessful in escaping combat
             //when this happens, the player will have taken at least 1 damage
-            temp = CombatLogic.runFromCombat(CombatLogic.currentEnemy);
+            temp = CombatHandler.runFromCombat(CombatHandler.currentEnemy);
         }while(temp);
         
         
