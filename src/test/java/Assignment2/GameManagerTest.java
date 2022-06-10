@@ -18,11 +18,6 @@ public class GameManagerTest
     public GameManagerTest() {
     }
     
-    @After
-    public void tearDown(){      
-        GameManager.gameDataDB.removeSaveData();
-    }
-    
     @BeforeClass
     public static void setUpClass() {
     }
@@ -41,6 +36,13 @@ public class GameManagerTest
         GameManager.player.setXP(10); //set enough xp to be able to level up        
         //required to test the gameOver method as the user can return to the main menu
         GUISetup.createWindow(); 
+    }
+    
+    @After
+    public void tearDown()
+    {      
+        //to remove any access save data created through testing
+        GameManager.gameDataDB.removeSaveData();
     }
 
     /**

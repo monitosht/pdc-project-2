@@ -6,7 +6,7 @@ package Assignment2;
  */
 public abstract class Character 
 {  
-    //Attributes
+    //Variables
     private String name;    
     
     private int currentHP;
@@ -35,7 +35,7 @@ public abstract class Character
         this.level = level;
     }    
 
-    //Getters and setters
+    // <editor-fold defaultstate="collapsed" desc="Getters and Setters">     
     public String getName() 
     {
         return name;
@@ -107,6 +107,7 @@ public abstract class Character
     {
         this.level = level;
     }    
+    // </editor-fold>
         
     //Abstract methods
     public abstract int Attack();
