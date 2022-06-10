@@ -1,14 +1,14 @@
 package Assignment2;
 
-import static Assignment2.GUILogic.updateMainTextArea;
+import static Assignment2.GUIUpdate.updateMainTextArea;
 
 /**
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class Story 
+public class StoryHandler 
 {
-    public static void storyIntro()
+    public static void displayIntro()
     {
         updateMainTextArea("""
         Prologue
@@ -96,12 +96,12 @@ public class Story
                 updateMainTextArea("""
                 You have completed the game - Thanks for playing!
                 --------------------------------------------------------------""");
-                storyOutro();
+                displayOutro();
             }
         }
     }
     
-    public static void storyOutro()
+    public static void displayOutro()
     {
         updateMainTextArea("""
         Epilogue

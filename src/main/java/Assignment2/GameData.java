@@ -76,11 +76,11 @@ public class GameData
                         +"WHERE name = '"+player.getName()+"'";
                 
                         statement.executeUpdate(query);
-                        GUILogic.updateMainTextArea("Game save updated!");
+                        GUIUpdate.updateMainTextArea("Game save updated!");
                 }
                 else //if no return
                 {
-                    GUILogic.updateMainTextArea("Save data was not overwritten.");
+                    GUIUpdate.updateMainTextArea("Save data was not overwritten.");
                     System.out.println("did not save");
                 }  
             }
@@ -98,7 +98,6 @@ public class GameData
                         +player.getGold()+")";
                 
                 statement.executeUpdate(query);
-                GUILogic.updateMainTextArea("Game saved!");
             }
         }
         catch(SQLException e)

@@ -1,5 +1,8 @@
 package Assignment2;
 
+import static Assignment2.GUIUpdate.updateCombatTextArea;
+import static Assignment2.GUIUpdate.updatePlayerCombatCard;
+import static Assignment2.GUIUpdate.updateEnemyCombatCard;
 import static Assignment2.GameManager.player;
 
 /**
@@ -8,12 +11,11 @@ import static Assignment2.GameManager.player;
  */
 public class CombatLogic 
 {
-    //public static Enemy enemy = getRandomEnemy();
-    public static Enemy currentEnemy;
-      
-    static String combatText;
+    //Variables
+    public static Enemy currentEnemy;      
     static int turn = 0;
     
+    //Methods
     public static void setRandomEnemy()
     {
         GameManager.gameDataDB.readEnemyList();
@@ -26,7 +28,7 @@ public class CombatLogic
         } while(currentEnemy.getLevel() != GameManager.player.getLevel()); //Ensure that the player only encouters enemies of the same level
     }
     
-    public static boolean combatEvent(Enemy enemy) //call when the Fight button is selected
+    public static boolean combatEvent(Enemy enemy)
     {
         updateCombatTextArea("TURN "+(++turn));
         boolean combatEnded = false;
@@ -112,29 +114,5 @@ public class CombatLogic
             }
             return false;
         }
-    }
-    
-    static void updateCombatTextArea(String text)
-    {
-        if(GUIHandler.combatTextArea == null) 
-            return;
-        
-        combatText += "\n\n"+text;
-        GUIHandler.combatTextArea.setText(combatText);
-    }
-        
-    static void updatePlayerCombatCard()
-    {
-        if(GUIHandler.playerHP != null) GUIHandler.playerHP.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
-        GUILogic.updatePlayerCard();
-    }
-    
-    static void updateEnemyCombatCard(Enemy enemy)
-    {
-        if(GUIHandler.enemyHP == null)
-            return;
-        
-        GUIHandler.enemyName.setText("[ "+enemy.getName()+" ]");
-        GUIHandler.enemyHP.setText("[ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
-    }
+    } 
 }

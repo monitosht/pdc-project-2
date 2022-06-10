@@ -37,9 +37,9 @@ public class GameManager
             player.setDefence(player.getDefence() + 2);            
             player.setXP(0);
             
-            CombatLogic.updateCombatTextArea("You levelled up!");
+            GUIUpdate.updateCombatTextArea("You levelled up!");
             
-            CombatLogic.updateCombatTextArea(
+            GUIUpdate.updateCombatTextArea(
                 "[ LEVEL ]      "+(player.getLevel() - 1)+" >> "+player.getLevel()
              +"\n[ MAX HP ]   "+(player.getMaxHP() - 5)+" >> "+player.getMaxHP()
              +"\n[ STRENGTH ] "+(player.getStrength() - 2)+" >> "+player.getStrength()
@@ -55,7 +55,7 @@ public class GameManager
     
     public static void gameCompleted()
     {
-        Story.storyOutro();        
+        StoryHandler.displayOutro();        
         
         GUIHandler.gameCompletedPrompt();
         gameDataDB.writePlayerSaveData(); //autosave

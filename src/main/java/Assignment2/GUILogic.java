@@ -1,9 +1,7 @@
 package Assignment2;
 
-import static Assignment2.GUIHandler.gameButton1;
-import static Assignment2.GUIHandler.gameButton2;
-import static Assignment2.GUIHandler.gameButton3;
-import static Assignment2.GUIHandler.gameButton4;
+import static Assignment2.GUIUpdate.updateMainTextArea;
+import static Assignment2.GUIUpdate.updateGameButtonText;
 import static Assignment2.GameManager.player;
 
 /**
@@ -12,121 +10,24 @@ import static Assignment2.GameManager.player;
  */
 public class GUILogic 
 {      
-    //New game variables
-    public static Player newPlayer;
-    
-    public static int points;
-    public static int startPoints;
-    
-    //Attribute variables
-    public static int strValue ;
-    public static int intValue;
-    public static int defValue;
-    
-    //Location / text / button variables
-    static String textAreaText;  
-    static String position;
-    
+    //Variables
+    static String position;    
     static int continueChoice;
     
-    /*
-    * New game / player methods
-    */
-    public static void createPlayer(String name, int _startPoints)
-    {
-        newPlayer = new Player(name);
-        
-        startPoints = _startPoints;
-        points = startPoints;
-        
-        strValue = 0;
-        intValue = 0;
-        defValue = 0;
-    }
-    
-    public static void updateAttribute(int choice, String attribute)
-    {
-        switch(choice)
-        {
-            case 0: //decrease attribute value
-                switch(attribute)
-                {
-                    case "str":
-                        if(strValue > 0 && strValue <= startPoints)
-                        {
-                            strValue--;
-                            points++; 
-                        }
-                        break;
-                    case "int":
-                        if(intValue > 0 && intValue <= startPoints)
-                        {
-                            intValue--;
-                            points++; 
-                        }
-                        break;
-                    case "def":
-                        if(defValue > 0 && defValue <= startPoints)
-                        {
-                            defValue--;
-                            points++; 
-                        }
-                        break;
-                }
-                break;
-            case 1: //increase attribute value
-                if(points > 0)
-                {
-                    switch(attribute)
-                    {
-                        case "str":
-                            strValue++;
-                            points--;
-                            break;
-                        case "int":
-                            intValue++;
-                            points--;
-                            break;
-                        case "def":
-                            defValue++;
-                            points--;
-                            break;
-                    }
-                }
-                break;
-        }        
-        GUIHandler.promptText.setText("Points Remaining: "+points);
-        GUIHandler.strValue.setText(""+strValue);
-        GUIHandler.intValue.setText(""+intValue);
-        GUIHandler.defValue.setText(""+defValue);
-    }
-    
-    public static void setPlayer()
-    {
-        newPlayer.setStrength(strValue);
-        newPlayer.setIntellect(intValue);
-        newPlayer.setDefence(defValue);        
-        
-        GameManager.player = newPlayer;
-        GameManager.act = 0;
-    }
-    
-    /*
-    * Location / Button methods
-    */    
+    //Area methods
     static void townArea(int choice)
     {
         position = "Town";    
-        updatePlayerCard();
+        GUIUpdate.updatePlayerCard();
         
         switch(choice)
         {
             case 0://arrive for the first time
                 System.out.println(GameManager.act);
-                if(GameManager.act == 0) Story.storyIntro(); //only display the prologue for new players
+                if(GameManager.act == 0) StoryHandler.displayIntro(); //only display the prologue for new players
             case 1: 
                 GameManager.act = player.getLevel();
-                Story.progressStory(GameManager.act);
+                StoryHandler.progressStory(GameManager.act);
                 updateMainTextArea("You have arrived at Town...");
                 break;
             case 2: //returrned to town
@@ -159,27 +60,6 @@ public class GUILogic
         }
         updateGameButtonText();
     }
-    
-    static void restEvent()
-    {
-        if((player.getGold() > 25) && (player.getCurrentHP() != player.getMaxHP()))
-        {
-            player.setGold(player.getGold() - 25);
-            player.setCurrentHP(player.getMaxHP());
-            updateMainTextArea("You sleep soundly through the night and awaken well rested.\nYour health has been fully restored!");
-            CombatLogic.updatePlayerCombatCard();
-        }
-        else if(player.getCurrentHP() == player.getMaxHP())
-        {
-            // you're already at full health
-            updateMainTextArea("Your energy is high and you do not feel the urge to rest (You are already at full health).");
-        }
-        else
-        {
-            //you cant afford to rent a room
-            updateMainTextArea("You do not have enough gold to rent a room for the night... You leave the Inn.");
-        }
-    } 
     
     static void shopArea(int choice)
     {
@@ -219,7 +99,7 @@ public class GUILogic
         position = "Adventure";
         
         updateGameButtonText();        
-        updatePlayerCard();
+        GUIUpdate.updatePlayerCard();
         
         switch(choice)
         {
@@ -294,6 +174,28 @@ public class GUILogic
         updateGameButtonText();
     }
     
+    //Event methods
+    static void restEvent()
+    {
+        if((player.getGold() > 25) && (player.getCurrentHP() != player.getMaxHP()))
+        {
+            player.setGold(player.getGold() - 25);
+            player.setCurrentHP(player.getMaxHP());
+            updateMainTextArea("You sleep soundly through the night and awaken well rested.\nYour health has been fully restored!");
+            GUIUpdate.updatePlayerCombatCard();
+        }
+        else if(player.getCurrentHP() == player.getMaxHP())
+        {
+            // you're already at full health
+            updateMainTextArea("Your energy is high and you do not feel the urge to rest (You are already at full health).");
+        }
+        else
+        {
+            //you cant afford to rent a room
+            updateMainTextArea("You do not have enough gold to rent a room for the night... You leave the Inn.");
+        }
+    } 
+    
     static void returnEvent(int choice)
     {
         position = "Return";
@@ -330,7 +232,7 @@ public class GUILogic
                         break;
                     case 3: //entering combat
                         GUIHandler.createCombatScene();
-                        CombatLogic.updatePlayerCombatCard();
+                        GUIUpdate.updatePlayerCombatCard();
                         combatArea(0);                       
                         break;
                     case 4: //combat event recap
@@ -349,83 +251,5 @@ public class GUILogic
                 break;                
         }
         updateGameButtonText();
-    }
-    
-    /*
-    * GUI Update Methods
-    */    
-    static void updateMainTextArea(String text)
-    {
-        if(GUIHandler.mainTextArea == null) 
-            return;
-        
-        textAreaText += "\n\n"+text;
-        GUIHandler.mainTextArea.setText(textAreaText);
-    }
-    
-    static void updateGameButtonText()
-    {
-        switch(position)
-        {
-            case "Town":
-                gameButton1.setText("( Adventure )");
-                gameButton2.setText("( Rest )");
-                gameButton3.setText("( Shop )");
-                gameButton4.setText("( Save )");
-                break;
-            case "Inn":
-                gameButton1.setText("( Yes )");
-                gameButton2.setText("( No )");
-                gameButton3.setText("");
-                gameButton4.setText("");
-                break;
-            case "Shop":
-                gameButton1.setText("( Buy )");
-                gameButton2.setText("( Sell )");
-                gameButton3.setText("( Exit )");
-                gameButton4.setText("");
-                break;
-            case "Adventure":
-                gameButton1.setText("( Explore )");
-                gameButton2.setText("( Inventory )");
-                gameButton3.setText("( Town )");
-                gameButton4.setText("");
-                break;
-            case "Combat":
-                gameButton1.setText("( Fight )");
-                gameButton2.setText("( Inventory )");
-                gameButton3.setText("( Run )");
-                gameButton4.setText("");
-                break;
-            case "Return":
-                gameButton1.setText("( Exit )");
-                gameButton2.setText("");
-                gameButton3.setText("");
-                gameButton4.setText("");
-                break;
-            case "Continue":
-                gameButton1.setText("( Continue )");
-                gameButton2.setText("");
-                gameButton3.setText("");
-                gameButton4.setText("");
-        }
-    }
-    
-    static void updatePlayerCard()
-    {
-        if(GUIHandler.playerStatsCard == null) return;
-        
-        GUIHandler.playerNameLabel.setText(""+GameManager.player.getName());  
-        
-        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Shop")) GUIHandler.locationLabel.setText("<Town>");
-        else GUIHandler.locationLabel.setText("<"+GameManager.getCurrentLocation()+">");
-        
-        GUIHandler.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
-        GUIHandler.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());
-        GUIHandler.intLabel.setText("[ INTELLECT ] "+GameManager.player.getIntellect());
-        GUIHandler.defLabel.setText("[ DEFENCE ] "+GameManager.player.getDefence());
-        GUIHandler.levelLabel.setText("[ LEVEL ] "+GameManager.player.getLevel());
-        GUIHandler.xpLabel.setText("[ XP ] "+GameManager.player.getXP());
-        GUIHandler.goldLabel.setText("[ GOLD ] "+GameManager.player.getGold());
-    }
+    }    
 }

@@ -162,7 +162,7 @@ public class GUIHandler
         container = gameWindow.getContentPane();
     }
     
-    //Main Menu Methods
+    //Main Menu methods
     public static void createMainMenu()
     {      
         //disable uneeded GUI elements
@@ -266,7 +266,7 @@ public class GUIHandler
         buttonPanel.setVisible(false);
     }    
     
-    //Continue Scene Methods
+    //Continue Scene methods
     public static void createContinueScene()
     {
         //reinitialise save data
@@ -330,10 +330,8 @@ public class GUIHandler
             button.setVerticalAlignment(JTextField.CENTER);
             button.setFocusPainted(false);
             
-            button.addActionListener((ActionEvent e) -> 
-            {           
-                GameManager.gameDataDB.loadSaveData(GameManager.saves.get(final_i));
-            });
+            button.addActionListener((ActionEvent e) -> GameManager.gameDataDB.loadSaveData(GameManager.saves.get(final_i)));
+            
             savePanel.add(button);
         }
         
@@ -356,7 +354,7 @@ public class GUIHandler
         if(savePanel      != null) savePanel.setVisible(false);  
     }
     
-    //Credits Scene Methods
+    //Credits Scene methods
     public static void createCreditsScene()
     {
         //disable unneeded GUI elements
@@ -413,7 +411,7 @@ public class GUIHandler
         if(creditsPanel != null) creditsPanel.setVisible(false);
     }
     
-    //Constant Buttons Methods
+    //Constant Buttons methods
     public static void constantButtons()
     {
         //initialise size varibles
@@ -432,10 +430,7 @@ public class GUIHandler
         constMenuButton.setFocusPainted(false);
         constMenuPanel.add(constMenuButton);
         
-        constMenuButton.addActionListener((ActionEvent e) -> 
-        {     
-            createMainMenu();
-        });
+        constMenuButton.addActionListener((ActionEvent e) -> createMainMenu());
         
         //QUIT
         constQuitPanel = new JPanel(new GridBagLayout());
@@ -449,10 +444,7 @@ public class GUIHandler
         constQuitButton.setFocusPainted(false);
         constQuitPanel.add(constQuitButton);
         
-        constQuitButton.addActionListener((ActionEvent e) -> 
-        {
-            System.exit(0);
-        }); 
+        constQuitButton.addActionListener((ActionEvent e) -> System.exit(0)); 
         
         //reset size variables
         width = 240;
@@ -473,10 +465,10 @@ public class GUIHandler
     {
         if(constMenuPanel  != null) constMenuPanel.setVisible(false);
         if(constTitlePanel != null) constTitlePanel.setVisible(false);
-        if(constQuitPanel     != null) constQuitPanel.setVisible(false);
+        if(constQuitPanel  != null) constQuitPanel.setVisible(false);
     }    
     
-    //Character Creation Methods
+    //Character Creation methods
     public static void characterCreation(int _stage)
     {
         //disable unneeded GUI elements
@@ -522,7 +514,7 @@ public class GUIHandler
                 promptPanel.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
                 container.add(promptPanel);
                 
-                promptText = new JLabel("Points Remaining: "+GUILogic.points);
+                promptText = new JLabel("Points Remaining: "+NewGameLogic.points);
                 promptText.setForeground(Color.black);
                 promptText.setFont(pixelFont.deriveFont(30f));
                 promptText.setHorizontalAlignment(JLabel.CENTER);
@@ -548,7 +540,7 @@ public class GUIHandler
                 strMinus.setForeground(Color.black);
                 strMinus.setFont(pixelFont);
                 strMinus.setFocusPainted(false);
-                strMinus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(0, "str")); 
+                strMinus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(0, "str")); 
                     
                 statsPanel.add(strMinus);
                 
@@ -565,7 +557,7 @@ public class GUIHandler
                 strPlus.setForeground(Color.black);
                 strPlus.setFont(pixelFont);
                 strPlus.setFocusPainted(false);
-                strPlus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(1, "str")); 
+                strPlus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(1, "str")); 
                         
                 statsPanel.add(strPlus);
                 
@@ -580,7 +572,7 @@ public class GUIHandler
                 intMinus.setForeground(Color.black);
                 intMinus.setFont(pixelFont);
                 intMinus.setFocusPainted(false);
-                intMinus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(0, "int")); 
+                intMinus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(0, "int")); 
                 statsPanel.add(intMinus);
                 
                 intValue = new JLabel("0");
@@ -596,7 +588,7 @@ public class GUIHandler
                 intPlus.setForeground(Color.black);
                 intPlus.setFont(pixelFont);
                 intPlus.setFocusPainted(false);
-                intPlus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(1, "int")); 
+                intPlus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(1, "int")); 
                 statsPanel.add(intPlus);
                 
                 //DEFENSE
@@ -610,7 +602,7 @@ public class GUIHandler
                 defMinus.setForeground(Color.black);
                 defMinus.setFont(pixelFont);
                 defMinus.setFocusPainted(false);
-                defMinus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(0, "def")); 
+                defMinus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(0, "def")); 
                 statsPanel.add(defMinus);
                 
                 defValue = new JLabel("0");
@@ -626,7 +618,7 @@ public class GUIHandler
                 defPlus.setForeground(Color.black);
                 defPlus.setFont(pixelFont);
                 defPlus.setFocusPainted(false);
-                defPlus.addActionListener((ActionEvent e) -> GUILogic.updateAttribute(1, "def")); 
+                defPlus.addActionListener((ActionEvent e) -> NewGameLogic.updateAttribute(1, "def")); 
                 statsPanel.add(defPlus);
             }
             case 2 -> //confirm and start game
@@ -680,7 +672,7 @@ public class GUIHandler
                     {
                         if(!nameField.getText().equals(""))
                         {                            
-                            GUILogic.createPlayer(nameField.getText(), 10);
+                            NewGameLogic.createPlayer(nameField.getText(), 10);
                             characterCreation(1); 
                         }
                         else
@@ -693,7 +685,7 @@ public class GUIHandler
                     }
                     case 1 -> 
                     {
-                        if(GUILogic.points > 0)
+                        if(NewGameLogic.points > 0)
                         {
                             JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
                             boxText.setFont(pixelFont.deriveFont(20f));
@@ -702,13 +694,13 @@ public class GUIHandler
                             
                             if(choice == 0)
                             {
-                                GUILogic.setPlayer();
+                                NewGameLogic.setPlayer();
                                 characterCreation(2); 
                             }
                         }
                         else
                         {
-                            GUILogic.setPlayer();
+                            NewGameLogic.setPlayer();
                             characterCreation(2); 
                         }
                     }
@@ -736,7 +728,7 @@ public class GUIHandler
         if(playerStatsCard != null) playerStatsCard.setVisible(false);    
     }   
      
-    //Main Game Scene Methods
+    //Main Game Scene methods
     public static void createGameScene()
     {
         //disable unneeded GUI elements
@@ -753,10 +745,10 @@ public class GUIHandler
         mainTextPanel.setBackground(Color.white);
         container.add(mainTextPanel);
         
-        GUILogic.textAreaText = "<game started>";
+        GUIUpdate.textAreaText = "<game started>";
         
         mainTextArea = new JTextArea();
-        mainTextArea.setText(GUILogic.textAreaText);
+        mainTextArea.setText(GUIUpdate.textAreaText);
         mainTextArea.setBackground(new Color(250,250,250)); //slightly off-white
         mainTextArea.setForeground(Color.black);
         mainTextArea.setFont(pixelFont);
@@ -838,7 +830,7 @@ public class GUIHandler
         if(sellPanel       != null) sellPanel.setVisible(false);
     }       
     
-    //Combat Scene Methods
+    //Combat Scene methods
     public static void createCombatScene()
     {
         mainTextPanel.setVisible(false);
@@ -887,6 +879,8 @@ public class GUIHandler
             createEnemyCombatCard(enemy, enemyPanel);
         }
         
+        GUIUpdate.combatText = "What will you do?";
+        
         if(combatTextPanel == null)
         {     
             combatTextPanel = new JPanel(new GridLayout(1,1));
@@ -895,12 +889,10 @@ public class GUIHandler
             combatTextPanel.setBackground(Color.red);
             container.add(combatTextPanel);
             
-            CombatLogic.combatText = "What will you do?";
-            
             combatTextArea = new JTextArea();
             combatTextArea.setForeground(Color.black);
             combatTextArea.setFont(pixelFont);
-            combatTextArea.setText(CombatLogic.combatText);
+            combatTextArea.setText(GUIUpdate.combatText);
             combatTextArea.setMargin(new Insets(10,10,10,10));
             combatTextArea.setLineWrap(true);
             combatTextArea.setEditable(false); 
@@ -911,8 +903,7 @@ public class GUIHandler
         else
         {
             combatTextPanel.setVisible(true);
-            CombatLogic.combatText = "What will you do?";
-            combatTextArea.setText(CombatLogic.combatText);
+            combatTextArea.setText(GUIUpdate.combatText);
         }
     }   
     
@@ -966,7 +957,7 @@ public class GUIHandler
         if(mainTextPanel   != null) mainTextPanel.setVisible(true);    
     }
     
-    //Shop Methods
+    //Shop methods
     public static void createBuyMenu()
     {
         mainTextPanel.setVisible(false);
@@ -1065,10 +1056,9 @@ public class GUIHandler
     {        
         if(sellScrollPane != null) sellScrollPane.setVisible(false);
         if(mainTextPanel  != null) mainTextPanel.setVisible(true);
-        //if(sellPanel != null) sellPanel.setVisible(false);
     }
     
-    //Dialog Prompt Methods
+    //Dialog Prompt methods
     public static int savePrompt()
     {            
         JLabel boxText = new JLabel("Save data with this name already exists. Overwrite with this save data?");
@@ -1091,9 +1081,9 @@ public class GUIHandler
         if(playerInput != null)
         { 
             if(inCombat == true)
-                CombatLogic.updateCombatTextArea("Used "+playerInput+"!");
+                GUIUpdate.updateCombatTextArea("Used "+playerInput+"!");
             else
-                GUILogic.updateMainTextArea("Used "+playerInput+"!");
+                GUIUpdate.updateMainTextArea("Used "+playerInput+"!");
         }
     }
     
@@ -1115,7 +1105,7 @@ public class GUIHandler
         JOptionPane.showMessageDialog(null, boxText, "Game Completed", JOptionPane.INFORMATION_MESSAGE);
     }  
         
-    //Reuseability Methods
+    //Reuseability methods
     static void createPlayerStatsCard(JPanel parentPanel)
     {
         playerNameLabel = new JLabel("[ Name ]");
@@ -1181,10 +1171,10 @@ public class GUIHandler
         goldLabel.setVerticalAlignment(JTextField.CENTER);
         parentPanel.add(goldLabel);
         
-        GUILogic.updatePlayerCard();
+        GUIUpdate.updatePlayerCard();
     } 
     
-    //Graphics Methods
+    //Graphics methods
     static Font createCustomFont()
     {
         try 
