@@ -8,8 +8,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author User
+ * @author Monitosh Thaker | 17000777
+ * COMP603 Assignment 2
  */
 public class GameManagerTest 
 {    
@@ -41,7 +41,7 @@ public class GameManagerTest
     @After
     public void tearDown()
     {      
-        //to remove any access save data created through testing
+        //to remove any unnecessary save data created through testing
         GameManager.gameDataDB.removeSaveData();
     }
 
@@ -73,6 +73,7 @@ public class GameManagerTest
         
         //save data for the current player should exist in the DB        
         boolean expResult = true; //as the game should automatically save when it is completed / won
+        
         //use checkSaveExists method to confirm if save data for the current player exists
         boolean result = GameManager.gameDataDB.checkSaveExists(GameManager.player.getName());
         
@@ -90,6 +91,7 @@ public class GameManagerTest
         
         //save data for the current player should NOT exist in the DB        
         boolean expResult = false; //as the save data should be deleted if the game is over / lost
+        
         //use checkSaveExists method to confirm if save data for the current player exists
         boolean result = GameManager.gameDataDB.checkSaveExists(GameManager.player.getName());
         
@@ -121,6 +123,7 @@ public class GameManagerTest
         
         //as the story act is equal to the player level, it should be 2 at this stage
         String expResult = "Dartshaw Hollow"; //the location for act 2 of the game
+        
         //the method returns the location string at the index of the current act value
         String result = GameManager.getCurrentLocation();
         

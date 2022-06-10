@@ -9,7 +9,6 @@ public class Main
     public static void main(String[] args) 
     {
         GameManager.gameDataDB = new GameData();    
-        //GameManager.setup.createMainMenu();
         
         GUIHandler.createWindow();
         GUIHandler.createMainMenu();

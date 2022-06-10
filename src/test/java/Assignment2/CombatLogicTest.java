@@ -8,36 +8,38 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author User
+ * @author Monitosh Thaker | 17000777
+ * COMP603 Assignment 2
  */
-public class CombatLogicTest {
+public class CombatLogicTest 
+{           
+    //<editor-fold defaultstate="collapsed" desc="Unused Methods">
     
-    Enemy enemy;
-            
-    public CombatLogicTest()     {
-        
+    public CombatLogicTest(){        
     }
     
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass(){
     }
     
     @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-        GameManager.gameDataDB = new GameData(); 
-        GameManager.player = new Player("test");
-        enemy = CombatLogic.currentEnemy;
+    public static void tearDownClass(){
     }
     
     @After
-    public void tearDown() {
+    public void tearDown(){
     }
-
+    
+    //</editor-fold>
+    
+    @Before
+    public void setUp() 
+    {
+        GameManager.gameDataDB = new GameData(); //initialise database
+        GameManager.player = new Player("Test Player"); //create test player
+        CombatLogic.setRandomEnemy(); //set the curentEnemy to a viable random enemy
+    }
+    
     /**
      * Test of setRandomEnemy method, of class CombatLogic.
      */
@@ -46,68 +48,56 @@ public class CombatLogicTest {
     {
         System.out.println("setRandomEnemy");
         
-        CombatLogic.setRandomEnemy();
-        //if combatlogic.currentEnemy != null // successful 
+        CombatLogic.currentEnemy = null; //reset the currentEnemy for this test case
+        CombatLogic.setRandomEnemy(); //reset the currentEnemy to a new enemy using this method
+        
+        boolean expResult = true; //as currentEnemy should now contain an enemy object
+        boolean result = (CombatLogic.currentEnemy != null); //check if currentEnemy is null
+        
+        assertEquals(expResult, result);
     }
 
     /**
      * Test of combatEvent method, of class CombatLogic.
      */
     @Test
-    public void testCombatEvent() {
+    public void testCombatEvent() 
+    {
         System.out.println("combatEvent");
         
-        boolean expResult = false;
-        boolean result = CombatLogic.combatEvent(enemy);
+        //for this method, true return indicates that the player or enemy has died in this turn of combat
+        //a false return indicates that both parties have attacked and the combat will continue
+        boolean expResult = false; //as this would mean that neither the player or enemy have died
+        
+        //it's not possible for a combatEvent (called for the first time) between a new player and a level 1 enemy to return true
+        boolean result = CombatLogic.combatEvent(CombatLogic.currentEnemy);
         
         assertEquals(expResult, result);
     }
 
     /**
      * Test of runFromCombat method, of class CombatLogic.
-     */
-    /*
+     */    
     @Test
-    public void testRunFromCombat() {
-        
+    public void testRunFromCombat() 
+    {        
         System.out.println("runFromCombat");
-        Enemy enemy = CombatLogic.currentEnemy;
+        
+        boolean temp;        
+        
+        //ensure the method returns false
+        do{            
+            //false means that the player was unsuccessful in escaping combat
+            //when this happens, the player will have taken at least 1 damage
+            temp = CombatLogic.runFromCombat(CombatLogic.currentEnemy);
+        }while(temp);
         
         
+        boolean expResult = true; //as the player would have taken damage if the method worked correctly
+        //check if the player's health has decreased, indicating that they could not escape (returned false)
         
-        boolean expResult = false;
-        boolean result = CombatLogic.runFromCombat(enemy);
+        boolean result = (GameManager.player.getCurrentHP() < GameManager.player.getMaxHP());
         
         assertEquals(expResult, result);
     }
-    */
-
-    /**
-     * Test of updateCombatTextArea method, of class CombatLogic.
-     */
-    @Test
-    public void testUpdateCombatTextArea() {
-        System.out.println("updateCombatTextArea");
-        String text = "test";
-        CombatLogic.updateCombatTextArea(text);
-    }
-
-    /**
-     * Test of updatePlayerCombatCard method, of class CombatLogic.
-     */
-    @Test
-    public void testUpdatePlayerCombatCard() {
-        System.out.println("updatePlayerCombatCard");
-        CombatLogic.updatePlayerCombatCard();
-    }
-
-    /**
-     * Test of updateEnemyCombatCard method, of class CombatLogic.
-     */
-    @Test
-    public void testUpdateEnemyCombatCard() {
-        System.out.println("updateEnemyCombatCard");        
-        CombatLogic.updateEnemyCombatCard(enemy);
-    }
-    
 }

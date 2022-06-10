@@ -90,8 +90,7 @@ public class CombatLogic
         
         if(runChance <= 2)
         {
-            updateCombatTextArea("You safely got away from the "+enemy.getName()+".");
-            
+            updateCombatTextArea("You safely got away from the "+enemy.getName()+".");            
             return true;
         }
         else
