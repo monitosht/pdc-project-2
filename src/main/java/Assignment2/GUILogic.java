@@ -34,7 +34,7 @@ public class GUILogic
                 break;
             case 3: //no prompt
                 break;
-        }        
+        }      
         updateGameButtonText();
     }
     
