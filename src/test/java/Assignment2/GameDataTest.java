@@ -31,10 +31,11 @@ public class GameDataTest
     @Before
     public void setUp() 
     {
-        GameManager.gameDataDB = new GameData(); //initialise database
-        GameManager.player = new Player("Test Player"); //create a test player
         //required variable to test the loadPlayerData method as it creates the game scene
         GameManager.gui = new GUIHandler(); 
+        
+        GameManager.gameDataDB = new GameData(); //initialise database
+        GameManager.player = new Player("Test Player"); //create a test player
     }
     
     @After

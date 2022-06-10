@@ -31,11 +31,12 @@ public class GameManagerTest
     @Before
     public void setUp() 
     {
+        //required to test the gameOver method as the user can return to the main menu
+        GameManager.gui = new GUIHandler();
+        
         GameManager.gameDataDB = new GameData(); //initialise database
         GameManager.player = new Player("Test Player"); //create a test player
-        GameManager.player.setXP(10); //set enough xp to be able to level up        
-        //required to test the gameOver method as the user can return to the main menu
-        GameManager.gui = new GUIHandler(); 
+        GameManager.player.setXP(10); //set enough xp to be able to level up         
     }
     
     @After

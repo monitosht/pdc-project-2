@@ -35,6 +35,7 @@ public class CombatHandlerTest
     @Before
     public void setUp() 
     {
+        GameManager.gui = new GUIHandler();
         GameManager.gameDataDB = new GameData(); //initialise database
         GameManager.player = new Player("Test Player"); //create test player
         CombatHandler.setRandomEnemy(); //set the curentEnemy to a viable random enemy
