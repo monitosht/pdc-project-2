@@ -193,6 +193,27 @@ public class GUILogic
         }
     } 
     
+    static void buyItemEvent(Item item)
+    {
+        if(player.getGold() > item.getPrice())
+        {
+            player.setGold(player.getGold() - item.getPrice());
+            GameManager.inventory.add(item);
+            
+            GameManager.gui.buyItemPrompt(item, true);
+            GUIUpdate.updatePlayerCard();
+            
+            for(Item i : GameManager.inventory)
+            {
+                System.out.println(i.getName());
+            }
+        }
+        else
+        {
+            GameManager.gui.buyItemPrompt(item, false);
+        }
+    }
+    
     static void returnEvent(int choice)
     {
         position = "Return";

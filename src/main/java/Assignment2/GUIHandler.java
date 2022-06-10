@@ -1011,7 +1011,7 @@ public class GUIHandler
                 button.setVerticalAlignment(JTextField.CENTER);
                 button.setFocusPainted(false);
 
-                //button.addActionListener((ActionEvent e) -> GameManager.items.get(final_i).Use());
+                button.addActionListener((ActionEvent e) -> GUILogic.buyItemEvent(GameManager.items.get(final_i)));
 
                 buyPanel.add(button);
             }
@@ -1097,6 +1097,26 @@ public class GUIHandler
     {        
         if(sellScrollPane != null) sellScrollPane.setVisible(false);
         if(mainTextPanel  != null) mainTextPanel.setVisible(true);
+    }
+    
+    public void buyItemPrompt(Item item, boolean canBuy)
+    {
+        if(canBuy == true)
+        {
+            JLabel boxText = new JLabel("You purcahsed [ "+item.getName()+" ] for "+item.getPrice()+" gold!");
+            boxText.setFont(pixelFont.deriveFont(20f));
+
+            UIManager.put("OptionPane.okButtonText", "Ok");        
+            JOptionPane.showMessageDialog(null, boxText, "Purchased Item", JOptionPane.INFORMATION_MESSAGE); 
+        }
+        else
+        {            
+            JLabel boxText = new JLabel("You do not have enough gold to purcahse this item...");
+            boxText.setFont(pixelFont.deriveFont(20f));
+
+            UIManager.put("OptionPane.okButtonText", "Ok");        
+            JOptionPane.showMessageDialog(null, boxText, "Insufficent Gold", JOptionPane.ERROR_MESSAGE); 
+        }
     }
     
     //Dialog Prompt methods
