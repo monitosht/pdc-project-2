@@ -31,10 +31,6 @@ public class GUILogicTest
     @Before
     public void setUp() 
     {
-        //required to test methods that require GUI elements
-        GameManager.gui = new GUIHandler(); 
-        GameManager.gui.createGameScene();
-        
         GameManager.gameDataDB = new GameData(); //initialise database
         
         //initialise test player with enough gold to afford a rest (and missing health to restore)
@@ -44,6 +40,10 @@ public class GUILogicTest
         
         //initialise a random enemy 
         CombatHandler.setRandomEnemy();
+        
+        //required to test methods that require GUI elements
+        GameManager.gui = new GUIHandler(); 
+        GameManager.gui.createGameScene();
     }
     
     @After
