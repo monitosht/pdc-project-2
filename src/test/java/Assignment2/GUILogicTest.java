@@ -42,8 +42,8 @@ public class GUILogicTest
         CombatHandler.setRandomEnemy();
         
         //required to test methods that require GUI elements
-        GUIHandler.createWindow();
-        GUIHandler.createGameScene();
+        GameManager.gui = new GUIHandler(); 
+        GameManager.gui.createMainMenu(); 
     }
     
     @After

@@ -36,10 +36,10 @@ public class CreatePlayerTest
     public void setUp() 
     {
         //initialise GUI for the methods that require it
-        GUIHandler.createWindow(); 
-        GUIHandler.createMainMenu(); 
-        GUIHandler.characterCreation(0); 
-        GUIHandler.characterCreation(1); 
+        GameManager.gui = new GUIHandler(); 
+        GameManager.gui.createMainMenu(); 
+        GameManager.gui.characterCreation(0); 
+        GameManager.gui.characterCreation(1); 
     }
 
     /**

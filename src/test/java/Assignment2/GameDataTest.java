@@ -34,7 +34,7 @@ public class GameDataTest
         GameManager.gameDataDB = new GameData(); //initialise database
         GameManager.player = new Player("Test Player"); //create a test player
         //required variable to test the loadPlayerData method as it creates the game scene
-        GUIHandler.createWindow(); 
+        GameManager.gui = new GUIHandler(); 
     }
     
     @After
