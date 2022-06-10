@@ -3,6 +3,8 @@ package Assignment2;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 /**
@@ -16,7 +18,7 @@ public class GUIHandler
     int windowX = 1280; 
     int windowY = 800;
     JFrame gameWindow;
-    Container container;   
+    Container container; 
     
     // </editor-fold>
     
@@ -138,11 +140,18 @@ public class GUIHandler
     
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Font Variables">
+    // <editor-fold defaultstate="collapsed" desc="Graphics Variables">
     
     Font pixelFont = createCustomFont();
     Font titleFont = new Font("Arial", Font.PLAIN, 70);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 26); 
+    Color lightGray = new Color(240,240,240);
+    Color lightBlue = new Color(180,220,250);
+    Color lightGreen = new Color(250,255,250);
+    Color lightPurple = new Color(230,230,255);
+    Color offWhite = new Color(250,250,250);
+    Color transparent = new Color(255,255,255,0);
+    Color semiTransparent = new Color(255,255,255,180);
     
     // </editor-fold>
     
@@ -158,6 +167,16 @@ public class GUIHandler
         gameWindow.setLocationRelativeTo(null); //center window when opened
         gameWindow.setResizable(false);
         gameWindow.setVisible(true);        
+        
+        try
+        {
+            gameWindow.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("./resources/background.jpg")))));
+        }
+        catch(IOException e)
+        {
+            System.err.println("IOException: " + e.getMessage());
+        }
+        
         //assign container variable to the windows content pane
         container = gameWindow.getContentPane();
     }
@@ -187,7 +206,7 @@ public class GUIHandler
         titlePanel = new JPanel(new GridBagLayout());
         titlePanel.setBounds((windowX/2) - (width/2), 50, width, height);        
         titlePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        titlePanel.setBackground(Color.white);
+        titlePanel.setBackground(semiTransparent);
         container.add(titlePanel);
         
         titleLabel = new JLabel("RPG Adventure");
@@ -202,6 +221,7 @@ public class GUIHandler
         //initialise button panel
         buttonPanel = new JPanel(new GridLayout(4,1,0,40));
         buttonPanel.setBounds((windowX/2) - (width/2), (windowY/2) - 50, width, height);
+        buttonPanel.setBackground(transparent);
         container.add(buttonPanel);
         
         //NEW GAME
@@ -293,9 +313,10 @@ public class GUIHandler
             
             savePanel.setPreferredSize(new Dimension(width-25, (height/4)*(GameManager.numSaveData)-25));
             savePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            //savePanel.setBackground(Color.white); 
+            savePanel.setBackground(transparent);
 
             saveScrollPane = new JScrollPane(savePanel);
+            saveScrollPane.setBackground(semiTransparent);
             saveScrollPane.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
             container.add(saveScrollPane);
             
@@ -306,12 +327,12 @@ public class GUIHandler
             savePanel = new JPanel(new GridLayout(1, 1));
             savePanel.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
             savePanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            //savePanel.setBackground(Color.white);
+            savePanel.setBackground(semiTransparent);
             container.add(savePanel);            
             
             JLabel empty = new JLabel("No Save Data Exists");
             empty.setForeground(Color.black);
-            empty.setFont(pixelFont.deriveFont(30f));
+            empty.setFont(pixelFont.deriveFont(1, 30f));
             empty.setHorizontalAlignment(JTextField.CENTER);
             empty.setVerticalAlignment(JTextField.CENTER);
             savePanel.add(empty);
@@ -327,7 +348,7 @@ public class GUIHandler
             final int final_i = i;
             
             JButton button = new JButton(GameManager.saves.get(i));
-            button.setBackground(Color.white);
+            button.setBackground(lightPurple);
             button.setForeground(Color.black);
             button.setFont(pixelFont.deriveFont(30f));
             button.setHorizontalAlignment(JTextField.CENTER);
@@ -425,6 +446,7 @@ public class GUIHandler
         //MAIN MENU
         constMenuPanel = new JPanel(new GridBagLayout());
         constMenuPanel.setBounds(25,windowY-height*2-25,width,height);
+        constMenuPanel.setBackground(transparent);
         container.add(constMenuPanel);
         
         constMenuButton = new JButton("Main Menu");
@@ -443,6 +465,7 @@ public class GUIHandler
         //QUIT
         constQuitPanel = new JPanel(new GridBagLayout());
         constQuitPanel.setBounds(windowX-width-25,windowY-height*2-25,width,height);
+        constQuitPanel.setBackground(transparent);
         container.add(constQuitPanel);
         
         constQuitButton = new JButton("Quit");
@@ -465,6 +488,7 @@ public class GUIHandler
         //MINI TITLE
         constTitlePanel = new JPanel(new GridBagLayout());
         constTitlePanel.setBounds((windowX/2) - (width/2), windowY-height*2-25, width, height);
+        constTitlePanel.setBackground(transparent);
         container.add(constTitlePanel);
         
         constTitleText = new JLabel("Moni's RPG Adventure v0.1");
@@ -501,6 +525,7 @@ public class GUIHandler
                 height = 100;
                 
                 namePanel = new JPanel(new GridLayout(2,1,0,25));
+                namePanel.setBackground(transparent);
                 namePanel.setBounds((windowX/2) - (width/2), (windowY/2), width, height);
                 container.add(namePanel);
 
@@ -523,6 +548,8 @@ public class GUIHandler
                 
                 //PROMPT
                 promptPanel = new JPanel(new GridLayout(1,1));
+                promptPanel.setBackground(Color.white);
+                promptPanel.setBorder(BorderFactory.createLineBorder(Color.black));
                 promptPanel.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
                 container.add(promptPanel);
                 
@@ -538,13 +565,16 @@ public class GUIHandler
                 
                 //initialise attributes panel
                 statsPanel = new JPanel(new GridLayout(3,4,5,25));
+                statsPanel.setBackground(Color.white);
                 statsPanel.setBounds((windowX/2) - (width/2), windowY/2, width, height);
+                statsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
                 container.add(statsPanel);
                 
                 //STRENGTH
                 strText = new JLabel("Strength:");
                 strText.setForeground(Color.black);
                 strText.setFont(pixelFont);
+                strText.setHorizontalAlignment(JTextField.CENTER);
                 statsPanel.add(strText);
                 
                 strMinus = new JButton("-");
@@ -577,6 +607,7 @@ public class GUIHandler
                 intText = new JLabel("Intellect:");
                 intText.setForeground(Color.black);
                 intText.setFont(pixelFont);
+                intText.setHorizontalAlignment(JTextField.CENTER);
                 statsPanel.add(intText);
                 
                 intMinus = new JButton("-");
@@ -607,6 +638,7 @@ public class GUIHandler
                 defText = new JLabel("Defense:");
                 defText.setForeground(Color.black);
                 defText.setFont(pixelFont);
+                defText.setHorizontalAlignment(JTextField.CENTER);
                 statsPanel.add(defText);
                 
                 defMinus = new JButton("-");
@@ -651,7 +683,7 @@ public class GUIHandler
                 //initialise stats panel
                 playerStatsCard = new JPanel(new GridLayout(9,1));
                 playerStatsCard.setBounds((windowX/2) - (width/2), (windowY/2) - 100, width, height);
-                playerStatsCard.setBackground(Color.white);
+                playerStatsCard.setBackground(semiTransparent);
                 playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
                 container.add(playerStatsCard);
                 createPlayerStatsCard(playerStatsCard);
@@ -754,14 +786,14 @@ public class GUIHandler
         //initialise main text panel
         mainTextPanel = new JPanel(new GridLayout(1,1));
         mainTextPanel.setBounds(25, 25, width, height);        
-        mainTextPanel.setBackground(Color.white);
+        mainTextPanel.setBackground(semiTransparent);
         container.add(mainTextPanel);
         
         GUIUpdate.textAreaText = "<game started>";
         
         mainTextArea = new JTextArea();
         mainTextArea.setText(GUIUpdate.textAreaText);
-        mainTextArea.setBackground(new Color(250,250,250)); //slightly off-white
+        mainTextArea.setBackground(lightGreen);
         mainTextArea.setForeground(Color.black);
         mainTextArea.setFont(pixelFont);
         mainTextArea.setMargin(new Insets(10,10,10,10));
@@ -769,55 +801,14 @@ public class GUIHandler
         mainTextArea.setEditable(false);        
         
         JScrollPane scrollTextArea = new JScrollPane(mainTextArea);
-        mainTextPanel.add(scrollTextArea);     
-        
-        //GAME BUTTONS
-        gameButtonPanel = new JPanel(new GridLayout(1, 4, 25, 0));
-        gameButtonPanel.setBounds(25, 645, width, 50);
-        container.add(gameButtonPanel);
-        
-        gameButton1 = new JButton("[ A ]");
-        gameButton1.setBackground(Color.white);
-        gameButton1.setForeground(Color.black);
-        gameButton1.setFont(pixelFont.deriveFont(1));;
-        gameButton1.setFocusPainted(false);
-        gameButtonPanel.add(gameButton1);        
-        gameButton1.addActionListener(gameButtonHandler);
-        gameButton1.setActionCommand("A");
-        
-        gameButton2 = new JButton("[ B ]");
-        gameButton2.setBackground(Color.white);
-        gameButton2.setForeground(Color.black);
-        gameButton2.setFont(pixelFont.deriveFont(1));
-        gameButton2.setFocusPainted(false);
-        gameButtonPanel.add(gameButton2);
-        gameButton2.addActionListener(gameButtonHandler);
-        gameButton2.setActionCommand("B");
-        
-        gameButton3 = new JButton("[ C ]");
-        gameButton3.setBackground(Color.white);
-        gameButton3.setForeground(Color.black);
-        gameButton3.setFont(pixelFont.deriveFont(1));
-        gameButton3.setFocusPainted(false);
-        gameButtonPanel.add(gameButton3);
-        gameButton3.addActionListener(gameButtonHandler);
-        gameButton3.setActionCommand("C");
-        
-        gameButton4 = new JButton("[ D ]");
-        gameButton4.setBackground(Color.white);
-        gameButton4.setForeground(Color.black);
-        gameButton4.setFont(pixelFont.deriveFont(1));
-        gameButton4.setFocusPainted(false);
-        gameButtonPanel.add(gameButton4);
-        gameButton4.addActionListener(gameButtonHandler);
-        gameButton4.setActionCommand("D");
+        mainTextPanel.add(scrollTextArea);   
         
         //PLAYER STATS
         if(playerStatsCard == null)
         {
             playerStatsCard = new JPanel(new GridLayout(9,1));
             playerStatsCard.setBounds(width+50, 25, (width/5) - 20, height+70);
-            playerStatsCard.setBackground(Color.white);
+            playerStatsCard.setBackground(offWhite);
             playerStatsCard.setBorder(BorderFactory.createLineBorder(Color.black));
             container.add(playerStatsCard);
             createPlayerStatsCard(playerStatsCard);            
@@ -825,12 +816,58 @@ public class GUIHandler
         else
         {
             playerStatsCard.setBounds(width+50, 25, (width/5) - 20, height+70);
+            playerStatsCard.setBackground(offWhite);
             playerStatsCard.setVisible(true);
             playerStatsCard.removeAll();
             createPlayerStatsCard(playerStatsCard);
         }
         
+        createGameButtons();
         GUILogic.townArea(0);
+    }
+    
+    public void createGameButtons()
+    {
+        gameButtonPanel = new JPanel(new GridLayout(1, 4, 25, 0));
+        gameButtonPanel.setBounds(25, 645, width, 50);
+        gameButtonPanel.setBackground(transparent);
+        container.add(gameButtonPanel);
+        
+        gameButton1 = new JButton("[ A ]");
+        gameButton1.setBackground(lightPurple);
+        gameButton1.setForeground(Color.black);
+        gameButton1.setFont(pixelFont);
+        gameButton1.setFocusPainted(false);
+        gameButtonPanel.add(gameButton1);        
+        gameButton1.addActionListener(gameButtonHandler);
+        gameButton1.setActionCommand("A");
+        
+        gameButton2 = new JButton("[ B ]");
+        gameButton2.setBackground(lightPurple);
+        gameButton2.setForeground(Color.black);
+        gameButton2.setFont(pixelFont);
+        gameButton2.setFocusPainted(false);
+        gameButtonPanel.add(gameButton2);
+        gameButton2.addActionListener(gameButtonHandler);
+        gameButton2.setActionCommand("B");
+        
+        gameButton3 = new JButton("[ C ]");
+        gameButton3.setBackground(lightPurple);
+        gameButton3.setForeground(Color.black);
+        gameButton3.setFont(pixelFont);
+        gameButton3.setFocusPainted(false);
+        gameButtonPanel.add(gameButton3);
+        gameButton3.addActionListener(gameButtonHandler);
+        gameButton3.setActionCommand("C");
+        
+        gameButton4 = new JButton("[ D ]");
+        gameButton4.setBackground(lightPurple);
+        gameButton4.setForeground(Color.black);
+        gameButton4.setFont(pixelFont);
+        gameButton4.setFocusPainted(false);
+        gameButtonPanel.add(gameButton4);
+        gameButton4.addActionListener(gameButtonHandler);
+        gameButton4.setActionCommand("D");
     }
     
     public void exitGameScene()
@@ -857,10 +894,11 @@ public class GUIHandler
             combatContainer = new JPanel();
             combatContainer.setBounds(25, 25, width, (2*height)/3);
             combatContainer.setBackground(Color.white);
+            combatContainer.setBorder(BorderFactory.createLineBorder(Color.black));
             container.add(combatContainer);
             
             combatPanel = new JPanel(new GridLayout(1,3,30,0));
-            combatPanel.setPreferredSize(new Dimension(width-200, (2*height)/3));
+            combatPanel.setPreferredSize(new Dimension(width-200, ((2*height)/3)-25));
             combatPanel.setBackground(Color.white);
             combatContainer.add(combatPanel);
             
@@ -897,11 +935,11 @@ public class GUIHandler
         {     
             combatTextPanel = new JPanel(new GridLayout(1,1));
             combatTextPanel.setBounds(25, 25 + (2*height)/3, width, height/3);
-            combatTextPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             combatTextPanel.setBackground(Color.red);
             container.add(combatTextPanel);
             
             combatTextArea = new JTextArea();
+            combatTextArea.setBackground(lightGreen);
             combatTextArea.setForeground(Color.black);
             combatTextArea.setFont(pixelFont);
             combatTextArea.setText(GUIUpdate.combatText);
@@ -992,51 +1030,20 @@ public class GUIHandler
             else 
                 buyPanel = new JPanel(new GridLayout(3, 2));
             
-            
             buyPanel.setPreferredSize(new Dimension(width/2 - 25, (height/6)*GameManager.items.size() - 25));
             buyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             buyScrollPane = new JScrollPane(buyPanel);
             buyScrollPane.setBounds(25, 25, width, height);
             container.add(buyScrollPane);
-                    
-            for(int i = 0; i < GameManager.items.size(); i++)
-            {
-                final int final_i = i;
-
-                JButton button = new JButton("[ "+GameManager.items.get(i).getName() + " ] Price: "+GameManager.items.get(i).getPrice()+" Gold");
-                button.setBackground(Color.LIGHT_GRAY);
-                button.setForeground(Color.black);
-                button.setFont(pixelFont.deriveFont(1, 25f));
-                button.setHorizontalAlignment(JTextField.CENTER);
-                button.setVerticalAlignment(JTextField.CENTER);
-                button.setFocusPainted(false);
-
-                button.addActionListener((ActionEvent e) -> GUILogic.buyItemEvent(GameManager.items.get(final_i)));
-
-                buyPanel.add(button);
-            }
             
-            if(GameManager.items.size() < 6)
-            {
-                int emptyLabels = 6 - GameManager.items.size();
-
-                for(int i = 0; i < emptyLabels; i++)
-                {
-                    JLabel empty = new JLabel();
-                    buyPanel.add(empty);
-                }
-            }
-            else if((GameManager.items.size() % 2) != 0)
-            {
-                JLabel empty = new JLabel();
-                buyPanel.add(empty);
-            }
+            createBuyButtons();
         }
         else
         {
             buyPanel = new JPanel(new GridLayout(1, 1));
             buyPanel.setBounds(25, 25, width, height);
+            buyPanel.setBackground(semiTransparent);
             buyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             container.add(buyPanel);            
             
@@ -1045,6 +1052,42 @@ public class GUIHandler
             empty.setFont(pixelFont.deriveFont(30f));
             empty.setHorizontalAlignment(JTextField.CENTER);
             empty.setVerticalAlignment(JTextField.CENTER);
+            buyPanel.add(empty);
+        }
+    }
+    
+    public void createBuyButtons()
+    {
+        for(int i = 0; i < GameManager.items.size(); i++)
+        {
+            final int final_i = i;
+
+            JButton button = new JButton("[ "+GameManager.items.get(i).getName() + " ] Price: "+GameManager.items.get(i).getPrice()+" Gold");
+            button.setBackground(lightGreen);
+            button.setForeground(Color.black);
+            button.setFont(pixelFont.deriveFont(25f));
+            button.setHorizontalAlignment(JTextField.CENTER);
+            button.setVerticalAlignment(JTextField.CENTER);
+            button.setFocusPainted(false);
+
+            button.addActionListener((ActionEvent e) -> GUILogic.buyItemEvent(GameManager.items.get(final_i)));
+
+            buyPanel.add(button);
+        }
+
+        if(GameManager.items.size() < 6)
+        {
+            int emptyLabels = 6 - GameManager.items.size();
+
+            for(int i = 0; i < emptyLabels; i++)
+            {
+                JLabel empty = new JLabel();
+                buyPanel.add(empty);
+            }
+        }
+        else if((GameManager.items.size() % 2) != 0)
+        {
+            JLabel empty = new JLabel();
             buyPanel.add(empty);
         }
     }
@@ -1076,7 +1119,7 @@ public class GUIHandler
             if(GameManager.inventory.size() > 6)
                 sellPanel = new JPanel(new GridLayout(num/2, 2));            
             else 
-                sellPanel = new JPanel(new GridLayout(3, 2));
+                sellPanel = new JPanel(new GridLayout(3, 2));            
             
             
             sellPanel.setPreferredSize(new Dimension(width/2 - 25, (height/6)*GameManager.inventory.size() - 25));
@@ -1086,51 +1129,13 @@ public class GUIHandler
             sellScrollPane.setBounds(25, 25, width, height);
             container.add(sellScrollPane);
                     
-            for(int i = 0; i < GameManager.inventory.size(); i++)
-            {
-                final int final_i = i;
-
-                JButton button = new JButton("[ "+GameManager.inventory.get(i).getName() + " ] Sell: "+GameManager.inventory.get(i).getPrice()+" Gold");
-                button.setBackground(Color.LIGHT_GRAY);
-                button.setForeground(Color.black);
-                button.setFont(pixelFont.deriveFont(1, 25f));
-                button.setHorizontalAlignment(JTextField.CENTER);
-                button.setVerticalAlignment(JTextField.CENTER);
-                button.setFocusPainted(false);
-
-                //button.addActionListener((ActionEvent e) -> GUILogic.sellItemEvent(GameManager.inventory.get(final_i)));
-                button.addActionListener((ActionEvent e) ->
-                {
-                    GUILogic.sellItemEvent(GameManager.inventory.get(final_i));
-                    exitSellMenu();
-                    createSellMenu();
-                });
-
-                sellPanel.add(button);
-            }
-            
-            if(GameManager.inventory.size() < 6)
-            {
-                int emptyLabels = 6 - GameManager.inventory.size();
-
-                for(int i = 0; i < emptyLabels; i++)
-                {
-                    JLabel empty = new JLabel();
-                    //empty.setBorder(BorderFactory.createLineBorder(Color.black));
-                    sellPanel.add(empty);
-                }
-            }
-            else if((GameManager.inventory.size() % 2) != 0)
-            {
-                JLabel empty = new JLabel();
-                //empty.setBorder(BorderFactory.createLineBorder(Color.black));
-                sellPanel.add(empty);
-            }
+            createSellButtons();
         }
         else
         {
             sellPanel = new JPanel(new GridLayout(1, 1));
             sellPanel.setBounds(25, 25, width, height);
+            sellPanel.setBackground(semiTransparent);
             sellPanel.setBorder(BorderFactory.createLineBorder(Color.black));
             container.add(sellPanel);            
             
@@ -1139,6 +1144,48 @@ public class GUIHandler
             empty.setFont(pixelFont.deriveFont(30f));
             empty.setHorizontalAlignment(JTextField.CENTER);
             empty.setVerticalAlignment(JTextField.CENTER);
+            sellPanel.add(empty);
+        }
+    }
+    
+    public void createSellButtons()
+    {
+        for(int i = 0; i < GameManager.inventory.size(); i++)
+        {
+            final int final_i = i;
+
+            JButton button = new JButton("[ "+GameManager.inventory.get(i).getName() + " ] Sell: "+GameManager.inventory.get(i).getPrice()+" Gold");
+            button.setBackground(lightGreen);
+            button.setForeground(Color.black);
+            button.setFont(pixelFont.deriveFont(25f));
+            button.setHorizontalAlignment(JTextField.CENTER);
+            button.setVerticalAlignment(JTextField.CENTER);
+            button.setFocusPainted(false);
+            
+            button.addActionListener((ActionEvent e) ->
+            {
+                GUILogic.sellItemEvent(GameManager.inventory.get(final_i));
+                
+                exitSellMenu();
+                createSellMenu();
+            });
+
+            sellPanel.add(button);
+        }
+
+        if(GameManager.inventory.size() < 6)
+        {
+            int emptyLabels = 6 - GameManager.inventory.size();
+
+            for(int i = 0; i < emptyLabels; i++)
+            {
+                JLabel empty = new JLabel();
+                sellPanel.add(empty);
+            }
+        }
+        else if((GameManager.inventory.size() % 2) != 0)
+        {
+            JLabel empty = new JLabel();
             sellPanel.add(empty);
         }
     }
