@@ -1,5 +1,6 @@
 package Assignment2;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -28,6 +29,8 @@ public class GameDataTest
     
     //</editor-fold>    
     
+    //WARNINING: Testing this class will result in currently saved inventory data to be deleted / emptied
+    
     @Before
     public void setUp() 
     {
@@ -43,6 +46,7 @@ public class GameDataTest
     {
         //to remove any unnecessary save data created through testing
         GameManager.gameDataDB.removeSaveData();
+        GameManager.gameDataDB.clearInventory();
     }
 
     /**
@@ -165,6 +169,80 @@ public class GameDataTest
         
         boolean expResult = true; //as the arraylist should now have a size of at least 1 enemy object
         boolean result = (GameManager.enemies.size() >= 1);
+        
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of readItemList method, of class GameData.
+     */
+    @Test
+    public void testReadItemList() 
+    {
+        System.out.println("readItemList");
+        
+        GameManager.inventory = new ArrayList<>();  //initially empty the arraylist
+        
+        //this method should re-populate the arraylist with the preset item data in the database
+        GameManager.gameDataDB.readItemList();
+        
+        boolean expResult = true; //as the arraylist should now have a size of at least 1 item object
+        boolean result = (GameManager.items.size() >= 1);
+        
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of readInventory method, of class GameData.
+     */
+    @Test
+    public void testReadInventory() 
+    {
+        System.out.println("readInventory");
+        
+        GameManager.inventory = new ArrayList<>(); //initially empty the array list        
+        GameManager.inventory.add(new Item("Test Item 2", "c", 5, 10));
+        //clear the current table and insert the test item into the database
+        GameManager.gameDataDB.writeInventory();
+        
+        //the test item should now be read when this method is called
+        GameManager.gameDataDB.readInventory();
+        
+        String expResult = "Test Item 2"; //the first index of the arraylist should now be the test item
+        String result = GameManager.inventory.get(0).getName();
+        
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of writeInventory method, of class GameData.
+     */
+    @Test
+    public void testWriteInventory() 
+    {
+        System.out.println("writeInventory");
+        
+        //reinitialise the arraylist with two different test items
+        GameManager.inventory = new ArrayList<>();      
+        
+        GameManager.inventory.add(new Item("Test Item 100", "c", 5, 10));
+        GameManager.inventory.add(new Item("Test Item 2", "c", 15, 20));
+        
+        //this method should now insert the two test items into the database
+        GameManager.gameDataDB.writeInventory();
+        
+        //read from the database and add to the arraylist
+        GameManager.gameDataDB.readInventory();
+        
+        for(Item i : GameManager.inventory)
+        {
+            System.out.println(i);
+        }
+        
+        System.out.println(GameManager.inventory.size());
+        
+        boolean expResult = true; //as the first and second index of the arraylist should now be Test Item and Test Item 2
+        boolean result = GameManager.inventory.get(0).getName().equals("Test Item 100") && GameManager.inventory.get(1).getName().equals("Test Item 2");
         
         assertEquals(expResult, result);
     }

@@ -26,43 +26,43 @@ public class GUIUpdate
         switch(position)
         {
             case "Town" -> {
-                GameManager.gui.gameButton1.setText("( Adventure )");
-                GameManager.gui.gameButton2.setText("( Rest )");
-                GameManager.gui.gameButton3.setText("( Shop )");
-                GameManager.gui.gameButton4.setText("( Save )");
+                GameManager.gui.gameButton1.setText("< Adventure >");
+                GameManager.gui.gameButton2.setText("< Rest >");
+                GameManager.gui.gameButton3.setText("< Shop >");
+                GameManager.gui.gameButton4.setText("< Save >");
             }
             case "Inn" -> {
-                GameManager.gui.gameButton1.setText("( Yes )");
-                GameManager.gui.gameButton2.setText("( No )");
+                GameManager.gui.gameButton1.setText("< Yes >");
+                GameManager.gui.gameButton2.setText("< No >");
                 GameManager.gui.gameButton3.setText("");
                 GameManager.gui.gameButton4.setText("");
             }
             case "Shop" -> {
-                GameManager.gui.gameButton1.setText("( Buy )");
-                GameManager.gui.gameButton2.setText("( Sell )");
-                GameManager.gui.gameButton3.setText("( Exit )");
+                GameManager.gui.gameButton1.setText("< Buy >");
+                GameManager.gui.gameButton2.setText("< Sell >");
+                GameManager.gui.gameButton3.setText("< Exit >");
                 GameManager.gui.gameButton4.setText("");
             }
             case "Adventure" -> {
-                GameManager.gui.gameButton1.setText("( Explore )");
-                GameManager.gui.gameButton2.setText("( Inventory )");
-                GameManager.gui.gameButton3.setText("( Town )");
+                GameManager.gui.gameButton1.setText("< Explore >");
+                GameManager.gui.gameButton2.setText("< Inventory >");
+                GameManager.gui.gameButton3.setText("< Town >");
                 GameManager.gui.gameButton4.setText("");
             }
             case "Combat" -> {
-                GameManager.gui.gameButton1.setText("( Fight )");
-                GameManager.gui.gameButton2.setText("( Inventory )");
-                GameManager.gui.gameButton3.setText("( Run )");
+                GameManager.gui.gameButton1.setText("< Fight >");
+                GameManager.gui.gameButton2.setText("< Inventory >");
+                GameManager.gui.gameButton3.setText("< Run >");
                 GameManager.gui.gameButton4.setText("");
             }
             case "Return" -> {
-                GameManager.gui.gameButton1.setText("( Exit )");
+                GameManager.gui.gameButton1.setText("< Exit >");
                 GameManager.gui.gameButton2.setText("");
                 GameManager.gui.gameButton3.setText("");
                 GameManager.gui.gameButton4.setText("");
             }
             case "Continue" -> {
-                GameManager.gui.gameButton1.setText("( Continue )");
+                GameManager.gui.gameButton1.setText("< Continue >");
                 GameManager.gui.gameButton2.setText("");
                 GameManager.gui.gameButton3.setText("");
                 GameManager.gui.gameButton4.setText("");

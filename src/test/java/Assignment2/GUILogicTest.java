@@ -33,10 +33,9 @@ public class GUILogicTest
     {
         GameManager.gameDataDB = new GameData(); //initialise database
         
-        //initialise test player with enough gold to afford a rest (and missing health to restore)
+        //initialise test player with some missing HP to be restored in the restEvent test
         GameManager.player = new Player("Test Player");
         GameManager.player.setCurrentHP(15);
-        GameManager.player.setGold(25);
         
         //initialise a random enemy 
         CombatHandler.setRandomEnemy();
@@ -147,9 +146,10 @@ public class GUILogicTest
     {
         System.out.println("restEvent");
         
+        GameManager.player.setGold(25); //set enough gold to afford the rest
         GUILogic.restEvent();
         
-        boolean expResult = true;
+        boolean expResult = true; //as the player should be restored to full health
         boolean result = (GameManager.player.getCurrentHP() == GameManager.player.getMaxHP());
         
         assertEquals(expResult, result);
@@ -175,6 +175,44 @@ public class GUILogicTest
         //with these test choices, the method should set the position to "Adventure"
         String expResult = "Adventure";
         String result = GUILogic.position;
+        
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of buyItemEvent method, of class GUILogic.
+     */
+    @Test
+    public void testBuyItemEvent() 
+    {
+        System.out.println("buyItemEvent");
+        
+        GameManager.player.setGold(15); //set enough gold to purcahse item
+        Item item = new Item("Test Item", "c", 5, 10); //initialise a test item
+        
+        GUILogic.buyItemEvent(item);
+        
+        int expResult = 5; //as 10 gold should be subtracted from the initial 15 to account for the item cost
+        int result = GameManager.player.getGold();
+        
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of sellItemEvent method, of class GUILogic.
+     */
+    @Test
+    public void testSellItemEvent() 
+    {
+        System.out.println("sellItemEvent");
+        
+        GameManager.player.setGold(0); //initialise gold to 0
+        Item item = new Item("Test Item", "c", 5, 10); //initialise test item
+        
+        GUILogic.sellItemEvent(item);
+        
+        int expResult = 10; //as the player shoulve gained gold equal to the test item sell price (10)
+        int result = GameManager.player.getGold();
         
         assertEquals(expResult, result);
     }

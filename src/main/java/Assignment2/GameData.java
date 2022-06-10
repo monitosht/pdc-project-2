@@ -312,15 +312,12 @@ public class GameData
     {
         try
         {
-            statement = conn.createStatement();
-            
-            String query = "DELETE FROM inventory";            
-            statement.executeUpdate(query);
-            
-            query = "";
+            clearInventory();
             
             for(Item i : GameManager.inventory)
             {
+                String query = "";
+                
                 query += "INSERT INTO inventory VALUES ('"
                     +i.getName()+"','"
                     +i.getType()+"',"
@@ -328,6 +325,22 @@ public class GameData
                     +i.getPrice()+")";
                 statement.executeUpdate(query);                
             }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+    }
+    
+    //Convinience methods
+    public void clearInventory()
+    {
+        try
+        {
+            statement = conn.createStatement();
+            
+            String query = "DELETE FROM inventory";            
+            statement.executeUpdate(query);
         }
         catch(SQLException e)
         {

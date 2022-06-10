@@ -1,5 +1,6 @@
 package Assignment2;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,7 +37,10 @@ public class GameManagerTest
         
         GameManager.gameDataDB = new GameData(); //initialise database
         GameManager.player = new Player("Test Player"); //create a test player
-        GameManager.player.setXP(10); //set enough xp to be able to level up         
+        GameManager.player.setXP(10); //set enough xp to be able to level up     
+        
+        //to test the inventory array builder
+       
     }
     
     @After

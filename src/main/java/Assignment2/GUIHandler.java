@@ -779,7 +779,7 @@ public class GUIHandler
         gameButton1 = new JButton("[ A ]");
         gameButton1.setBackground(Color.white);
         gameButton1.setForeground(Color.black);
-        gameButton1.setFont(pixelFont);
+        gameButton1.setFont(pixelFont.deriveFont(1));;
         gameButton1.setFocusPainted(false);
         gameButtonPanel.add(gameButton1);        
         gameButton1.addActionListener(gameButtonHandler);
@@ -788,7 +788,7 @@ public class GUIHandler
         gameButton2 = new JButton("[ B ]");
         gameButton2.setBackground(Color.white);
         gameButton2.setForeground(Color.black);
-        gameButton2.setFont(pixelFont);
+        gameButton2.setFont(pixelFont.deriveFont(1));
         gameButton2.setFocusPainted(false);
         gameButtonPanel.add(gameButton2);
         gameButton2.addActionListener(gameButtonHandler);
@@ -797,7 +797,7 @@ public class GUIHandler
         gameButton3 = new JButton("[ C ]");
         gameButton3.setBackground(Color.white);
         gameButton3.setForeground(Color.black);
-        gameButton3.setFont(pixelFont);
+        gameButton3.setFont(pixelFont.deriveFont(1));
         gameButton3.setFocusPainted(false);
         gameButtonPanel.add(gameButton3);
         gameButton3.addActionListener(gameButtonHandler);
@@ -806,7 +806,7 @@ public class GUIHandler
         gameButton4 = new JButton("[ D ]");
         gameButton4.setBackground(Color.white);
         gameButton4.setForeground(Color.black);
-        gameButton4.setFont(pixelFont);
+        gameButton4.setFont(pixelFont.deriveFont(1));
         gameButton4.setFocusPainted(false);
         gameButtonPanel.add(gameButton4);
         gameButton4.addActionListener(gameButtonHandler);
