@@ -8,9 +8,7 @@ public class Main
 {
     public static void main(String[] args) 
     {
-        GameManager.gameDataDB = new GameData();    
-        
-        GUIHandler.createWindow();
-        GUIHandler.createMainMenu();
+        GameManager.gameDataDB = new GameData();   
+        GameManager.gui = new GUIHandler();        
     }
 }

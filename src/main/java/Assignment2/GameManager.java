@@ -9,8 +9,8 @@ import java.util.Random;
  */
 public class GameManager 
 {
-    public static Player player;
-    
+    public static Player player;    
+    public static GUIHandler gui;
     public static GameData gameDataDB;
     
     public static ArrayList<String> saves;
@@ -57,7 +57,7 @@ public class GameManager
     {
         StoryHandler.displayOutro();        
         
-        GUIHandler.gameCompletedPrompt();
+        gui.gameCompletedPrompt();
         gameDataDB.writePlayerSaveData(); //autosave
     }
     
@@ -65,9 +65,9 @@ public class GameManager
     {
         gameDataDB.removeSaveData();        
         
-        if(GUIHandler.gameOverPrompt() == 0)
+        if(gui.gameOverPrompt() == 0)
         {
-            GUIHandler.createMainMenu();
+            gui.createMainMenu();
         }
         else
         {
@@ -79,7 +79,7 @@ public class GameManager
     {
         if(act > 5)
         {
-            GUIHandler.gameCompletedPrompt();
+            gui.gameCompletedPrompt();
             return true;
         }
         return false;
