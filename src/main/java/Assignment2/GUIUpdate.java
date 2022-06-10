@@ -1,9 +1,5 @@
 package Assignment2;
 
-import static Assignment2.GUIHandler.gameButton1;
-import static Assignment2.GUIHandler.gameButton2;
-import static Assignment2.GUIHandler.gameButton3;
-import static Assignment2.GUIHandler.gameButton4;
 import static Assignment2.GUILogic.position;
         
 /**
@@ -18,11 +14,11 @@ public class GUIUpdate
     //Main Game update methods
     static void updateMainTextArea(String text)
     {
-        if(GUIHandler.mainTextArea == null) 
+        if(GameManager.gui.mainTextArea == null) 
             return; 
         
         textAreaText += "\n\n"+text;
-        GUIHandler.mainTextArea.setText(textAreaText);
+        GameManager.gui.mainTextArea.setText(textAreaText);
     }
     
     static void updateGameButtonText()
@@ -30,92 +26,95 @@ public class GUIUpdate
         switch(position)
         {
             case "Town" -> {
-                gameButton1.setText("( Adventure )");
-                gameButton2.setText("( Rest )");
-                gameButton3.setText("( Shop )");
-                gameButton4.setText("( Save )");
+                GameManager.gui.gameButton1.setText("( Adventure )");
+                GameManager.gui.gameButton2.setText("( Rest )");
+                GameManager.gui.gameButton3.setText("( Shop )");
+                GameManager.gui.gameButton4.setText("( Save )");
             }
             case "Inn" -> {
-                gameButton1.setText("( Yes )");
-                gameButton2.setText("( No )");
-                gameButton3.setText("");
-                gameButton4.setText("");
+                GameManager.gui.gameButton1.setText("( Yes )");
+                GameManager.gui.gameButton2.setText("( No )");
+                GameManager.gui.gameButton3.setText("");
+                GameManager.gui.gameButton4.setText("");
             }
             case "Shop" -> {
-                gameButton1.setText("( Buy )");
-                gameButton2.setText("( Sell )");
-                gameButton3.setText("( Exit )");
-                gameButton4.setText("");
+                GameManager.gui.gameButton1.setText("( Buy )");
+                GameManager.gui.gameButton2.setText("( Sell )");
+                GameManager.gui.gameButton3.setText("( Exit )");
+                GameManager.gui.gameButton4.setText("");
             }
             case "Adventure" -> {
-                gameButton1.setText("( Explore )");
-                gameButton2.setText("( Inventory )");
-                gameButton3.setText("( Town )");
-                gameButton4.setText("");
+                GameManager.gui.gameButton1.setText("( Explore )");
+                GameManager.gui.gameButton2.setText("( Inventory )");
+                GameManager.gui.gameButton3.setText("( Town )");
+                GameManager.gui.gameButton4.setText("");
             }
             case "Combat" -> {
-                gameButton1.setText("( Fight )");
-                gameButton2.setText("( Inventory )");
-                gameButton3.setText("( Run )");
-                gameButton4.setText("");
+                GameManager.gui.gameButton1.setText("( Fight )");
+                GameManager.gui.gameButton2.setText("( Inventory )");
+                GameManager.gui.gameButton3.setText("( Run )");
+                GameManager.gui.gameButton4.setText("");
             }
             case "Return" -> {
-                gameButton1.setText("( Exit )");
-                gameButton2.setText("");
-                gameButton3.setText("");
-                gameButton4.setText("");
+                GameManager.gui.gameButton1.setText("( Exit )");
+                GameManager.gui.gameButton2.setText("");
+                GameManager.gui.gameButton3.setText("");
+                GameManager.gui.gameButton4.setText("");
             }
             case "Continue" -> {
-                gameButton1.setText("( Continue )");
-                gameButton2.setText("");
-                gameButton3.setText("");
-                gameButton4.setText("");
+                GameManager.gui.gameButton1.setText("( Continue )");
+                GameManager.gui.gameButton2.setText("");
+                GameManager.gui.gameButton3.setText("");
+                GameManager.gui.gameButton4.setText("");
             }
         }
     }
     
     static void updatePlayerCard()
     {
-        if(GUIHandler.playerStatsCard == null) return;
+        if(GameManager.gui.playerStatsCard == null)
+            return;
         
-        GUIHandler.playerNameLabel.setText(""+GameManager.player.getName());  
+        GameManager.gui.playerNameLabel.setText(""+GameManager.player.getName());  
         
-        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Shop")) GUIHandler.locationLabel.setText("<Town>");
-        else GUIHandler.locationLabel.setText("<"+GameManager.getCurrentLocation()+">");
+        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Shop")) 
+            GameManager.gui.locationLabel.setText("<Town>");
+        else 
+            GameManager.gui.locationLabel.setText("<"+GameManager.getCurrentLocation()+">");
         
-        GUIHandler.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
-        GUIHandler.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());
-        GUIHandler.intLabel.setText("[ INTELLECT ] "+GameManager.player.getIntellect());
-        GUIHandler.defLabel.setText("[ DEFENCE ] "+GameManager.player.getDefence());
-        GUIHandler.levelLabel.setText("[ LEVEL ] "+GameManager.player.getLevel());
-        GUIHandler.xpLabel.setText("[ XP ] "+GameManager.player.getXP());
-        GUIHandler.goldLabel.setText("[ GOLD ] "+GameManager.player.getGold());
+        GameManager.gui.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
+        GameManager.gui.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());
+        GameManager.gui.intLabel.setText("[ INTELLECT ] "+GameManager.player.getIntellect());
+        GameManager.gui.defLabel.setText("[ DEFENCE ] "+GameManager.player.getDefence());
+        GameManager.gui.levelLabel.setText("[ LEVEL ] "+GameManager.player.getLevel());
+        GameManager.gui.xpLabel.setText("[ XP ] "+GameManager.player.getXP());
+        GameManager.gui.goldLabel.setText("[ GOLD ] "+GameManager.player.getGold());
     }
     
     //Combat Elements update methods
     static void updateCombatTextArea(String text)
     {
-        if(GUIHandler.combatTextArea == null) 
+        if(GameManager.gui.combatTextArea == null) 
             return;
         
         combatText += "\n\n"+text;
-        GUIHandler.combatTextArea.setText(combatText);
+        GameManager.gui.combatTextArea.setText(combatText);
     }
         
     static void updatePlayerCombatCard()
     {
-        if(GUIHandler.playerHP != null) 
-            GUIHandler.playerHP.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
+        if(GameManager.gui.playerHP != null) 
+            GameManager.gui.playerHP.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
         
         updatePlayerCard();
     }
     
     static void updateEnemyCombatCard(Enemy enemy)
     {
-        if(GUIHandler.enemyHP == null)
+        if(GameManager.gui.enemyHP == null)
             return;
         
-        GUIHandler.enemyName.setText("[ "+enemy.getName()+" ]");
-        GUIHandler.enemyHP.setText("[ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
+        GameManager.gui.enemyName.setText("[ "+enemy.getName()+" ]");
+        GameManager.gui.enemyHP.setText("[ HP ] "+enemy.getCurrentHP()+" / "+enemy.getMaxHP());
     }
 }

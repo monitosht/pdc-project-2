@@ -109,7 +109,7 @@ public class GUILogic
                 continueEvent(0, 0);
                 break;
             case 2: //inventory
-                GUIHandler.inventoryPrompt();
+                GameManager.gui.inventoryPrompt();
                 break;
             case 3: //town
                 townArea(2);                
@@ -153,7 +153,7 @@ public class GUILogic
                 }        
                 break;
             case 2: //inventory
-                GUIHandler.inventoryPrompt();
+                GameManager.gui.inventoryPrompt();
                 break;
             case 3: //run
                 if(CombatLogic.runFromCombat(CombatLogic.currentEnemy)) 
@@ -201,8 +201,8 @@ public class GUILogic
         switch(choice)
         {
             case 1: //return
-                GUIHandler.exitBuyMenu();
-                GUIHandler.exitSellMenu();
+                GameManager.gui.exitBuyMenu();
+                GameManager.gui.exitSellMenu();
                 townArea(3);
                 break;
             default:
@@ -220,15 +220,15 @@ public class GUILogic
                 switch(choice2)
                 {
                     case 1: //buy menu
-                        GUIHandler.createBuyMenu();
+                        GameManager.gui.createBuyMenu();
                         returnEvent(0);
                         break;
                     case 2: //sell menu
-                        GUIHandler.createSellMenu();
+                        GameManager.gui.createSellMenu();
                         returnEvent(0);
                         break;
                     case 3: //entering combat
-                        GUIHandler.createCombatScene();
+                        GameManager.gui.createCombatScene();
                         GUIUpdate.updatePlayerCombatCard();
                         combatArea(0);                       
                         break;
@@ -236,11 +236,11 @@ public class GUILogic
                         combatArea(0); 
                         break;
                     case 5: //return from combat                        
-                        GUIHandler.exitCombatScene();                        
+                        GameManager.gui.exitCombatScene();                        
                         adventureArea(4);
                         break;
                     case 6: //force return to town
-                        GUIHandler.exitCombatScene();
+                        GameManager.gui.exitCombatScene();
                         //adventureArea(3);
                         townArea(1);
                         break;

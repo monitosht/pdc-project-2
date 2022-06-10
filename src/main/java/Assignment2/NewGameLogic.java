@@ -80,10 +80,10 @@ public class NewGameLogic
                 }
                 break;
         }        
-        GUIHandler.promptText.setText("Points Remaining: "+points);
-        GUIHandler.strValue.setText(""+strValue);
-        GUIHandler.intValue.setText(""+intValue);
-        GUIHandler.defValue.setText(""+defValue);
+        GameManager.gui.promptText.setText("Points Remaining: "+points);
+        GameManager.gui.strValue.setText(""+strValue);
+        GameManager.gui.intValue.setText(""+intValue);
+        GameManager.gui.defValue.setText(""+defValue);
     }
     
     public static void setPlayer()
