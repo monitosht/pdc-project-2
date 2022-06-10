@@ -22,8 +22,7 @@ public class GUILogic
         
         switch(choice)
         {
-            case 0://arrive for the first time
-                System.out.println(GameManager.act);
+            case 0://arrive for the first time                
                 if(GameManager.act == 0) StoryHandler.displayIntro(); //only display the prologue for new players
             case 1: 
                 GameManager.act = player.getLevel();
@@ -76,8 +75,6 @@ public class GUILogic
                 break;
             case 2: //sell
                 updateMainTextArea("Shopkeeper: Lets see what you've got to offer...");
-                //SetupGUI.createSellMenu();
-                //returnEvent(0);
                 continueChoice = 2;
                 continueEvent(0, 0);
                 break;
@@ -177,7 +174,7 @@ public class GUILogic
     //Event methods
     static void restEvent()
     {
-        if((player.getGold() > 25) && (player.getCurrentHP() != player.getMaxHP()))
+        if((player.getGold() >= 25) && (player.getCurrentHP() != player.getMaxHP()))
         {
             player.setGold(player.getGold() - 25);
             player.setCurrentHP(player.getMaxHP());
