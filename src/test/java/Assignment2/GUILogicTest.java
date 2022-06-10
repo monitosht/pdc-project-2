@@ -39,7 +39,7 @@ public class GUILogicTest
         GameManager.player.setGold(25);
         
         //initialise a random enemy 
-        CombatLogic.setRandomEnemy();
+        CombatHandler.setRandomEnemy();
         
         //required to test methods that require GUI elements
         GUIHandler.createWindow();

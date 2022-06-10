@@ -103,8 +103,8 @@ public class GUILogic
             case 1: //explore
                 updateMainTextArea("You progress further into the "+GameManager.getCurrentLocation()+"...");
                 
-                CombatLogic.setRandomEnemy();
-                updateMainTextArea("...\nEnemy encoutered! <"+CombatLogic.currentEnemy.getName()+">");
+                CombatHandler.setRandomEnemy();
+                updateMainTextArea("...\nEnemy encoutered! <"+CombatHandler.currentEnemy.getName()+">");
                 continueChoice = 3;
                 continueEvent(0, 0);
                 break;
@@ -132,7 +132,7 @@ public class GUILogic
         switch(choice)
         {
             case 1: //fight
-                if(CombatLogic.combatEvent(CombatLogic.currentEnemy))
+                if(CombatHandler.combatEvent(CombatHandler.currentEnemy))
                 {
                     if(GameManager.levelledUp)
                     {
@@ -156,7 +156,7 @@ public class GUILogic
                 GUIHandler.inventoryPrompt();
                 break;
             case 3: //run
-                if(CombatLogic.runFromCombat(CombatLogic.currentEnemy)) 
+                if(CombatHandler.runFromCombat(CombatHandler.currentEnemy)) 
                 {
                     continueChoice = 5;
                     continueEvent(0,0);

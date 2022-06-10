@@ -9,7 +9,7 @@ import static Assignment2.GameManager.player;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class CombatLogic 
+public class CombatHandler 
 {
     //Variables
     public static Enemy currentEnemy;      
