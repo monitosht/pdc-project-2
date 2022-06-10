@@ -431,7 +431,11 @@ public class GUIHandler
         constMenuButton.setFocusPainted(false);
         constMenuPanel.add(constMenuButton);
         
-        constMenuButton.addActionListener((ActionEvent e) -> createMainMenu());
+        constMenuButton.addActionListener((ActionEvent e) -> 
+        {
+            if(confirmQuitPrompt() == 0)
+                createMainMenu();      
+        });
         
         //QUIT
         constQuitPanel = new JPanel(new GridBagLayout());
@@ -445,7 +449,11 @@ public class GUIHandler
         constQuitButton.setFocusPainted(false);
         constQuitPanel.add(constQuitButton);
         
-        constQuitButton.addActionListener((ActionEvent e) -> System.exit(0)); 
+        constQuitButton.addActionListener((ActionEvent e) ->
+        {
+            if(confirmQuitPrompt() == 0)
+                System.exit(0);                
+        });
         
         //reset size variables
         width = 240;
@@ -1068,6 +1076,14 @@ public class GUIHandler
         return JOptionPane.showConfirmDialog(null, boxText, "Save Overwrite Warning", JOptionPane.YES_NO_OPTION);
     }
     
+    public int confirmQuitPrompt()
+    {
+        JLabel boxText = new JLabel("Unsaved data will be lost. Continue?");
+        boxText.setFont(pixelFont.deriveFont(20f));
+        
+        return JOptionPane.showConfirmDialog(null, boxText, "Confirm Quit", JOptionPane.ERROR_MESSAGE, JOptionPane.YES_NO_OPTION);
+    }
+    
     public void inventoryPrompt()
     {
         Object[] items = {"potion", "sword", "potion"};
@@ -1076,8 +1092,8 @@ public class GUIHandler
         JLabel boxText = new JLabel("Select an Item to use:");
         boxText.setFont(pixelFont.deriveFont(20f));
         
-        UIManager.put("OptionPane.okButtonText", "USE");
-        UIManager.put("OptionPane.cancelButtonText", "EXIT");
+        UIManager.put("OptionPane.okButtonText", "Use");
+        UIManager.put("OptionPane.cancelButtonText", "Exit");
         String playerInput = (String)JOptionPane.showInputDialog(null, boxText, "Inventory", JOptionPane.PLAIN_MESSAGE, null, items, defaultSelection);
         if(playerInput != null)
         { 
@@ -1103,7 +1119,7 @@ public class GUIHandler
         JLabel boxText = new JLabel("You have rid the town of all evil - the game has been completed!");
         boxText.setFont(pixelFont.deriveFont(20f));
         
-        UIManager.put("OptionPane.okButtonText", "OK");        
+        UIManager.put("OptionPane.okButtonText", "Ok");        
         JOptionPane.showMessageDialog(null, boxText, "Game Completed", JOptionPane.INFORMATION_MESSAGE);
     }  
         

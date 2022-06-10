@@ -47,11 +47,11 @@ public class GUILogic
         {
             case 1: //yes
                 restEvent();
-                returnEvent(0);
+                townArea(3);
                 break;
             case 2: //no
                 updateMainTextArea("You decline the offer and leave the Inn.");
-                position = "Town";
+                townArea(3);
                 break;
             default:
                 updateMainTextArea("You enter the Town Inn.\nWould you like to rest for the night? (25 Gold)");
@@ -80,7 +80,7 @@ public class GUILogic
                 break;
             case 3: //exit
                 updateMainTextArea("You leave the store.");
-                position = "Town";
+                townArea(3);
                 break;
             default:
                 updateMainTextArea("Shopkeeper: Welcome to the Town General Store.\nWhat would you like to do?");
