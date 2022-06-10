@@ -29,9 +29,7 @@ public class GameManager
     public static void levelUp()
     {
         if(player.getXP() >= (player.getLevel()*10))
-        {            
-            levelledUp = true;
-                
+        {       
             player.setLevel(player.getLevel()+1);
             player.setMaxHP(player.getMaxHP() + 5);
             player.setStrength(player.getStrength() + 2);
@@ -48,8 +46,19 @@ public class GameManager
              +"\n[ INTELLECT ] "+(player.getIntellect() - 2)+" >> "+player.getIntellect()
              +"\n[ DEFENCE ]   "+(player.getDefence() - 2)+" >> "+player.getDefence());
             
+            levelledUp = true;
+            act = player.getLevel();
+            
             if(player.getLevel() > 5) gameCompleted();
         }
+    }
+    
+    public static void gameCompleted()
+    {
+        Story.storyOutro();        
+        
+        GUISetup.gameCompletedPrompt();
+        gameDataDB.writePlayerSaveData(); //autosave
     }
     
     public static void gameOver()
@@ -64,14 +73,6 @@ public class GameManager
         {
             System.exit(0);
         }
-    }
-    
-    public static void gameCompleted()
-    {
-        Story.storyOutro();        
-        
-        GUISetup.gameCompletedPrompt();
-        GameManager.gameDataDB.writePlayerSaveData(); //autosave
     }
     
     public static boolean checkGameCompleted()

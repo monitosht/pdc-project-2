@@ -133,7 +133,7 @@ public class GameData
         }
     }
     
-    public void loadSaveData(String saveName)
+    public void loadSaveData(String name)
     {
         try
         {
@@ -141,7 +141,7 @@ public class GameData
             
             statement = conn.createStatement();
             
-            String query = "SELECT * FROM player_data WHERE name = '"+saveName+"'";
+            String query = "SELECT * FROM player_data WHERE name = '"+name+"'";
             rs = statement.executeQuery(query);
             
             if(rs.next()) //build loaded player 
@@ -170,6 +170,36 @@ public class GameData
             System.err.println("SQLException: " + e.getMessage());
         }            
     }
+    
+    public boolean checkSaveExists(String name)
+    {
+        try
+        {
+            ResultSet rs = null;
+            
+            statement = conn.createStatement();
+            
+            String query = "SELECT * FROM player_data WHERE name = '"+name+"'";
+            rs = statement.executeQuery(query);
+            
+            if(rs.next())
+            {
+                System.out.println("save data with that name exists");
+                return true;
+            }
+            else
+            {
+                System.out.println("save data with that name does NOT exist");
+                return false;
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }      
+        return false;
+    }
+        
     
     public void removeSaveData()
     {        
