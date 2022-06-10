@@ -26,6 +26,19 @@ public class GameManager
     public static String[] locations = {"Town Outskirts", "Dartshaw Hollow", "Hissing Forest", "City Castle", "Final Battle"};
     public static boolean levelledUp;
     
+    public static Item[] buildInventoryArray()
+    {
+        Item[] array = new Item[inventory.size()];
+        
+        for(int i = 0; i < inventory.size(); i++)
+        {
+            array[i] = inventory.get(i);
+            System.out.println(array[i]);
+        }
+        
+        return array;
+    }
+    
     public static void levelUp()
     {
         if(player.getXP() >= (player.getLevel()*10))

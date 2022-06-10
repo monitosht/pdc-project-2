@@ -1197,21 +1197,32 @@ public class GUIHandler
     
     public void inventoryPrompt()
     {
-        Object[] items = {"potion", "sword", "potion"};
+        if(GameManager.inventory.isEmpty())
+        {
+            JLabel boxText = new JLabel("Your inventory is empty!");
+            boxText.setFont(pixelFont.deriveFont(20f));
+            
+            JOptionPane.showMessageDialog(null, boxText, "Inventory Empty", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Object[] items = GameManager.buildInventoryArray();
         Object defaultSelection = items[0];
         
-        JLabel boxText = new JLabel("Select an Item to use:");
+        JLabel boxText = new JLabel("Select the item you would like to to use:");
         boxText.setFont(pixelFont.deriveFont(20f));
         
         UIManager.put("OptionPane.okButtonText", "Use");
         UIManager.put("OptionPane.cancelButtonText", "Exit");
-        String playerInput = (String)JOptionPane.showInputDialog(null, boxText, "Inventory", JOptionPane.PLAIN_MESSAGE, null, items, defaultSelection);
+        Item playerInput = (Item)JOptionPane.showInputDialog(null, boxText, "Inventory", JOptionPane.PLAIN_MESSAGE, null, items, defaultSelection);
         if(playerInput != null)
         { 
+            int index = GameManager.inventory.indexOf(playerInput);            
             if(inCombat == true)
-                GUIUpdate.updateCombatTextArea("Used "+playerInput+"!");
+                GUIUpdate.updateCombatTextArea(GameManager.inventory.get(index).useItem());
             else
-                GUIUpdate.updateMainTextArea("Used "+playerInput+"!");
+                GUIUpdate.updateMainTextArea(GameManager.inventory.get(index).useItem());
+            GUIUpdate.updatePlayerCombatCard();
         }
     }
     

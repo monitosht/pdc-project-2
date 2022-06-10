@@ -195,18 +195,13 @@ public class GUILogic
     
     static void buyItemEvent(Item item)
     {
-        if(player.getGold() > item.getPrice())
+        if(player.getGold() >= item.getPrice())
         {
             player.setGold(player.getGold() - item.getPrice());
             GameManager.inventory.add(item);
             
             GameManager.gui.itemPrompt(item, 0);
             GUIUpdate.updatePlayerCard();
-            
-            for(Item i : GameManager.inventory)
-            {
-                System.out.println(i.getName());
-            }
         }
         else
         {
