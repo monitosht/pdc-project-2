@@ -77,10 +77,15 @@ public class GUIUpdate
         
         GameManager.gui.playerNameLabel.setText(""+GameManager.player.getName());  
         
-        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Shop")) 
+        if(position == null || position.equals("Town") || position.equals("Inn") || position.equals("Return"))
+        {
             GameManager.gui.locationLabel.setText("<Town>");
-        else 
+        }
+        else
+        {
             GameManager.gui.locationLabel.setText("<"+GameManager.getCurrentLocation()+">");
+            
+        }
         
         GameManager.gui.hpLabel.setText("[ HP ] "+GameManager.player.getCurrentHP()+" / "+GameManager.player.getMaxHP());
         GameManager.gui.strLabel.setText("[ STRENGTH ] "+GameManager.player.getStrength());

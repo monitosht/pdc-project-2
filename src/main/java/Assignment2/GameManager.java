@@ -87,9 +87,13 @@ public class GameManager
     
     public static String getCurrentLocation()
     {
-        String s;
-        if(act == 0 || act == 6) s = "<Town>";
-        else s = locations[act-1];
-        return s;
+        String location;
+        
+        if(act == 0 || act == 6)
+            location = "<Town>";
+        else 
+            location = locations[act-1];
+        
+        return location;
     }
 }

@@ -200,7 +200,7 @@ public class GUILogic
             player.setGold(player.getGold() - item.getPrice());
             GameManager.inventory.add(item);
             
-            GameManager.gui.buyItemPrompt(item, true);
+            GameManager.gui.itemPrompt(item, 0);
             GUIUpdate.updatePlayerCard();
             
             for(Item i : GameManager.inventory)
@@ -210,8 +210,16 @@ public class GUILogic
         }
         else
         {
-            GameManager.gui.buyItemPrompt(item, false);
+            GameManager.gui.itemPrompt(item, 1);
         }
+    }
+    
+    static void sellItemEvent(Item item)
+    {
+        GameManager.inventory.remove(item);
+        player.setGold(player.getGold() + item.getPrice());
+        GameManager.gui.itemPrompt(item, 2);
+        GUIUpdate.updatePlayerCard();
     }
     
     static void returnEvent(int choice)

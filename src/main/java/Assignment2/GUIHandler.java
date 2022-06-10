@@ -119,6 +119,7 @@ public class GUIHandler
     // <editor-fold defaultstate="collapsed" desc="Shop/Item Variables">  
     
     JPanel buyPanel;
+    JScrollPane buyScrollPane;
     JPanel sellPanel;
     JScrollPane sellScrollPane;
     
@@ -966,8 +967,6 @@ public class GUIHandler
         if(mainTextPanel   != null) mainTextPanel.setVisible(true);    
     }
     
-    JScrollPane buyScrollPane;
-    
     //Shop methods
     public void createBuyMenu()
     {
@@ -1023,13 +1022,13 @@ public class GUIHandler
                 for(int i = 0; i < emptyLabels; i++)
                 {
                     JLabel empty = new JLabel();
-                    savePanel.add(empty);
+                    buyPanel.add(empty);
                 }
             }
             else if((GameManager.items.size() % 2) != 0)
             {
                 JLabel empty = new JLabel();
-                savePanel.add(empty);
+                buyPanel.add(empty);
             }
         }
         else
@@ -1061,62 +1060,122 @@ public class GUIHandler
         
         //initialise size variables
         width = 1000;
-        height = 600;
+        height = 600;       
         
-        int sellItemsSize = 12;
-        
-        if(sellPanel == null || sellScrollPane == null) //initialise sell panel if it doesnt exist
+        if(!GameManager.inventory.isEmpty())
         {
-            sellPanel = new JPanel(new GridLayout(sellItemsSize/3,3,10,10));
-            sellPanel.setPreferredSize(new Dimension(width, height));
-            //sellPanel.setBounds(25, 25, width, height*3);
-            sellPanel.setBackground(Color.white);
-            sellPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            int num;
             
+            if((GameManager.inventory.size() % 2) != 0)
+                num = GameManager.inventory.size() + 1;
+            else
+                num = GameManager.inventory.size();
+            
+            if(GameManager.inventory.size() > 6)
+                sellPanel = new JPanel(new GridLayout(num/2, 2));            
+            else 
+                sellPanel = new JPanel(new GridLayout(3, 2));
+            
+            
+            sellPanel.setPreferredSize(new Dimension(width/2 - 25, (height/6)*GameManager.inventory.size() - 25));
+            sellPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
             sellScrollPane = new JScrollPane(sellPanel);
-            sellPanel.setAutoscrolls(true);
             sellScrollPane.setBounds(25, 25, width, height);
             container.add(sellScrollPane);
-            
-            for(int i = 0; i < sellItemsSize; i++)
+                    
+            for(int i = 0; i < GameManager.inventory.size(); i++)
             {
-                JButton b = new JButton("Button"+i);
-                b.setBackground(Color.red);
-                b.setForeground(Color.white);
-                b.setFont(pixelFont);
-                sellPanel.add(b);
+                final int final_i = i;
+
+                JButton button = new JButton("[ "+GameManager.inventory.get(i).getName() + " ] Sell: "+GameManager.inventory.get(i).getPrice()+" Gold");
+                button.setBackground(Color.LIGHT_GRAY);
+                button.setForeground(Color.black);
+                button.setFont(pixelFont.deriveFont(1, 25f));
+                button.setHorizontalAlignment(JTextField.CENTER);
+                button.setVerticalAlignment(JTextField.CENTER);
+                button.setFocusPainted(false);
+
+                //button.addActionListener((ActionEvent e) -> GUILogic.sellItemEvent(GameManager.inventory.get(final_i)));
+                button.addActionListener((ActionEvent e) ->
+                {
+                    GUILogic.sellItemEvent(GameManager.inventory.get(final_i));
+                    exitSellMenu();
+                    createSellMenu();
+                });
+
+                sellPanel.add(button);
+            }
+            
+            if(GameManager.inventory.size() < 6)
+            {
+                int emptyLabels = 6 - GameManager.inventory.size();
+
+                for(int i = 0; i < emptyLabels; i++)
+                {
+                    JLabel empty = new JLabel();
+                    //empty.setBorder(BorderFactory.createLineBorder(Color.black));
+                    sellPanel.add(empty);
+                }
+            }
+            else if((GameManager.inventory.size() % 2) != 0)
+            {
+                JLabel empty = new JLabel();
+                //empty.setBorder(BorderFactory.createLineBorder(Color.black));
+                sellPanel.add(empty);
             }
         }
-        else //if the sell panel already exists, enable it
+        else
         {
-            sellScrollPane.setVisible(true);
+            sellPanel = new JPanel(new GridLayout(1, 1));
+            sellPanel.setBounds(25, 25, width, height);
+            sellPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            container.add(sellPanel);            
+            
+            JLabel empty = new JLabel("Your inventory is empty.");
+            empty.setForeground(Color.black);
+            empty.setFont(pixelFont.deriveFont(30f));
+            empty.setHorizontalAlignment(JTextField.CENTER);
+            empty.setVerticalAlignment(JTextField.CENTER);
+            sellPanel.add(empty);
         }
     }
     
     public void exitSellMenu()
     {        
         if(sellScrollPane != null) sellScrollPane.setVisible(false);
+        if(sellPanel      != null) sellPanel.setVisible(false);
         if(mainTextPanel  != null) mainTextPanel.setVisible(true);
     }
     
-    public void buyItemPrompt(Item item, boolean canBuy)
+    public void itemPrompt(Item item, int selection)
     {
-        if(canBuy == true)
+        JLabel boxText = new JLabel();
+        boxText.setFont(pixelFont.deriveFont(20f));        
+        
+        String titleText = "";
+        int messageType = 1;
+        
+        switch(selection)
         {
-            JLabel boxText = new JLabel("You purcahsed [ "+item.getName()+" ] for "+item.getPrice()+" gold!");
-            boxText.setFont(pixelFont.deriveFont(20f));
-
-            UIManager.put("OptionPane.okButtonText", "Ok");        
-            JOptionPane.showMessageDialog(null, boxText, "Purchased Item", JOptionPane.INFORMATION_MESSAGE); 
+            case 0 -> {
+                //can buy item
+                boxText.setText("You purcahsed [ "+item.getName()+" ] for "+item.getPrice()+" gold!");
+                titleText = "Purchased Item";
+            }
+            case 1 -> {
+                //cant buy item
+                boxText.setText("You do not have enough gold to purcahse this item...");
+                titleText = "Insufficent Gold";   
+                messageType = 0;
+            }
+            case 2 -> {
+                //sell item
+                boxText.setText("You sold [ "+item.getName()+" ] for "+item.getPrice()+" gold!");
+                titleText = "Sold Item";
+            }
         }
-        else
-        {            
-            JLabel boxText = new JLabel("You do not have enough gold to purcahse this item...");
-            boxText.setFont(pixelFont.deriveFont(20f));
-
-            UIManager.put("OptionPane.okButtonText", "Ok");        
-            JOptionPane.showMessageDialog(null, boxText, "Insufficent Gold", JOptionPane.ERROR_MESSAGE); 
-        }
+        JOptionPane.showMessageDialog(null, boxText, titleText, messageType);
     }
     
     //Dialog Prompt methods
