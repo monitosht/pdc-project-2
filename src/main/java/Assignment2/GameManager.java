@@ -31,10 +31,7 @@ public class GameManager
         Item[] array = new Item[inventory.size()];
         
         for(int i = 0; i < inventory.size(); i++)
-        {
             array[i] = inventory.get(i);
-            System.out.println(array[i]);
-        }
         
         return array;
     }
@@ -71,7 +68,7 @@ public class GameManager
         StoryHandler.displayOutro();        
         
         gui.gameCompletedPrompt();
-        gameDataDB.writePlayerSaveData(); //autosave
+        gameDataDB.saveGame();
     }
     
     public static void gameOver()

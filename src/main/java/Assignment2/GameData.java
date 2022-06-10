@@ -51,7 +51,7 @@ public class GameData
     {
         try
         {
-            ResultSet rs = null;
+            ResultSet rs;
             
             statement = conn.createStatement();
             
@@ -197,8 +197,7 @@ public class GameData
             System.err.println("SQLException: " + e.getMessage());
         }      
         return false;
-    }
-        
+    }        
     
     public void removeSaveData()
     {        
@@ -221,7 +220,7 @@ public class GameData
         
         try
         {
-            ResultSet rs = null;
+            ResultSet rs;
             
             statement = conn.createStatement();
             
@@ -251,7 +250,7 @@ public class GameData
         
         try
         {
-            ResultSet rs = null;
+            ResultSet rs;
             
             statement = conn.createStatement();
             
@@ -277,6 +276,69 @@ public class GameData
         {
             System.err.println("SQLException: " + e.getMessage());
         }
+    }
+    
+    public void readInventory()
+    {
+        GameManager.inventory = new ArrayList<>();
+        
+        try
+        {
+            ResultSet rs;
+            
+            statement = conn.createStatement();
+            
+            String query = "SELECT * FROM inventory";
+            rs = statement.executeQuery(query);
+            
+            while(rs.next())
+            {
+                String name = rs.getString("item_name");
+                String type = rs.getString("type");
+                int value = rs.getInt("effect_value");
+                int price = rs.getInt("sell_price");
+                
+                Item item = new Item(name, type, value, price);
+                GameManager.inventory.add(item);
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+    }
+    
+    public void writeInventory()
+    {
+        try
+        {
+            statement = conn.createStatement();
+            
+            String query = "DELETE FROM inventory";            
+            statement.executeUpdate(query);
+            
+            query = "";
+            
+            for(Item i : GameManager.inventory)
+            {
+                query += "INSERT INTO inventory VALUES ('"
+                    +i.getName()+"','"
+                    +i.getType()+"',"
+                    +i.getValue()+","
+                    +i.getPrice()+")";
+                statement.executeUpdate(query);                
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        }
+    }
+    
+    public void saveGame()
+    {
+        writePlayerSaveData();
+        writeInventory();
     }
     
     public void closeConnection() 

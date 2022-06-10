@@ -22,7 +22,7 @@ public class GameButtonHandler implements ActionListener
                     case "A" -> GUILogic.adventureArea(0);
                     case "B" -> GUILogic.innArea(0);
                     case "C" -> GUILogic.shopArea(0);
-                    case "D" -> GameManager.gameDataDB.writePlayerSaveData();
+                    case "D" -> GameManager.gameDataDB.saveGame();
                 }
                 break;                
             case "Inn":

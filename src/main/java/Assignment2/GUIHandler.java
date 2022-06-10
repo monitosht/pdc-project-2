@@ -160,13 +160,15 @@ public class GUIHandler
         gameWindow.setVisible(true);        
         //assign container variable to the windows content pane
         container = gameWindow.getContentPane();
-        
-        createMainMenu();
     }
     
     //Main Menu methods
     public void createMainMenu()
     {      
+        //read required data each time main menu is accessed
+        GameManager.gameDataDB.readItemList();
+        GameManager.gameDataDB.readInventory();
+        
         //disable uneeded GUI elements
         exitBuyMenu();
         exitSellMenu();
@@ -716,7 +718,7 @@ public class GUIHandler
                     }
                     case 2 -> 
                     {                                            
-                        GameManager.gameDataDB.writePlayerSaveData(); //save new player data if confirmed
+                        GameManager.gameDataDB.saveGame(); //save new player data if confirmed
                         createGameScene(); //continue to the main game scene
                     }
                 }               
