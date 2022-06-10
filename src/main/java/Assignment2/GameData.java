@@ -215,6 +215,36 @@ public class GameData
         }
     }
     
+    public void readItemList()
+    {
+       GameManager.items = new ArrayList<>();
+        
+        try
+        {
+            ResultSet rs = null;
+            
+            statement = conn.createStatement();
+            
+            String query = "SELECT * FROM item_list";
+            rs = statement.executeQuery(query);
+            
+            while(rs.next())
+            {                             
+                String name = rs.getString("item_name");
+                String type = rs.getString("type");
+                int value = rs.getInt("effect_value");
+                int price = rs.getInt("buy_price");
+                
+                Item item = new Item(name, type, value, price);
+                GameManager.items.add(item);
+            }
+        }
+        catch(SQLException e)
+        {
+            System.err.println("SQLException: " + e.getMessage());
+        } 
+    }
+    
     public void readEnemyList()
     {
         GameManager.enemies = new ArrayList<>();

@@ -966,6 +966,8 @@ public class GUIHandler
         if(mainTextPanel   != null) mainTextPanel.setVisible(true);    
     }
     
+    JScrollPane buyScrollPane;
+    
     //Shop methods
     public void createBuyMenu()
     {
@@ -973,52 +975,59 @@ public class GUIHandler
         
         //initialise size variables
         width = 1000;
-        height = 600;        
+        height = 600;       
         
-        if(buyPanel == null) //initialise buy panel if it doesnt exist
+        if(!GameManager.items.isEmpty())
         {
-            buyPanel = new JPanel(new GridLayout(3,3,10,10));
-            buyPanel.setBounds(25, 25, width, height);
-            buyPanel.setBackground(Color.white);
+            if(GameManager.items.size() > 6)
+                buyPanel = new JPanel(new GridLayout(GameManager.items.size(), 2));            
+            else 
+                buyPanel = new JPanel(new GridLayout(6, 2));
+            
+            
+            buyPanel.setPreferredSize(new Dimension(width/2, (height/6)*GameManager.items.size()));
             buyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-            container.add(buyPanel);
-            
-            JButton b1, b2, b3, b4, b5;
-            
-            b1 = new JButton("Item");
-            b1.setBackground(Color.blue);
-            b1.setForeground(Color.white);
-            b1.setFont(pixelFont);
-            buyPanel.add(b1);
-            b2 = new JButton("Item [ BUY ]");
-            b2.setBackground(Color.blue);
-            b2.setForeground(Color.white);
-            b2.setFont(pixelFont);
-            buyPanel.add(b2);
-            b3 = new JButton("Item");
-            b3.setBackground(Color.blue);
-            b3.setForeground(Color.white);
-            b3.setFont(pixelFont);
-            buyPanel.add(b3);
-            b4 = new JButton("Item");
-            b4.setBackground(Color.blue);
-            b4.setForeground(Color.white);
-            b4.setFont(pixelFont);
-            buyPanel.add(b4);
-            b5 = new JButton("Item");
-            b5.setBackground(Color.blue);
-            b5.setForeground(Color.white);
-            b5.setFont(pixelFont);
-            buyPanel.add(b5);
+
+            buyScrollPane = new JScrollPane(buyPanel);
+            buyScrollPane.setBounds(25, 25, width, height);
+            container.add(buyScrollPane);
+                    
+            for(int i = 0; i < GameManager.items.size(); i++)
+            {
+                final int final_i = i;
+
+                JButton button = new JButton("[ Item ] "+GameManager.items.get(i).getName() + " [ Price ] "+GameManager.items.get(i).getPrice());
+                button.setBackground(Color.LIGHT_GRAY);
+                button.setForeground(Color.black);
+                button.setFont(pixelFont.deriveFont(30f));
+                button.setHorizontalAlignment(JTextField.CENTER);
+                button.setVerticalAlignment(JTextField.CENTER);
+                button.setFocusPainted(false);
+
+                //button.addActionListener((ActionEvent e) -> GameManager.items.get(final_i).Use());
+
+                buyPanel.add(button);
+            }
         }
-        else //if the buy panel already exists, enable it
+        else
         {
-            buyPanel.setVisible(true);
+            buyPanel = new JPanel(new GridLayout(1, 1));
+            buyPanel.setBounds(25, 25, width, height);
+            buyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+            container.add(buyPanel);            
+            
+            JLabel empty = new JLabel("No Item Data Exists");
+            empty.setForeground(Color.black);
+            empty.setFont(pixelFont.deriveFont(30f));
+            empty.setHorizontalAlignment(JTextField.CENTER);
+            empty.setVerticalAlignment(JTextField.CENTER);
+            buyPanel.add(empty);
         }
     }
     
     public void exitBuyMenu()
     {
+        if(buyScrollPane != null) buyScrollPane.setVisible(false);
         if(buyPanel      != null) buyPanel.setVisible(false);
         if(mainTextPanel != null) mainTextPanel.setVisible(true);
     }
