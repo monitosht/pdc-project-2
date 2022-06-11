@@ -7,36 +7,27 @@ import java.awt.event.ActionListener;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class GameButtonHandler implements ActionListener
+public class GUIController implements ActionListener
 {
     @Override
     public void actionPerformed(ActionEvent e)
     {
         String selection = e.getActionCommand();
         
-        if(GUILogic.mainMenu == true)
+        switch(GUIModel.currentMenu)
         {
-            switch(selection) //Main menu buttons
-            {
-                case "New Game Button" -> GameManager.gui.characterCreation(0);
-                case "Continue Button" -> GameManager.gui.createContinueScene();
-                case "Credits Button"  -> GameManager.gui.createCreditsScene();
-                case "Quit Button"     -> System.exit(0);
-            }
-            GameManager.gui.constantButtons();
-            GUILogic.mainMenu = false;
-        }
-        else
-        {
-            switch(selection)
-            {
-                case "Global Main Menu Button" -> GameManager.gui.createMainMenu();
-                case "Global Quit Button"      -> System.exit(0);
-            }
-            
-            if(GUILogic.ccMenu == true)
-            {
-                switch(selection) //Chracter creation buttons
+            case 0: //Main menu
+                switch(selection)
+                {
+                    case "New Game Button" -> GameManager.gui.characterCreation(0);
+                    case "Continue Button" -> GameManager.gui.createContinueScene();
+                    case "Credits Button"  -> GameManager.gui.createCreditsScene();
+                    case "Quit Button"     -> System.exit(0);
+                }
+                GameManager.gui.constantButtons();
+                break;
+            case 1: //Character creation
+                switch(selection)
                 {
                     case "Strength -"  -> CreatePlayer.updateAttribute(0, "str");
                     case "Strength +"  -> CreatePlayer.updateAttribute(1, "str");
@@ -61,20 +52,15 @@ public class GameButtonHandler implements ActionListener
                     {
                         if(CreatePlayer.points > 0)
                         {          
-                            int check = GameManager.gui.unspentPointsPrompt();
+                            int choice = GameManager.gui.unspentPointsPrompt();
                             
-                            if(check == 0)
+                            if(choice != 0)
                             {
-                                CreatePlayer.setPlayer();
-                                GameManager.gui.characterCreation(2);
+                                return;
                             }
                         }
-                        else
-                        {   
-                            CreatePlayer.setPlayer();
-                            GameManager.gui.characterCreation(2);
-                        }
-                        
+                        CreatePlayer.setPlayer();
+                        GameManager.gui.characterCreation(2);
                     }
                     case "Confirm Button 3" -> 
                     {
@@ -82,68 +68,75 @@ public class GameButtonHandler implements ActionListener
                         GameManager.gui.createGameScene(); //continue to the main game scene
                     }
                 }
-            }
-            
-            if(GUILogic.position != null)
-            {                
-                switch(GUILogic.position)
+                break;
+            case 2: //Game scene
+                switch(GUIModel.position)
                 {
                     case "Town":
                         switch(selection)
                         {
-                            case "A" -> GUILogic.adventureArea(0);
-                            case "B" -> GUILogic.innArea(0);
-                            case "C" -> GUILogic.shopArea(0);
+                            case "A" -> GUIModel.adventureArea(0);
+                            case "B" -> GUIModel.innArea(0);
+                            case "C" -> GUIModel.shopArea(0);
                             case "D" -> GameManager.gameDataDB.saveGame();
                         }
                         break;                
                     case "Inn":
                         switch(selection)
                         {
-                            case "A" -> GUILogic.innArea(1); //yes
-                            case "B" -> GUILogic.innArea(2); //no
+                            case "A" -> GUIModel.innArea(1); //yes
+                            case "B" -> GUIModel.innArea(2); //no
                         }
                         break;
                     case "Shop":
                         switch(selection)
                         {
-                            case "A" -> GUILogic.shopArea(1); //buy
-                            case "B" -> GUILogic.shopArea(2); //sell
-                            case "C" -> GUILogic.shopArea(3); //exit
+                            case "A" -> GUIModel.shopArea(1); //buy
+                            case "B" -> GUIModel.shopArea(2); //sell
+                            case "C" -> GUIModel.shopArea(3); //exit
                         }
                         break;
                     case "Adventure":
                         switch(selection)
                         {
-                            case "A" -> GUILogic.adventureArea(1); //explore
-                            case "B" -> GUILogic.adventureArea(2); //inventory
-                            case "C" -> GUILogic.adventureArea(3); //town
+                            case "A" -> GUIModel.adventureArea(1); //explore
+                            case "B" -> GUIModel.adventureArea(2); //inventory
+                            case "C" -> GUIModel.adventureArea(3); //town
                         }
                         break;
                     case "Combat":
                         switch(selection)
                         {
-                            case "A" -> GUILogic.combatArea(1); //fight
-                            case "B" -> GUILogic.combatArea(2); //inventory 
-                            case "C" -> GUILogic.combatArea(3); //run
+                            case "A" -> GUIModel.combatArea(1); //fight
+                            case "B" -> GUIModel.combatArea(2); //inventory 
+                            case "C" -> GUIModel.combatArea(3); //run
                         }
                         break;
                     case "Return":
                         switch(selection)
                         {
-                            case "A" -> GUILogic.returnEvent(1);
+                            case "A" -> GUIModel.returnEvent(1);
                         }
                         break;
                     case "Continue":
                     {
                         switch(selection)
                         {
-                            case "A" -> GUILogic.continueEvent(1, GUILogic.continueChoice);
+                            case "A" -> GUIModel.continueEvent(1, GUIModel.continueChoice);
                         }
                         break;
                     }
                 }
-            }
-        }    
+                break;
+        }
+        
+        if(!GUIModel.mainMenuActive)
+        {
+            switch(selection)
+            {
+                case "Global Main Menu Button" -> GameManager.gui.createMainMenu();
+                case "Global Quit Button"      -> System.exit(0);
+            }  
+        }      
     }   
 }

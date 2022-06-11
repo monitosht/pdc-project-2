@@ -11,11 +11,11 @@ import static org.junit.Assert.*;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class GUILogicTest
+public class GUIModelTest
 {    
     //<editor-fold defaultstate="collapsed" desc="Unused Methods">    
     
-    public GUILogicTest(){
+    public GUIModelTest(){
     }
     
     @BeforeClass
@@ -41,7 +41,7 @@ public class GUILogicTest
         CombatHandler.setRandomEnemy();
         
         //required to test methods that require GUI elements
-        GameManager.gui = new GUIHandler(); 
+        GameManager.gui = new GUIView(); 
         GameManager.gui.createGameScene();
     }
     
@@ -62,12 +62,12 @@ public class GUILogicTest
         System.out.println("innArea");
         int choice = 2;
         
-        GUILogic.position = null; //empty the current position string  
-        GUILogic.innArea(choice); 
+        GUIModel.position = null; //empty the current position string  
+        GUIModel.innArea(choice); 
         
         //choce 2 is the exit button, the method should set the position to "Town"
         String expResult = "Town";
-        String result = GUILogic.position;
+        String result = GUIModel.position;
         
         assertEquals(expResult, result);
     }
@@ -77,12 +77,12 @@ public class GUILogicTest
         System.out.println("shopArea");
         int choice = 3;
         
-        GUILogic.position = null; //empty the current position string          
-        GUILogic.shopArea(choice);
+        GUIModel.position = null; //empty the current position string          
+        GUIModel.shopArea(choice);
         
         //choce 3 is the exit button, the method should set the position to "Town"
         String expResult = "Town";
-        String result = GUILogic.position;
+        String result = GUIModel.position;
         
         assertEquals(expResult, result);
     }
@@ -92,12 +92,12 @@ public class GUILogicTest
         System.out.println("adventureArea");
         int choice = 3;
         
-        GUILogic.position = null; //empty the current position string
-        GUILogic.adventureArea(choice);
+        GUIModel.position = null; //empty the current position string
+        GUIModel.adventureArea(choice);
         
         //choce 3 is the exit button, the method should set the position to "Town"
         String expResult = "Town";
-        String result = GUILogic.position;
+        String result = GUIModel.position;
         
         assertEquals(expResult, result);
     }
@@ -107,19 +107,19 @@ public class GUILogicTest
         System.out.println("returnEvent");
         int choice = 1;
         
-        GUILogic.position = null; //empty the current position string       
-        GUILogic.returnEvent(choice);
+        GUIModel.position = null; //empty the current position string       
+        GUIModel.returnEvent(choice);
         
         //choice 1 confirms the return button and sends the player back to town,
         //the method should set the position as "Town"
         String expResult = "Town";
-        String result = GUILogic.position;
+        String result = GUIModel.position;
         
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of combatArea method, of class GUILogic.
+     * Test of combatArea method, of class GUIModel.
      */
     @Test
     public void testCombatArea() 
@@ -127,19 +127,19 @@ public class GUILogicTest
         System.out.println("combatArea");
         int choice = 3;
         
-        GUILogic.position = null; //empty the current position string      
-        GUILogic.combatArea(choice);
+        GUIModel.position = null; //empty the current position string      
+        GUIModel.combatArea(choice);
 
         //choice 3 is the run button, which should set the position to "Continue",
         //to prompt the player with a continue button to progress
         String expResult = "Continue";
-        String result = GUILogic.position;
+        String result = GUIModel.position;
         
         assertEquals(expResult, result);        
     }
 
     /**
-     * Test of restEvent method, of class GUILogic.
+     * Test of restEvent method, of class GUIModel.
      */
     @Test
     public void testRestEvent() 
@@ -147,7 +147,7 @@ public class GUILogicTest
         System.out.println("restEvent");
         
         GameManager.player.setGold(25); //set enough gold to afford the rest
-        GUILogic.restEvent();
+        GUIModel.restEvent();
         
         boolean expResult = true; //as the player should be restored to full health
         boolean result = (GameManager.player.getCurrentHP() == GameManager.player.getMaxHP());
@@ -156,7 +156,7 @@ public class GUILogicTest
     }
 
     /**
-     * Test of continueEvent method, of class GUILogic.
+     * Test of continueEvent method, of class GUIModel.
      */
     @Test
     public void testContinueEvent() 
@@ -165,22 +165,22 @@ public class GUILogicTest
         int choice1 = 1;
         int choice2 = 5;
         
-        GUILogic.position = null; //empty the current position string                 
+        GUIModel.position = null; //empty the current position string                 
         
         //this method takes in two choice integers, if choice1 is 0, the continue button is enabled
         //if choice1 is 1 then the next button press will continue the game
         //the second choice determines where to progress/return to
-        GUILogic.continueEvent(choice1, choice2);
+        GUIModel.continueEvent(choice1, choice2);
         
         //with these test choices, the method should set the position to "Adventure"
         String expResult = "Adventure";
-        String result = GUILogic.position;
+        String result = GUIModel.position;
         
         assertEquals(expResult, result);
     }
 
     /**
-     * Test of buyItemEvent method, of class GUILogic.
+     * Test of buyItemEvent method, of class GUIModel.
      */
     @Test
     public void testBuyItemEvent() 
@@ -190,7 +190,7 @@ public class GUILogicTest
         GameManager.player.setGold(15); //set enough gold to purcahse item
         Item item = new Item("Test Item", "c", 5, 10); //initialise a test item
         
-        GUILogic.buyItemEvent(item);
+        GUIModel.buyItemEvent(item);
         
         int expResult = 5; //as 10 gold should be subtracted from the initial 15 to account for the item cost
         int result = GameManager.player.getGold();
@@ -199,7 +199,7 @@ public class GUILogicTest
     }
 
     /**
-     * Test of sellItemEvent method, of class GUILogic.
+     * Test of sellItemEvent method, of class GUIModel.
      */
     @Test
     public void testSellItemEvent() 
@@ -209,7 +209,7 @@ public class GUILogicTest
         GameManager.player.setGold(0); //initialise gold to 0
         Item item = new Item("Test Item", "c", 5, 10); //initialise test item
         
-        GUILogic.sellItemEvent(item);
+        GUIModel.sellItemEvent(item);
         
         int expResult = 10; //as the player shoulve gained gold equal to the test item sell price (10)
         int result = GameManager.player.getGold();

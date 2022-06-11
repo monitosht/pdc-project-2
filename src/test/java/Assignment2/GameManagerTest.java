@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class GameManagerTest 
+public class GameManagerTest //When the test is run, please select "main menu" when prompted with the game over dialogue box
 {    
     // <editor-fold defaultstate="collapsed" desc="Unused Methods"> 
     
@@ -33,7 +33,7 @@ public class GameManagerTest
     public void setUp() 
     {
         //required to test the gameOver method as the user can return to the main menu
-        GameManager.gui = new GUIHandler();
+        GameManager.gui = new GUIView();
         
         GameManager.gameDataDB = new GameData(); //initialise database
         GameManager.player = new Player("Test Player"); //create a test player

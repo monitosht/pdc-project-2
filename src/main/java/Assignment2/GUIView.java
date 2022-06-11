@@ -3,7 +3,6 @@ package Assignment2;
 import java.io.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -11,7 +10,7 @@ import javax.swing.*;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class GUIHandler 
+public class GUIView 
 { 
     // <editor-fold defaultstate="collapsed" desc="Game Window Variables">
     
@@ -97,7 +96,7 @@ public class GUIHandler
     
     JPanel gameButtonPanel;
     JButton gameButton1, gameButton2, gameButton3, gameButton4;
-    GameButtonHandler gameButtonHandler = new GameButtonHandler();
+    GUIController gameButtonHandler = new GUIController();
     
     // </editor-fold>
     
@@ -145,18 +144,18 @@ public class GUIHandler
     Font pixelFont = createCustomFont();
     Font titleFont = new Font("Arial", Font.PLAIN, 70);
     Font normalFont = new Font("Times New Roman", Font.PLAIN, 26); 
-    Color lightGray = new Color(240,240,240);
-    Color lightBlue = new Color(180,220,250);
+    
     Color lightGreen = new Color(250,255,250);
-    Color lightPurple = new Color(230,230,255);
+    Color lightBlue = new Color(230,230,255);
     Color offWhite = new Color(250,250,250);
+    
     Color transparent = new Color(255,255,255,0);
     Color semiTransparent = new Color(255,255,255,180);
     
     // </editor-fold>
     
     //Initialise JFrame / Game Window 
-    GUIHandler()
+    GUIView()
     {                    
         //create main JFrame
         gameWindow = new JFrame();
@@ -187,7 +186,7 @@ public class GUIHandler
         //read required data each time main menu is accessed
         GameManager.gameDataDB.readItemList();
         GameManager.gameDataDB.readInventory();
-        GUILogic.mainMenu = true;
+        GUIModel.currentMenu = 0;
         
         //disable uneeded GUI elements
         exitBuyMenu();
@@ -338,7 +337,7 @@ public class GUIHandler
             final int final_i = i;
             
             JButton button = new JButton(GameManager.saves.get(i));
-            button.setBackground(lightPurple);
+            button.setBackground(lightBlue);
             button.setForeground(Color.black);
             button.setFont(pixelFont.deriveFont(30f));
             button.setHorizontalAlignment(JTextField.CENTER);
@@ -384,11 +383,12 @@ public class GUIHandler
         
         creditsPanel = new JPanel(new GridLayout(1,1));
         creditsPanel.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
-        creditsPanel.setBackground(Color.white);
+        creditsPanel.setBackground(transparent);
         creditsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         container.add(creditsPanel);
         
         creditsText = new JTextArea("Test");
+        creditsText.setBackground(semiTransparent);
         creditsText.setForeground(Color.black);
         creditsText.setFont(pixelFont.deriveFont(22f));
         creditsText.setMargin(new Insets(10,10,10,10));
@@ -416,6 +416,7 @@ public class GUIHandler
                 adventuring until you can face and defeat the final boss!
                 
                 Credits: Program & art made by Monitosh Thaker | 17000777 | COMP603 Assignment 2
+                Background image: wallpaperforu.com/wallpaper-nature-art-fantasy-art-mountains/
                 """;
         
         creditsText.setText(text);
@@ -456,7 +457,7 @@ public class GUIHandler
         container.add(constQuitPanel);
         
         constQuitButton = new JButton("Quit");
-        constQuitButton.setBackground(Color.white);
+        constQuitButton.setBackground(new Color(255,150,150));
         constQuitButton.setForeground(Color.black);
         constQuitButton.setFont(pixelFont.deriveFont(20f));
         constQuitButton.setFocusPainted(false);
@@ -495,7 +496,7 @@ public class GUIHandler
         exitMainMenu();
         
         //initialise stage 
-        GUILogic.ccMenu = true;
+        GUIModel.currentMenu = 1;
         stage = _stage;       
         
         //TITLE        
@@ -701,41 +702,25 @@ public class GUIHandler
             confirmButton.setForeground(Color.black);
             confirmButton.setFont(pixelFont);
             confirmButton.setFocusPainted(false);
-            confirmPanel.add(confirmButton);
             
             confirmButton.addActionListener(gameButtonHandler);
-            switch(stage)
-            {
-                case 0 -> confirmButton.setActionCommand("Confirm Button 1");
-                case 1 -> confirmButton.setActionCommand("Confirm Button 2"); 
-                case 2 -> confirmButton.setActionCommand("Confirm Button 3"); 
-            }
+            confirmPanel.add(confirmButton);    
         }    
         else
         {
             confirmPanel.setVisible(true);
         }
-    }
-    
-    public void invalidNamePrompt()
-    {
-        JLabel boxText = new JLabel("You cannot leave your name blank.");
-        boxText.setFont(pixelFont.deriveFont(20f));
-
-        JOptionPane.showMessageDialog(null, boxText, "Name Input Error", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    public int unspentPointsPrompt()
-    {
-        JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
-        boxText.setFont(pixelFont.deriveFont(20f));
-
-        return JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
+        
+        switch(stage)
+        {
+            case 0 ->  confirmButton.setActionCommand("Confirm Button 1");            
+            case 1 ->  confirmButton.setActionCommand("Confirm Button 2");
+            case 2 ->  confirmButton.setActionCommand("Confirm Button 3"); 
+        }        
     }
     
     public void exitCharacterCreation()
     {        
-        GUILogic.ccMenu = false;
         if(titlePanel      != null) titlePanel.setVisible(false);    
         if(confirmPanel    != null) confirmPanel.setVisible(false);          
         if(namePanel       != null) namePanel.setVisible(false);     
@@ -747,6 +732,8 @@ public class GUIHandler
     //Main Game Scene methods
     public void createGameScene()
     {
+        GUIModel.currentMenu = 2;
+        
         //disable unneeded GUI elements
         exitContinueScene();
         exitCharacterCreation();
@@ -795,7 +782,7 @@ public class GUIHandler
         }
         
         createGameButtons();
-        GUILogic.townArea(0);
+        GUIModel.townArea(0);
     }
     
     public void createGameButtons()
@@ -806,7 +793,7 @@ public class GUIHandler
         container.add(gameButtonPanel);
         
         gameButton1 = new JButton("[ A ]");
-        gameButton1.setBackground(lightPurple);
+        gameButton1.setBackground(Color.white);
         gameButton1.setForeground(Color.black);
         gameButton1.setFont(pixelFont);
         gameButton1.setFocusPainted(false);
@@ -815,7 +802,7 @@ public class GUIHandler
         gameButton1.setActionCommand("A");
         
         gameButton2 = new JButton("[ B ]");
-        gameButton2.setBackground(lightPurple);
+        gameButton2.setBackground(Color.white);
         gameButton2.setForeground(Color.black);
         gameButton2.setFont(pixelFont);
         gameButton2.setFocusPainted(false);
@@ -824,7 +811,7 @@ public class GUIHandler
         gameButton2.setActionCommand("B");
         
         gameButton3 = new JButton("[ C ]");
-        gameButton3.setBackground(lightPurple);
+        gameButton3.setBackground(Color.white);
         gameButton3.setForeground(Color.black);
         gameButton3.setFont(pixelFont);
         gameButton3.setFocusPainted(false);
@@ -833,7 +820,7 @@ public class GUIHandler
         gameButton3.setActionCommand("C");
         
         gameButton4 = new JButton("[ D ]");
-        gameButton4.setBackground(lightPurple);
+        gameButton4.setBackground(Color.white);
         gameButton4.setForeground(Color.black);
         gameButton4.setFont(pixelFont);
         gameButton4.setFocusPainted(false);
@@ -972,7 +959,7 @@ public class GUIHandler
     public void exitCombatScene()
     {
         inCombat = false;
-        //if(playerStatsCard != null) GUILogic.updatePlayerCard();
+        //if(playerStatsCard != null) GUIModel.updatePlayerCard();
         
         if(combatContainer != null) combatContainer.setVisible(false);
         if(combatTextPanel != null) combatTextPanel.setVisible(false);
@@ -1042,7 +1029,7 @@ public class GUIHandler
             button.setVerticalAlignment(JTextField.CENTER);
             button.setFocusPainted(false);
 
-            button.addActionListener((ActionEvent e) -> GUILogic.buyItemEvent(GameManager.items.get(final_i)));
+            button.addActionListener((ActionEvent e) -> GUIModel.buyItemEvent(GameManager.items.get(final_i)));
 
             buyPanel.add(button);
         }
@@ -1127,7 +1114,7 @@ public class GUIHandler
             final int final_i = i;
 
             JButton button = new JButton("[ "+GameManager.inventory.get(i).getName() + " ] Sell: "+GameManager.inventory.get(i).getPrice()+" Gold");
-            button.setBackground(lightGreen);
+            button.setBackground(lightBlue);
             button.setForeground(Color.black);
             button.setFont(pixelFont.deriveFont(25f));
             button.setHorizontalAlignment(JTextField.CENTER);
@@ -1136,7 +1123,7 @@ public class GUIHandler
             
             button.addActionListener((ActionEvent e) ->
             {
-                GUILogic.sellItemEvent(GameManager.inventory.get(final_i));
+                GUIModel.sellItemEvent(GameManager.inventory.get(final_i));
                 
                 exitSellMenu();
                 createSellMenu();
@@ -1167,6 +1154,22 @@ public class GUIHandler
         if(sellScrollPane != null) sellScrollPane.setVisible(false);
         if(sellPanel      != null) sellPanel.setVisible(false);
         if(mainTextPanel  != null) mainTextPanel.setVisible(true);
+    }
+    
+    public void invalidNamePrompt()
+    {
+        JLabel boxText = new JLabel("You cannot leave your name blank.");
+        boxText.setFont(pixelFont.deriveFont(20f));
+
+        JOptionPane.showMessageDialog(null, boxText, "Name Input Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public int unspentPointsPrompt()
+    {
+        JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
+        boxText.setFont(pixelFont.deriveFont(20f));
+
+        return JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
     }
     
     public void itemPrompt(Item item, int selection)

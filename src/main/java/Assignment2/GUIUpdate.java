@@ -1,6 +1,6 @@
 package Assignment2;
 
-import static Assignment2.GUILogic.position;
+import static Assignment2.GUIModel.position;
         
 /**
  * @author Monitosh Thaker | 17000777

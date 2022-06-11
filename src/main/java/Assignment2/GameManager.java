@@ -10,7 +10,7 @@ import java.util.Random;
 public class GameManager 
 {
     public static Player player;    
-    public static GUIHandler gui;
+    public static GUIView gui;
     public static GameData gameDataDB;
     
     public static ArrayList<String> saves;

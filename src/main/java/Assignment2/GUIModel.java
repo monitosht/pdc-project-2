@@ -8,11 +8,12 @@ import static Assignment2.GameManager.player;
  * @author Monitosh Thaker | 17000777
  * COMP603 Assignment 2
  */
-public class GUILogic 
+public class GUIModel 
 {      
     //Variables
-    static boolean mainMenu;
-    static boolean ccMenu;
+    static int currentMenu;
+    static boolean mainMenuActive;
+    
     static String position;    
     static int continueChoice;
     

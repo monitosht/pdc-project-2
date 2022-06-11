@@ -10,7 +10,7 @@ public class Main
     {
         GameManager.gameDataDB = new GameData();
         
-        GameManager.gui = new GUIHandler();  
+        GameManager.gui = new GUIView();  
         GameManager.gui.createMainMenu();
     }
 }

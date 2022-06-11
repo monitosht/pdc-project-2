@@ -35,8 +35,10 @@ public class CreatePlayerTest
     @Before
     public void setUp() 
     {
+        GameManager.gameDataDB = new GameData(); //initialise database
+        
         //initialise GUI for the methods that require it
-        GameManager.gui = new GUIHandler(); 
+        GameManager.gui = new GUIView(); 
         GameManager.gui.createMainMenu(); 
         GameManager.gui.characterCreation(0); 
         GameManager.gui.characterCreation(1); 
