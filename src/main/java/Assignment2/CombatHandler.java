@@ -93,7 +93,7 @@ public class CombatHandler
         
         //Check for a 10% chance to miss the attack.
         int missCheck = GameManager.rand.nextInt(9);        
-        if(missCheck == 0) text = defending.getName()+"'s attack missed...";
+        if(missCheck == 0) text = attacking.getName()+"'s attack missed...";
         else
         {
             //If the attack does not miss, deal the damage.

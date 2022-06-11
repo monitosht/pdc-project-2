@@ -70,12 +70,11 @@ public class GameManager
     }
     
     public static void gameCompleted()
-    {
+    {   
+        gui.gameCompletedPrompt(); 
         gameDataDB.saveGame(); //Automatically save to the database.
         
-        StoryHandler.displayOutro();                
-        gui.gameCompletedPrompt(); 
-        
+        StoryHandler.displayOutro();     
     }
     
     public static void gameOver()
