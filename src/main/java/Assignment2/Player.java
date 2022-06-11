@@ -8,15 +8,15 @@ public class Player extends Character
 {
     private int gold;
     
-    //Constructor used to initialize the player when a new game is started
+    //Constructor used to initialize the player when a new game is started.
     public Player(String name) 
     {
-        //Starting player stats
+        //Starting player stats initialised to 0 to be set later.
         super(name, 20, 0, 0, 0, 0, 1);
         this.gold = 0;
     }    
     
-    //Constructor used to load an existing player when a game is continued
+    //Constructor used to load an existing player when a game is continued.
     public Player(String name, int currentHP, int maxHP, int strength, int intellect, int defence, int xp, int level, int gold) 
     {
         super(name, maxHP, strength, intellect, defence, xp, level);        
@@ -38,19 +38,19 @@ public class Player extends Character
     @Override
     public int Attack()
     {        
-        //Adding variance to the damage done by the attack method
+        //Add variance to the damage dealt by this character.
         int min = this.getStrength() - 2;
         int max = this.getStrength() + 2;
         return (GameManager.rand.nextInt(max - min) + min);
     }    
     
-    @Override
+    @Override //Method exists as an override for future development potential.
     public int Defend() 
     {
-        return this.getDefence();
+        return this.getDefence(); 
     }    
     
-    //Formats the player's stats as a string that canbe written onto the savedata.txt file
+    //Formats the player's stats as a String for saving purposes.
     public String statsToString() 
     {
         return this.getCurrentHP() + " " + this.getMaxHP() + " " + this.getStrength()  + " " + this.getIntellect()  + " " + this.getDefence()  + " " + this.getXP()  + " " + this.getLevel()  + " " + this.getGold();

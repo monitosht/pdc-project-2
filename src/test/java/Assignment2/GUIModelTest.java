@@ -162,15 +162,13 @@ public class GUIModelTest
     public void testContinueEvent() 
     {
         System.out.println("continueEvent");
-        int choice1 = 1;
-        int choice2 = 5;
+        int choice = 5;
         
         GUIModel.position = null; //empty the current position string                 
         
-        //this method takes in two choice integers, if choice1 is 0, the continue button is enabled
-        //if choice1 is 1 then the next button press will continue the game
-        //the second choice determines where to progress/return to
-        GUIModel.continueEvent(choice1, choice2);
+        //if choice is 0 then the next button press will continue the game
+        //a non-0 choice determines where to progress/return to
+        GUIModel.continueEvent(5);
         
         //with these test choices, the method should set the position to "Adventure"
         String expResult = "Adventure";

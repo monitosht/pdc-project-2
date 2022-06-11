@@ -162,13 +162,13 @@ public class GameDataTest
     {
         System.out.println("readEnemyList");
         
-        GameManager.enemies = null; //empty the arraylist
+        GameManager.enemyList = null; //empty the arraylist
         
         //this method should re-populate the arraylist with the preset enemy data in the database
         GameManager.gameDataDB.readEnemyList(); 
         
         boolean expResult = true; //as the arraylist should now have a size of at least 1 enemy object
-        boolean result = (GameManager.enemies.size() >= 1);
+        boolean result = (GameManager.enemyList.size() >= 1);
         
         assertEquals(expResult, result);
     }
@@ -187,7 +187,7 @@ public class GameDataTest
         GameManager.gameDataDB.readItemList();
         
         boolean expResult = true; //as the arraylist should now have a size of at least 1 item object
-        boolean result = (GameManager.items.size() >= 1);
+        boolean result = (GameManager.itemList.size() >= 1);
         
         assertEquals(expResult, result);
     }

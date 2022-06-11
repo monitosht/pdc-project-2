@@ -6,11 +6,12 @@ package Assignment2;
  */
 public class Item 
 {
-    private final String name;
-    private final String type;
+    //Variables
+    private final String name; //Read only variables declared as final
+    private final String type; //Read only variables declared as final
     
-    private int value;    
-    private int price;
+    private int value; //Responsible for the potency of the effect when the item is used.  
+    private int price; //Responsible for the buy/sell price at the Shop.
     
     //Constructor 
     public Item(String name, String type, int value, int price)
@@ -61,45 +62,43 @@ public class Item
         Player player = GameManager.player;
         String text;
         
-        if(this.getType().equalsIgnoreCase("c")) //Consumable item
+        switch(this.getType()) //Account for lowercase/capital using follow through.
         {
-            player.setCurrentHP(player.getCurrentHP() + this.getValue()); //Heal the player's HP by value amount
+            case "C":
+            case "c":
+                player.setCurrentHP(player.getCurrentHP() + this.getValue()); //Heal the player's HP by value amount
 
-            if(player.getCurrentHP() > player.getMaxHP())
-            {
-                //Ensure the item doesn't heal the player past their max HP
-                player.setCurrentHP(player.getMaxHP());
-            }        
-
-            text = "You used a "+this.getName()+" and restored "+this.getValue()+" HP!";            
+                if(player.getCurrentHP() > player.getMaxHP()) //Ensure the item doesn't heal the player past their max HP
+                    player.setCurrentHP(player.getMaxHP());
+                
+                text = "You used a "+this.getName()+" and restored "+this.getValue()+" HP!"; 
+                break;
+            case "H":
+            case "h":
+                player.setMaxHP(player.getMaxHP() + this.getValue()); //Incrase max HP by value amount
+                text = "You equipped "+this.getName()+" and increased your MAX HP by "+this.getValue()+"!";
+                break;
+            case "S":
+            case "s":
+                player.setStrength(player.getStrength() + this.getValue()); //Increase strength by value amount
+                text = "You equipped "+this.getName()+" and increased your STRENGTH by "+this.getValue()+"!";
+                break;
+            case "I":
+            case "i":
+                player.setStrength(player.getIntellect() + this.getValue()); //Increase intellect by value amount
+                text = "You equipped "+this.getName()+" and increased your INTELLECT by "+this.getValue()+"!";
+                break;
+            case "D":
+            case "d":
+                player.setStrength(player.getDefence() + this.getValue()); //Increase defence by value amount
+                text = "You equipped "+this.getName()+" and increased your DEFENCE by "+this.getValue()+"!";
+                break;
+            default:
+                text = "Invalid item, removing from inventory.";
+                break;
         }
-        else if(this.getType().equalsIgnoreCase("h")) //Health buff item
-        {
-            player.setMaxHP(player.getMaxHP() + this.getValue()); //Incrase max HP by value amount
-            text = "You equipped "+this.getName()+" and increased your MAX HP by "+this.getValue()+"!";
-        }
-        else if(this.getType().equalsIgnoreCase("s")) //Strength buff item
-        {
-            player.setStrength(player.getStrength() + this.getValue()); //Increase strength by value amount
-            text = "You equipped "+this.getName()+" and increased your STRENGTH by "+this.getValue()+"!";
-        }
-        else if(this.getType().equalsIgnoreCase("i")) //Intellect buff item
-        {
-            player.setStrength(player.getIntellect() + this.getValue()); //Increase intellect by value amount
-            text = "You equipped "+this.getName()+" and increased your INTELLECT by "+this.getValue()+"!";
-        }
-        else if(this.getType().equalsIgnoreCase("d")) //Defence buff item
-        {
-            player.setStrength(player.getDefence() + this.getValue()); //Increase defence by value amount
-            text = "You equipped "+this.getName()+" and increased your DEFENCE by "+this.getValue()+"!";
-        }
-        else //Invalid item
-        {
-            text = "Invalid item, removing from inventory.";
-        }
-        
-        GameManager.inventory.remove(this); //Remove the item from the ArrayList as it has been used
-        return text;
+        GameManager.inventory.remove(this); //Remove the item from the ArrayList as it has been used.        
+        return text; //Return the correct UI prompt.
     }
     
     @Override

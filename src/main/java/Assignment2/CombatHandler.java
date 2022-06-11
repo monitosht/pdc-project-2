@@ -11,40 +11,33 @@ import static Assignment2.GameManager.player;
  */
 public class CombatHandler 
 {
-    //Variables
-    public static Enemy currentEnemy;      
-    static int turn = 0;
+    public static Enemy currentEnemy; //Reference to the enemy being fought during combat.  
+    public static int turn; //The current turn of combat.
     
     //Methods
     public static void setRandomEnemy()
     {
-        GameManager.gameDataDB.readEnemyList();
-        turn = 0;
+        //Initialise the enemy list array by reading from the database.
+        GameManager.gameDataDB.readEnemyList();    
         do
         {
-            int index = (int)(Math.random() * GameManager.enemies.size());
-            currentEnemy = GameManager.enemies.get(index);
+            int index = (int)(Math.random() * GameManager.enemyList.size());
+            currentEnemy = GameManager.enemyList.get(index);
             
-        } while(currentEnemy.getLevel() != GameManager.player.getLevel()); //Ensure that the player only encouters enemies of the same level
-    }
+        } while(currentEnemy.getLevel() != GameManager.player.getLevel()); //Repeat until the player encouters an enemy of the same level.
+        
+        turn = 0; //Initialise the turn as 0 as combat is about to beign.
+    }    
     
-    public static boolean combatEvent(Enemy enemy)
+    //Returns true if the combat ends, false if it continues.
+    public static boolean combatEvent(Enemy enemy) 
     {
-        updateCombatTextArea("TURN "+(++turn));
-        boolean combatEnded = false;
+        updateCombatTextArea("TURN "+(++turn)); //Update the turn after each interation.
+        boolean combatEnded;
         
-        int damageDealt = player.Attack() - enemy.Defend();        
-        if(damageDealt <= 0) damageDealt = 1;
+        updateCombatTextArea(dealDamage(player, enemy)); //player attacks enemy
         
-        int missCheck = GameManager.rand.nextInt(9);        
-        if(missCheck == 0) updateCombatTextArea("Your attack missed the "+enemy.getName()+"...");
-        else
-        {
-            enemy.setCurrentHP(enemy.getCurrentHP() - damageDealt);
-            updateCombatTextArea("You attacked the "+enemy.getName()+", dealing "+damageDealt+" damage!");
-        }
-        
-        if(enemy.getCurrentHP() <= 0)
+        if(enemy.getCurrentHP() <= 0) //Check if the enemy is alive.
         {
             enemy.setCurrentHP(0);
             
@@ -58,26 +51,11 @@ public class CombatHandler
         }
         else
         {
-            int damageTaken = enemy.Attack() - player.Defend();        
-            if(damageTaken <= 0) damageTaken = 1;
-        
-            missCheck = GameManager.rand.nextInt(9);        
-            if(missCheck == 0) updateCombatTextArea("The "+enemy.getName()+"'s attack missed!");
-            else
-            {
-                player.setCurrentHP(player.getCurrentHP() - damageTaken);
-                updateCombatTextArea("The "+enemy.getName()+" attacked you and dealt "+damageTaken+" damage...");
-            }
-
-            if(player.getCurrentHP() <= 0)
-            {
-                player.setCurrentHP(0);
-                updatePlayerCombatCard();
-                GameManager.gameOver();
-
-                combatEnded = true;
-            }
+            updateCombatTextArea(dealDamage(enemy, player)); //enemy attacks player
+            combatEnded = checkPlayerDead(); //Check if the player is dead.
         }        
+        
+        //Update the GUI elements variable values for both parties.
         updatePlayerCombatCard();
         updateEnemyCombatCard(currentEnemy);
         
@@ -88,6 +66,7 @@ public class CombatHandler
     {
         int runChance = GameManager.rand.nextInt(9);
         
+        //Check for a 30% chance to run away.
         if(runChance <= 2)
         {
             updateCombatTextArea("You safely got away from the "+enemy.getName()+".");            
@@ -95,23 +74,44 @@ public class CombatHandler
         }
         else
         {
-            updateCombatTextArea("You couldn't get away...");
+            updateCombatTextArea("You couldn't get away..."); 
             
-            int damageTaken = enemy.Attack() - player.Defend()/2;
-            if(damageTaken <= 0) damageTaken = 1;
+            updateCombatTextArea(dealDamage(enemy, player)); //Damage the player as punishment.
+            checkPlayerDead(); //Check if the player is dead.
             
-            player.setCurrentHP(player.getCurrentHP() - damageTaken);
-            
-            updateCombatTextArea("The "+enemy.getName()+" attacked during your escape attempt and dealt "+damageTaken+" damage!");
-            updatePlayerCombatCard();
-            
-            if(player.getCurrentHP() <= 0)
-            {
-                player.setCurrentHP(0);
-                updatePlayerCombatCard();
-                GameManager.gameOver();                
-            }
             return false;
         }
     } 
+    
+    public static String dealDamage(Character attacking, Character defending)
+    {
+        String text;
+        
+        //Calculate the amount of damage to be dealt.
+        int damageDealt = attacking.Attack() - defending.Defend();        
+        if(damageDealt <= 0) damageDealt = 1;
+        
+        //Check for a 10% chance to miss the attack.
+        int missCheck = GameManager.rand.nextInt(9);        
+        if(missCheck == 0) text = defending.getName()+"'s attack missed...";
+        else
+        {
+            //If the attack does not miss, deal the damage.
+            defending.setCurrentHP(defending.getCurrentHP() - damageDealt);
+            text = attacking.getName()+" attacked "+defending.getName()+", for "+damageDealt+" damage!";
+        }        
+        return text;
+    }
+    
+    public static boolean checkPlayerDead()
+    { 
+        if(player.getCurrentHP() <= 0)
+        {
+            player.setCurrentHP(0); 
+            updatePlayerCombatCard();
+            GameManager.gameOver(); 
+            return true;
+        }
+        return false;
+    }
 }

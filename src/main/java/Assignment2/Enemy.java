@@ -12,7 +12,7 @@ public class Enemy extends Character
     public Enemy(String name, int maxHP, int strength, int intellect, int defence, int xp, int level, int reward)
     {
         super(name, maxHP, strength, intellect, defence, xp, level);
-        //Adding variance to the reward value
+        //Adding variance to the reward value.
         this.reward = (GameManager.rand.nextInt((reward + 2) - (reward - 2)) + (reward - 2));
     }
     
@@ -30,12 +30,12 @@ public class Enemy extends Character
     @Override
     public int Attack()
     {
-        //Adding variance to the damage done by the attack method
-        int min = this.getStrength() - 2;
+        //Add variance to the damage dealt by this character.
+        int min = this.getStrength() - 1;
         int max = this.getStrength() + 2;
         return (GameManager.rand.nextInt(max - min) + min);
     }
-    @Override
+    @Override //Method exists as an override for future development potential.
     public int Defend() 
     {
         return this.getDefence();

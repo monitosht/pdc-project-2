@@ -8,9 +8,9 @@ import java.sql.*;
  */
 public final class DBManager 
 {
-    private static final String USER_NAME = "pdc";
-    private static final String PASSWORD = "pdc";
-    private static final String URL = "jdbc:derby:GameDataDB_Edb; create=true";    
+    private static final String USER_NAME = "pdc"; //username
+    private static final String PASSWORD = "pdc"; //password 
+    private static final String URL = "jdbc:derby:GameDataDB_Edb; create=true"; //host url
     
     Connection conn;
     
@@ -19,12 +19,13 @@ public final class DBManager
         establishConnection();
     }
     
-    public void establishConnection()
+    //Establish a connection to database.
+    public void establishConnection() 
     {      
         try 
         {
             conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);            
-            //System.out.println("connected to "+URL);
+            System.out.println("connected to "+URL);
         } 
         catch(SQLException ex) 
         {

@@ -8,7 +8,8 @@ import static Assignment2.GUIUpdate.updateMainTextArea;
  */
 public class StoryHandler 
 {
-    public static void displayIntro()
+    //Displays only when a new game is started.
+    public static void displayIntro() 
     {
         updateMainTextArea("""
         Prologue
@@ -20,7 +21,8 @@ public class StoryHandler
         In order to protect what\u2019s important you must continue your adventure!""");
     }
     
-    public static void progressStory(int act)
+    //Display the story for the current act when called.
+    public static void progressStory(int act) 
     {
         switch(act)
         {
@@ -101,7 +103,8 @@ public class StoryHandler
         }
     }
     
-    public static void displayOutro()
+    //Displays when the player completes the game and as a reminder, every time that same save data is loaded.
+    public static void displayOutro() 
     {
         updateMainTextArea("""
         Epilogue

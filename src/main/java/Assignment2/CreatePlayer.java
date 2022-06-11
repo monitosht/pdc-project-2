@@ -9,8 +9,8 @@ public class CreatePlayer
     //Variables
     public static Player newPlayer;
     
+    private static int startPoints;
     public static int points;
-    public static int startPoints;
     
     public static int strValue;
     public static int intValue;
@@ -19,11 +19,12 @@ public class CreatePlayer
     //Methods
     public static void createPlayer(String name, int _startPoints)
     {
-        newPlayer = new Player(name);
+        newPlayer = new Player(name); //Store data for a new player based on a name input.
         
-        startPoints = _startPoints;
-        points = startPoints;
+        startPoints = _startPoints; //Initialise the starting number of points.
+        points = startPoints; //Save the starting number of ppomts
         
+        //Initialise attribute values as 0
         strValue = 0;
         intValue = 0;
         defValue = 0;
@@ -33,11 +34,11 @@ public class CreatePlayer
     {
         switch(choice)
         {
-            case 0: //decrease attribute value
-                switch(attribute)
+            case 0: //Decrease the attribute value.
+                switch(attribute) //Ensure there are allocated points to minus & dont refund move points than given.
                 {
                     case "str":
-                        if(strValue > 0 && strValue <= startPoints)
+                        if(strValue > 0 && strValue <= startPoints) 
                         {
                             strValue--;
                             points++; 
@@ -59,8 +60,8 @@ public class CreatePlayer
                         break;
                 }
                 break;
-            case 1: //increase attribute value
-                if(points > 0)
+            case 1: //Increase attribute value.
+                if(points > 0) //Ensure there are points still available to spend
                 {
                     switch(attribute)
                     {
@@ -80,6 +81,8 @@ public class CreatePlayer
                 }
                 break;
         }        
+        
+        //Update the GUI to communicate the value changes to the player.
         GameManager.gui.promptText.setText("Points Remaining: "+points);
         GameManager.gui.strValue.setText(""+strValue);
         GameManager.gui.intValue.setText(""+intValue);
@@ -88,10 +91,13 @@ public class CreatePlayer
     
     public static void setPlayer()
     {
+        //Assign the missing attributes to the newPlayer object 
+        //since it was initialised using only a name parameter.
         newPlayer.setStrength(strValue);
         newPlayer.setIntellect(intValue);
         newPlayer.setDefence(defValue);        
         
+        //Initialise the main/current player stored in the GameManager using the newPlayer
         GameManager.player = newPlayer;
         GameManager.act = 0;
     }

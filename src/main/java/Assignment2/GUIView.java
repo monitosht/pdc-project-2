@@ -11,19 +11,25 @@ import javax.swing.*;
  * COMP603 Assignment 2
  */
 public class GUIView 
-{ 
-    // <editor-fold defaultstate="collapsed" desc="Game Window Variables">
+{     
+    /*
+    * Variables
+    */
+    // <editor-fold defaultstate="collapsed" desc="Game Window Variables"> 
     
-    int windowX = 1280; 
+    GUIController gameButtonHandler = new GUIController(); //MVC system variable.
+    
+    int windowX = 1280; //Variable reference to the window size to avoid magic numbers.
     int windowY = 800;
+    
     JFrame gameWindow;
-    Container container; 
+    Container container;     
     
     // </editor-fold>
     
-    // <editor-fold defaultstate="collapsed" desc="Main Menu Variables">   
+    // <editor-fold defaultstate="collapsed" desc="Main Menu Variables">     
     
-    int width, height;
+    int width, height; //Variable reference to width/height to avoid magic numbers.
     
     JPanel titlePanel;
     JLabel titleLabel;
@@ -32,7 +38,7 @@ public class GUIView
     JButton newGameButton;
     JButton continueButton;
     JButton creditsButton;
-    JButton quitButton;  
+    JButton quitButton;      
     
     // </editor-fold>
     
@@ -96,7 +102,6 @@ public class GUIView
     
     JPanel gameButtonPanel;
     JButton gameButton1, gameButton2, gameButton3, gameButton4;
-    GUIController gameButtonHandler = new GUIController();
     
     // </editor-fold>
     
@@ -124,9 +129,6 @@ public class GUIView
     JPanel sellPanel;
     JScrollPane sellScrollPane;
     
-    //INVENTORY POPUP
-    JOptionPane inventoryBox;
-    
     // </editor-fold>
     
     // <editor-fold defaultstate="collapsed" desc="Player Card Variables">  
@@ -142,8 +144,6 @@ public class GUIView
     // <editor-fold defaultstate="collapsed" desc="Graphics Variables">
     
     Font pixelFont = createCustomFont();
-    Font titleFont = new Font("Arial", Font.PLAIN, 70);
-    Font normalFont = new Font("Times New Roman", Font.PLAIN, 26); 
     
     Color lightGreen = new Color(250,255,250);
     Color lightBlue = new Color(230,230,255);
@@ -154,7 +154,9 @@ public class GUIView
     
     // </editor-fold>
     
-    //Initialise JFrame / Game Window 
+    /*
+    * Initialise JFrame / Game Window 
+    */
     GUIView()
     {                    
         //create main JFrame
@@ -167,7 +169,7 @@ public class GUIView
         gameWindow.setResizable(false);
         gameWindow.setVisible(true);        
         
-        try
+        try //set background
         {
             gameWindow.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("./resources/background.jpg")))));
         }
@@ -176,11 +178,13 @@ public class GUIView
             System.err.println("IOException: " + e.getMessage());
         }
         
-        //assign container variable to the windows content pane
+        //set container variable as the windows content pane
         container = gameWindow.getContentPane();
     }
     
-    //Main Menu methods
+    /*
+    * Main Menu methods
+    */
     public void createMainMenu()
     {      
         //read required data each time main menu is accessed
@@ -188,7 +192,7 @@ public class GUIView
         GameManager.gameDataDB.readInventory();
         GUIModel.currentMenu = 0;
         
-        //disable uneeded GUI elements
+        //disable other GUI elements / effectively reset GUI
         exitBuyMenu();
         exitSellMenu();
         exitCombatScene();
@@ -198,7 +202,7 @@ public class GUIView
         exitContinueScene();
         disableConstantButtons();
         
-        //initialise size varibles for title panel
+        //reset size varibles
         width = 600;
         height = 150;
         
@@ -214,7 +218,7 @@ public class GUIView
         titleLabel.setFont(pixelFont.deriveFont(50f));        
         titlePanel.add(titleLabel);                
         
-        //reset size varibles for button panel
+        //reset size varibles
         width = 160;
         height = 300;
         
@@ -279,7 +283,9 @@ public class GUIView
         buttonPanel.setVisible(false);
     }    
     
-    //Continue Scene methods
+    /*
+    * Continue Scene methods
+    */
     public void createContinueScene()
     {
         //reinitialise save data
@@ -292,13 +298,15 @@ public class GUIView
         titlePanel.setVisible(true); //reset the title panel with a new heading
         titleLabel.setText("Select Save Data");
         
+        //reset size varibles
         width = 800;
         height = 450;
         
         if(GameManager.numSaveData != 0)
         {
+            //Scale the savePanel based on the number of saves need to be displayed.
             if(GameManager.numSaveData > 4) savePanel = new JPanel(new GridLayout(GameManager.numSaveData, 1));
-            else savePanel = new JPanel(new GridLayout(4, 1));
+            else savePanel = new JPanel(new GridLayout(4, 1)); //Otherwise maintain 4,1 grid layout.
             
             savePanel.setPreferredSize(new Dimension(width-25, (height/4)*(GameManager.numSaveData)-25));
             savePanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -311,7 +319,7 @@ public class GUIView
             
             createContinueButtons();
         }
-        else
+        else //Custom view when no save data exists.
         {
             savePanel = new JPanel(new GridLayout(1, 1));
             savePanel.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
@@ -330,9 +338,9 @@ public class GUIView
     
     public void createContinueButtons()
     {
-        savePanel.removeAll();
+        savePanel.removeAll(); //Avoid duplicates.
         
-        for(int i = 0; i < GameManager.saves.size(); i++)
+        for(int i = 0; i < GameManager.saves.size(); i++) //Create a button for each save file.
         {
             final int final_i = i;
             
@@ -344,12 +352,13 @@ public class GUIView
             button.setVerticalAlignment(JTextField.CENTER);
             button.setFocusPainted(false);
             
+            //ActionListener not handled in GUIController as the button is a local instance variable within a for loop.
             button.addActionListener((ActionEvent e) -> GameManager.gameDataDB.loadSaveData(GameManager.saves.get(final_i)));
             
             savePanel.add(button);
         }
         
-        if(GameManager.numSaveData < 4)
+        if(GameManager.numSaveData < 4) //Fill the panel with empty labels to maintain the correct dimensions.
         {
             int emptyLabels = 4 - GameManager.numSaveData;
             
@@ -368,7 +377,9 @@ public class GUIView
         if(savePanel      != null) savePanel.setVisible(false);  
     }
     
-    //Credits Scene methods
+    /*
+    * Credits Scene methods
+    */
     public void createCreditsScene()
     {
         //disable unneeded GUI elements
@@ -378,9 +389,11 @@ public class GUIView
         titlePanel.setVisible(true); //reset the title panel with a new heading
         titleLabel.setText("Credits");
         
+        //reset size varibles
         width = 800;
         height = 450;
         
+        //initialise credits panel
         creditsPanel = new JPanel(new GridLayout(1,1));
         creditsPanel.setBounds((windowX/2 - width/2), (windowY/2) - (height/2) + 50, width, height);
         creditsPanel.setBackground(transparent);
@@ -427,10 +440,12 @@ public class GUIView
         if(creditsPanel != null) creditsPanel.setVisible(false);
     }
     
-    //Constant Buttons methods
+    /*
+    * Constant Buttons methods
+    */ 
     public void constantButtons()
     {
-        //initialise size varibles
+        //reset size varibles
         width = 120;
         height = 30;
         
@@ -489,13 +504,15 @@ public class GUIView
         if(constQuitPanel  != null) constQuitPanel.setVisible(false);
     }    
     
-    //Character Creation methods
+    /*
+    * Character Creation methods
+    */    
     public void characterCreation(int _stage)
     {
         //disable unneeded GUI elements
         exitMainMenu();
         
-        //initialise stage 
+        //initialise variables
         GUIModel.currentMenu = 1;
         stage = _stage;       
         
@@ -507,6 +524,7 @@ public class GUIView
         {
             case 0 -> //set player name
             {                
+                //reset size variables
                 width = 200;
                 height = 100;
                 
@@ -519,7 +537,8 @@ public class GUIView
                 nameText.setForeground(Color.black);
                 nameText.setFont(pixelFont.deriveFont(30f));        
                 namePanel.add(nameText);
-
+                
+                //text field for the user to enter their desired name.
                 nameField = new JTextField();
                 nameField.setHorizontalAlignment(JTextField.CENTER);
                 nameField.setFont(pixelFont.deriveFont(2));
@@ -563,6 +582,7 @@ public class GUIView
                 strText.setHorizontalAlignment(JTextField.CENTER);
                 statsPanel.add(strText);
                 
+                //minus button
                 strMinus = new JButton("-");
                 strMinus.setBackground(Color.white);
                 strMinus.setForeground(Color.black);
@@ -573,6 +593,7 @@ public class GUIView
                 strMinus.setActionCommand("Strength -");                    
                 statsPanel.add(strMinus);
                 
+                //current value
                 strValue = new JLabel("0");
                 strValue.setBackground(Color.white);
                 strValue.setForeground(Color.black);
@@ -581,6 +602,7 @@ public class GUIView
                 strValue.setBorder(BorderFactory.createLineBorder(Color.black));
                 statsPanel.add(strValue);                
                 
+                //plus button
                 strPlus = new JButton("+");
                 strPlus.setBackground(Color.white);
                 strPlus.setForeground(Color.black);
@@ -598,6 +620,7 @@ public class GUIView
                 intText.setHorizontalAlignment(JTextField.CENTER);
                 statsPanel.add(intText);
                 
+                //minus button
                 intMinus = new JButton("-");
                 intMinus.setBackground(Color.white);
                 intMinus.setForeground(Color.black);
@@ -608,6 +631,7 @@ public class GUIView
                 intMinus.setActionCommand("Intellect -"); 
                 statsPanel.add(intMinus);
                 
+                //curent value
                 intValue = new JLabel("0");
                 intValue.setBackground(Color.white);
                 intValue.setForeground(Color.black);
@@ -616,6 +640,7 @@ public class GUIView
                 intValue.setBorder(BorderFactory.createLineBorder(Color.black));
                 statsPanel.add(intValue);                
                 
+                //plus button
                 intPlus = new JButton("+");
                 intPlus.setBackground(Color.white);
                 intPlus.setForeground(Color.black);
@@ -633,6 +658,7 @@ public class GUIView
                 defText.setHorizontalAlignment(JTextField.CENTER);
                 statsPanel.add(defText);
                 
+                //minus button
                 defMinus = new JButton("-");
                 defMinus.setBackground(Color.white);
                 defMinus.setForeground(Color.black);
@@ -643,6 +669,7 @@ public class GUIView
                 defMinus.setActionCommand("Defence -"); 
                 statsPanel.add(defMinus);
                 
+                //curernt value
                 defValue = new JLabel("0");
                 defValue.setBackground(Color.white);
                 defValue.setForeground(Color.black);
@@ -651,6 +678,7 @@ public class GUIView
                 defValue.setBorder(BorderFactory.createLineBorder(Color.black));
                 statsPanel.add(defValue);                
                 
+                //plus button
                 defPlus = new JButton("+");
                 defPlus.setBackground(Color.white);
                 defPlus.setForeground(Color.black);
@@ -665,6 +693,7 @@ public class GUIView
             {                
                 statsPanel.setVisible(false);
                 
+                //reset size variables
                 width = 240;
                 height = 40;
                 
@@ -687,7 +716,7 @@ public class GUIView
         }       
         
         //CONFIRM
-        if(confirmPanel == null)
+        if(confirmPanel == null) //if the panel doesnt exist yet
         {
             //reset size variables
             width = 120;
@@ -703,15 +732,15 @@ public class GUIView
             confirmButton.setFont(pixelFont);
             confirmButton.setFocusPainted(false);
             
-            confirmButton.addActionListener(gameButtonHandler);
+            confirmButton.addActionListener(gameButtonHandler); 
             confirmPanel.add(confirmButton);    
         }    
-        else
+        else //if the planel already exists
         {
             confirmPanel.setVisible(true);
         }
         
-        switch(stage)
+        switch(stage) //change the confirm button behaviour depending on the character creation stage
         {
             case 0 ->  confirmButton.setActionCommand("Confirm Button 1");            
             case 1 ->  confirmButton.setActionCommand("Confirm Button 2");
@@ -729,20 +758,22 @@ public class GUIView
         if(playerStatsCard != null) playerStatsCard.setVisible(false);    
     }   
      
-    //Main Game Scene methods
+    /*
+    * Main Game Scene methods
+    */
     public void createGameScene()
     {
+        //update current menu
         GUIModel.currentMenu = 2;
         
         //disable unneeded GUI elements
         exitContinueScene();
         exitCharacterCreation();
         
-        //initialise size variables
+        //reset size variables
         width = 1000;
         height = 600;
         
-        //initialise main text panel
         mainTextPanel = new JPanel(new GridLayout(1,1));
         mainTextPanel.setBounds(25, 25, width, height);        
         mainTextPanel.setBackground(semiTransparent);
@@ -750,6 +781,7 @@ public class GUIView
         
         GUIUpdate.textAreaText = "<game started>";
         
+        //initialise main text area
         mainTextArea = new JTextArea();
         mainTextArea.setText(GUIUpdate.textAreaText);
         mainTextArea.setBackground(lightGreen);
@@ -782,49 +814,58 @@ public class GUIView
         }
         
         createGameButtons();
-        GUIModel.townArea(0);
+        GUIModel.townArea(0); //set the starting player position
     }
     
     public void createGameButtons()
     {
+        //initialise game button panel
         gameButtonPanel = new JPanel(new GridLayout(1, 4, 25, 0));
         gameButtonPanel.setBounds(25, 645, width, 50);
         gameButtonPanel.setBackground(transparent);
         container.add(gameButtonPanel);
         
+        //button a/1
         gameButton1 = new JButton("[ A ]");
         gameButton1.setBackground(Color.white);
         gameButton1.setForeground(Color.black);
         gameButton1.setFont(pixelFont);
         gameButton1.setFocusPainted(false);
-        gameButtonPanel.add(gameButton1);        
+        gameButtonPanel.add(gameButton1);    
+        
         gameButton1.addActionListener(gameButtonHandler);
         gameButton1.setActionCommand("A");
         
+        //button b/2
         gameButton2 = new JButton("[ B ]");
         gameButton2.setBackground(Color.white);
         gameButton2.setForeground(Color.black);
         gameButton2.setFont(pixelFont);
         gameButton2.setFocusPainted(false);
         gameButtonPanel.add(gameButton2);
+        
         gameButton2.addActionListener(gameButtonHandler);
         gameButton2.setActionCommand("B");
         
+        //button c/3
         gameButton3 = new JButton("[ C ]");
         gameButton3.setBackground(Color.white);
         gameButton3.setForeground(Color.black);
         gameButton3.setFont(pixelFont);
         gameButton3.setFocusPainted(false);
         gameButtonPanel.add(gameButton3);
+        
         gameButton3.addActionListener(gameButtonHandler);
         gameButton3.setActionCommand("C");
         
+        //button c/4
         gameButton4 = new JButton("[ D ]");
         gameButton4.setBackground(Color.white);
         gameButton4.setForeground(Color.black);
         gameButton4.setFont(pixelFont);
         gameButton4.setFocusPainted(false);
         gameButtonPanel.add(gameButton4);
+        
         gameButton4.addActionListener(gameButtonHandler);
         gameButton4.setActionCommand("D");
     }
@@ -838,9 +879,12 @@ public class GUIView
         if(sellPanel       != null) sellPanel.setVisible(false);
     }       
     
-    //Combat Scene methods
+    /*
+    * Combat Scene methods
+    */
     public void createCombatScene()
     {
+        //disable uneeded GUI elements
         mainTextPanel.setVisible(false);
         
         //initialise variables
@@ -848,7 +892,7 @@ public class GUIView
         width = 1000;
         height = 600;
         
-        if(combatPanel == null)
+        if(combatPanel == null) //if the panel doesnt exist yet
         {
             combatContainer = new JPanel();
             combatContainer.setBounds(25, 25, width, (2*height)/3);
@@ -879,7 +923,7 @@ public class GUIView
             Enemy enemy = CombatHandler.currentEnemy;
             createEnemyCombatCard(enemy, enemyPanel);
         }
-        else
+        else //if the panel already exists
         {
             combatContainer.setVisible(true);
             enemyPanel.removeAll();
@@ -918,6 +962,7 @@ public class GUIView
     
     public void createPlayerCombatCard(JPanel parentPanel)
     {
+        //set the varible text based on the corresponding attribute of the current player
         playerName = new JLabel("[ "+GameManager.player.getName()+" ]");
         playerName.setForeground(Color.blue);
         playerName.setFont(pixelFont.deriveFont(1, 28f));
@@ -938,6 +983,7 @@ public class GUIView
     
     public void createEnemyCombatCard(Enemy enemy, JPanel parentPanel)
     {
+         //set the varible text based on the corresponding attribute of the input enemy
         enemyName = new JLabel("[ "+enemy.getName()+" ]");
         enemyName.setForeground(Color.red);
         enemyName.setFont(pixelFont.deriveFont(1, 28f));
@@ -975,21 +1021,21 @@ public class GUIView
         width = 1000;
         height = 600;       
         
-        if(!GameManager.items.isEmpty())
+        if(!GameManager.itemList.isEmpty())
         {
             int num;
-            
-            if((GameManager.items.size() % 2) != 0)
-                num = GameManager.items.size()+ 1;
+            //ensure num is disvisible by 2, for the grid layout number of rows
+            if((GameManager.itemList.size() % 2) != 0)
+                num = GameManager.itemList.size()+ 1;
             else
-                num = GameManager.items.size();
+                num = GameManager.itemList.size();
             
-            if(GameManager.items.size() > 6)
+            if(GameManager.itemList.size() > 6)
                 buyPanel = new JPanel(new GridLayout(num/2, 2));            
             else 
                 buyPanel = new JPanel(new GridLayout(3, 2));
             
-            buyPanel.setPreferredSize(new Dimension(width/2 - 25, (height/6)*GameManager.items.size() - 25));
+            buyPanel.setPreferredSize(new Dimension(width/2 - 25, (height/6)*GameManager.itemList.size() - 25));
             buyPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
             buyScrollPane = new JScrollPane(buyPanel);
@@ -998,7 +1044,7 @@ public class GUIView
             
             createBuyButtons();
         }
-        else
+        else //custom scene if no item data exists/has been read
         {
             buyPanel = new JPanel(new GridLayout(1, 1));
             buyPanel.setBounds(25, 25, width, height);
@@ -1017,11 +1063,11 @@ public class GUIView
     
     public void createBuyButtons()
     {
-        for(int i = 0; i < GameManager.items.size(); i++)
+        for(int i = 0; i < GameManager.itemList.size(); i++)
         {
             final int final_i = i;
 
-            JButton button = new JButton("[ "+GameManager.items.get(i).getName() + " ] Price: "+GameManager.items.get(i).getPrice()+" Gold");
+            JButton button = new JButton("[ "+GameManager.itemList.get(i).getName() + " ] Price: "+GameManager.itemList.get(i).getPrice()+" Gold");
             button.setBackground(lightGreen);
             button.setForeground(Color.black);
             button.setFont(pixelFont.deriveFont(25f));
@@ -1029,14 +1075,15 @@ public class GUIView
             button.setVerticalAlignment(JTextField.CENTER);
             button.setFocusPainted(false);
 
-            button.addActionListener((ActionEvent e) -> GUIModel.buyItemEvent(GameManager.items.get(final_i)));
+            //ActionListener not handled in GUIController as the button is a local instance variable within a for loop.
+            button.addActionListener((ActionEvent e) -> GUIModel.buyItemEvent(GameManager.itemList.get(final_i)));
 
             buyPanel.add(button);
         }
-
-        if(GameManager.items.size() < 6)
+ 
+        if(GameManager.itemList.size() < 6) //maintain dimensions using empty lables
         {
-            int emptyLabels = 6 - GameManager.items.size();
+            int emptyLabels = 6 - GameManager.itemList.size();
 
             for(int i = 0; i < emptyLabels; i++)
             {
@@ -1044,7 +1091,7 @@ public class GUIView
                 buyPanel.add(empty);
             }
         }
-        else if((GameManager.items.size() % 2) != 0)
+        else if((GameManager.itemList.size() % 2) != 0) //maintain dimensions using empty lables
         {
             JLabel empty = new JLabel();
             buyPanel.add(empty);
@@ -1069,7 +1116,7 @@ public class GUIView
         if(!GameManager.inventory.isEmpty())
         {
             int num;
-            
+            //ensure num is disvisible by 2, for the grid layout number of rows
             if((GameManager.inventory.size() % 2) != 0)
                 num = GameManager.inventory.size() + 1;
             else
@@ -1078,8 +1125,7 @@ public class GUIView
             if(GameManager.inventory.size() > 6)
                 sellPanel = new JPanel(new GridLayout(num/2, 2));            
             else 
-                sellPanel = new JPanel(new GridLayout(3, 2));            
-            
+                sellPanel = new JPanel(new GridLayout(3, 2));   
             
             sellPanel.setPreferredSize(new Dimension(width/2 - 25, (height/6)*GameManager.inventory.size() - 25));
             sellPanel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -1090,7 +1136,7 @@ public class GUIView
                     
             createSellButtons();
         }
-        else
+        else //custom scene if the inventory is empty
         {
             sellPanel = new JPanel(new GridLayout(1, 1));
             sellPanel.setBounds(25, 25, width, height);
@@ -1121,6 +1167,7 @@ public class GUIView
             button.setVerticalAlignment(JTextField.CENTER);
             button.setFocusPainted(false);
             
+            //ActionListener not handled in GUIController as the button is a local instance variable within a for loop.
             button.addActionListener((ActionEvent e) ->
             {
                 GUIModel.sellItemEvent(GameManager.inventory.get(final_i));
@@ -1132,7 +1179,7 @@ public class GUIView
             sellPanel.add(button);
         }
 
-        if(GameManager.inventory.size() < 6)
+        if(GameManager.inventory.size() < 6) //maintain dimensions using empty lables
         {
             int emptyLabels = 6 - GameManager.inventory.size();
 
@@ -1144,7 +1191,7 @@ public class GUIView
         }
         else if((GameManager.inventory.size() % 2) != 0)
         {
-            JLabel empty = new JLabel();
+            JLabel empty = new JLabel(); //maintain dimensions using empty lables
             sellPanel.add(empty);
         }
     }
@@ -1156,6 +1203,9 @@ public class GUIView
         if(mainTextPanel  != null) mainTextPanel.setVisible(true);
     }
     
+    /*
+    * Reuseability & Prompt methods
+    */  
     public void invalidNamePrompt()
     {
         JLabel boxText = new JLabel("You cannot leave your name blank.");
@@ -1164,7 +1214,7 @@ public class GUIView
         JOptionPane.showMessageDialog(null, boxText, "Name Input Error", JOptionPane.ERROR_MESSAGE);
     }
     
-    public int unspentPointsPrompt()
+    public int unspentPointsPrompt() //choice prompt
     {
         JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
         boxText.setFont(pixelFont.deriveFont(20f));
@@ -1172,6 +1222,7 @@ public class GUIView
         return JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
     }
     
+    //creates a custom dialog prompt depending on the outcome of the shop event
     public void itemPrompt(Item item, int selection)
     {
         JLabel boxText = new JLabel();
@@ -1202,8 +1253,7 @@ public class GUIView
         JOptionPane.showMessageDialog(null, boxText, titleText, messageType);
     }
     
-    //Dialog Prompt methods
-    public int savePrompt()
+    public int savePrompt() //choice prompt
     {            
         JLabel boxText = new JLabel("Save data with this name already exists. Overwrite with this save data?");
         boxText.setFont(pixelFont.deriveFont(20f));
@@ -1211,7 +1261,7 @@ public class GUIView
         return JOptionPane.showConfirmDialog(null, boxText, "Save Overwrite Warning", JOptionPane.YES_NO_OPTION);
     }
     
-    public int confirmQuitPrompt()
+    public int confirmQuitPrompt() //choice prompt 
     {
         JLabel boxText = new JLabel("Unsaved data will be lost. Continue?");
         boxText.setFont(pixelFont.deriveFont(20f));
@@ -1250,7 +1300,7 @@ public class GUIView
         }
     }
     
-    public int gameOverPrompt()
+    public int gameOverPrompt() //choice prompt
     {
         Object[] options = {"Main Menu", "Quit!"};
         
@@ -1267,11 +1317,11 @@ public class GUIView
         
         UIManager.put("OptionPane.okButtonText", "Ok");        
         JOptionPane.showMessageDialog(null, boxText, "Game Completed", JOptionPane.INFORMATION_MESSAGE);
-    }  
-        
-    //Reuseability methods
+    }          
+    
     public void createPlayerStatsCard(JPanel parentPanel)
     {
+        //set the varible text based on the corresponding attribute of the current player
         playerNameLabel = new JLabel("[ Name ]");
         playerNameLabel.setForeground(Color.black);
         playerNameLabel.setFont(pixelFont.deriveFont(1));
@@ -1338,7 +1388,9 @@ public class GUIView
         GUIUpdate.updatePlayerCard();
     } 
     
-    //Graphics methods
+    /*
+    * Graphics methods
+    */    
     Font createCustomFont()
     {
         try 

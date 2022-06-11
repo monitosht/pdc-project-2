@@ -8,10 +8,11 @@ import static Assignment2.GUIModel.position;
  */
 public class GUIUpdate 
 {
+    //Variables for the GUI TextAreas.
     static String textAreaText;
     static String combatText;
     
-    //Main Game update methods
+    //Update the text in the main game TextArea.
     static void updateMainTextArea(String text)
     {
         if(GameManager.gui.mainTextArea == null) 
@@ -21,6 +22,7 @@ public class GUIUpdate
         GameManager.gui.mainTextArea.setText(textAreaText);
     }
     
+    //Update the text on the main game buttons.
     static void updateGameButtonText()
     {
         switch(position)
@@ -70,6 +72,7 @@ public class GUIUpdate
         }
     }
     
+    //Update the text on the player card.
     static void updatePlayerCard()
     {
         if(GameManager.gui.playerStatsCard == null)
@@ -96,7 +99,7 @@ public class GUIUpdate
         GameManager.gui.goldLabel.setText("[ GOLD ] "+GameManager.player.getGold());
     }
     
-    //Combat Elements update methods
+    //Update the text in the combat specific TextArea.
     static void updateCombatTextArea(String text)
     {
         if(GameManager.gui.combatTextArea == null) 
@@ -106,6 +109,7 @@ public class GUIUpdate
         GameManager.gui.combatTextArea.setText(combatText);
     }
         
+    //Update the combat specific player and enemy cards
     static void updatePlayerCombatCard()
     {
         if(GameManager.gui.playerHP != null) 

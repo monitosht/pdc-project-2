@@ -8,9 +8,12 @@ public class Main
 {
     public static void main(String[] args) 
     {
-        GameManager.gameDataDB = new GameData();
+        //Initialise the embedded derby database when the program starts.
+        GameManager.gameDataDB = new GameData();        
         
+        //Initialise a new GUIView object, creating the main JFRame window.
         GameManager.gui = new GUIView();  
+        //Start the game by creating the main menu scene.
         GameManager.gui.createMainMenu();
     }
 }

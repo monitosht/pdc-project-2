@@ -16,7 +16,7 @@ public class GUIController implements ActionListener
         
         switch(GUIModel.currentMenu)
         {
-            case 0: //Main menu
+            case 0: //Main menu button outcomes.
                 switch(selection)
                 {
                     case "New Game Button" -> GameManager.gui.characterCreation(0);
@@ -26,7 +26,7 @@ public class GUIController implements ActionListener
                 }
                 GameManager.gui.constantButtons();
                 break;
-            case 1: //Character creation
+            case 1: //Character creation button outcomes.
                 switch(selection)
                 {
                     case "Strength -"  -> CreatePlayer.updateAttribute(0, "str");
@@ -38,7 +38,7 @@ public class GUIController implements ActionListener
 
                     case "Confirm Button 1" -> 
                     {
-                        if(!GameManager.gui.nameField.getText().equals(""))
+                        if(!GameManager.gui.nameField.getText().equals("")) //Check if the player name was left blank.
                         {      
                             CreatePlayer.createPlayer(GameManager.gui.nameField.getText(), 10);
                             GameManager.gui.characterCreation(1);
@@ -52,7 +52,7 @@ public class GUIController implements ActionListener
                     {
                         if(CreatePlayer.points > 0)
                         {          
-                            int choice = GameManager.gui.unspentPointsPrompt();
+                            int choice = GameManager.gui.unspentPointsPrompt(); //Check if there are unspent attribute points.
                             
                             if(choice != 0)
                             {
@@ -64,21 +64,21 @@ public class GUIController implements ActionListener
                     }
                     case "Confirm Button 3" -> 
                     {
-                        GameManager.gameDataDB.saveGame(); //save new player data if confirmed
-                        GameManager.gui.createGameScene(); //continue to the main game scene
+                        GameManager.gameDataDB.saveGame(); //Save new player data if confirmed.
+                        GameManager.gui.createGameScene(); //Continue to the main game scene.
                     }
                 }
                 break;
-            case 2: //Game scene
+            case 2: //Game scene button outcomes depending on the current position of the player.
                 switch(GUIModel.position)
                 {
                     case "Town":
                         switch(selection)
                         {
-                            case "A" -> GUIModel.adventureArea(0);
-                            case "B" -> GUIModel.innArea(0);
-                            case "C" -> GUIModel.shopArea(0);
-                            case "D" -> GameManager.gameDataDB.saveGame();
+                            case "A" -> GUIModel.adventureArea(0);         //adventure
+                            case "B" -> GUIModel.innArea(0);               //rest
+                            case "C" -> GUIModel.shopArea(0);              //shop
+                            case "D" -> GameManager.gameDataDB.saveGame(); //save
                         }
                         break;                
                     case "Inn":
@@ -115,14 +115,14 @@ public class GUIController implements ActionListener
                     case "Return":
                         switch(selection)
                         {
-                            case "A" -> GUIModel.returnEvent(1);
+                            case "A" -> GUIModel.returnEvent(1); //exit
                         }
                         break;
                     case "Continue":
                     {
                         switch(selection)
                         {
-                            case "A" -> GUIModel.continueEvent(1, GUIModel.continueChoice);
+                            case "A" -> GUIModel.continueEvent(GUIModel.continueChoice); //continue
                         }
                         break;
                     }
@@ -130,7 +130,7 @@ public class GUIController implements ActionListener
                 break;
         }
         
-        if(!GUIModel.mainMenuActive)
+        if(!GUIModel.mainMenuActive) //Constant/global buttons to return to the main menu or quit the game at any point during gameplay.
         {
             switch(selection)
             {

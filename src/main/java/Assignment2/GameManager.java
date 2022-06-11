@@ -9,24 +9,29 @@ import java.util.Random;
  */
 public class GameManager 
 {
+    //Global reference to random.
+    public static Random rand = new Random();
+    
+    //Global variables mandatory for gameplay.
     public static Player player;    
     public static GUIView gui;
     public static GameData gameDataDB;
     
+    //ArrayLists for database reading/writing purposes.
     public static ArrayList<String> saves;
     public static int numSaveData = 0;
     
     public static ArrayList<Item> inventory = new ArrayList<>();
-    public static ArrayList<Item> items;
-    public static ArrayList<Enemy> enemies;
+    public static ArrayList<Item> itemList;
+    public static ArrayList<Enemy> enemyList;
     
-    public static Random rand = new Random();
-    
+    //Story manager variables.
     public static int act;
     public static String[] locations = {"Town Outskirts", "Dartshaw Hollow", "Hissing Forest", "City Castle", "Final Battle"};
     public static boolean levelledUp;
     
-    public static Item[] buildInventoryArray()
+    //Formats the inventory ArrayList to be read as options by a GUI dialog prompt.
+    public static Item[] buildInventoryArray() 
     {
         Item[] array = new Item[inventory.size()];
         
@@ -36,7 +41,8 @@ public class GameManager
         return array;
     }
     
-    public static void levelUp()
+    //If the player has enough XP to level up, increase all stats and progress the story.
+    public static void levelUp() 
     {
         if(player.getXP() >= (player.getLevel()*10))
         {       
@@ -59,23 +65,24 @@ public class GameManager
             levelledUp = true;
             act = player.getLevel();
             
-            if(player.getLevel() > 5) gameCompleted();
+            if(player.getLevel() > 5) gameCompleted(); //If the player has reached the max level, the game is completed.
         }
     }
     
     public static void gameCompleted()
     {
-        StoryHandler.displayOutro();        
+        gameDataDB.saveGame(); //Automatically save to the database.
         
-        gui.gameCompletedPrompt();
-        gameDataDB.saveGame();
+        StoryHandler.displayOutro();                
+        gui.gameCompletedPrompt(); 
+        
     }
     
     public static void gameOver()
     {
-        gameDataDB.removeSaveData();        
+        gameDataDB.removeSaveData(); //Delete save file from the database. 
         
-        if(gui.gameOverPrompt() == 0)
+        if(gui.gameOverPrompt() == 0) //Read the choice from the dialog prompt.
         {
             gui.createMainMenu();
         }
@@ -85,7 +92,7 @@ public class GameManager
         }
     }
     
-    public static boolean checkGameCompleted()
+    public static boolean checkGameCompleted() //Stops the player from progressing when the game is already complete.
     {
         if(act > 5)
         {
@@ -95,7 +102,7 @@ public class GameManager
         return false;
     }
     
-    public static String getCurrentLocation()
+    public static String getCurrentLocation() //Calculates and returns the current location from locations[] using the current act.
     {
         String location;
         

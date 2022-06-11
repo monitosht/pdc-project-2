@@ -101,4 +101,48 @@ public class CombatHandlerTest
         
         assertEquals(expResult, result);
     }
+
+    /**
+     * Test of dealDamage method, of class CombatHandler.
+     */
+    @Test
+    public void testDealDamage() 
+    {
+        System.out.println("dealDamage");
+        
+        Character attacking = GameManager.player;
+        Character defending = CombatHandler.currentEnemy;
+        
+        boolean test;
+        
+        do //Attempt to deal damage using the method until an attack hits (passing the miss chance).
+        {
+            CombatHandler.dealDamage(attacking, defending);
+            test = defending.getCurrentHP() != defending.getMaxHP();
+        }while(!test);
+        
+        //If damage has successfully been dealt, then the result should be true, as the enemy health should have been reduced.
+        boolean expResult = true;
+        boolean result = test; 
+        
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of checkPlayerDead method, of class CombatHandler.
+     */
+    @Test
+    public void testCheckPlayerDead() 
+    {
+        System.out.println("checkPlayerDead");
+        
+        //Initialise a new player object to ensure current HP is full.
+        GameManager.player = new Player("Test Player");
+        
+        //since the player's health is not equal or below 0, the player is alive and the method should return false
+        boolean expResult = false; //player should not be dead
+        boolean result = CombatHandler.checkPlayerDead();
+        
+        assertEquals(expResult, result);
+    }
 }
