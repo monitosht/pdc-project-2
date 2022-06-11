@@ -11,6 +11,8 @@ import static Assignment2.GameManager.player;
 public class GUILogic 
 {      
     //Variables
+    static boolean mainMenu;
+    static boolean ccMenu;
     static String position;    
     static int continueChoice;
     

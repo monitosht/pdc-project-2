@@ -187,6 +187,7 @@ public class GUIHandler
         //read required data each time main menu is accessed
         GameManager.gameDataDB.readItemList();
         GameManager.gameDataDB.readInventory();
+        GUILogic.mainMenu = true;
         
         //disable uneeded GUI elements
         exitBuyMenu();
@@ -232,11 +233,8 @@ public class GUIHandler
         newGameButton.setFocusPainted(false);
         buttonPanel.add(newGameButton);
         
-        newGameButton.addActionListener((ActionEvent e) -> 
-        {           
-            characterCreation(0);            
-            constantButtons();
-        });        
+        newGameButton.addActionListener(gameButtonHandler);
+        newGameButton.setActionCommand("New Game Button");     
         
         //CONTINUE
         continueButton = new JButton("Continue");
@@ -246,11 +244,8 @@ public class GUIHandler
         continueButton.setFocusPainted(false);
         buttonPanel.add(continueButton);
         
-        continueButton.addActionListener((ActionEvent e) -> 
-        {
-            createContinueScene();
-            constantButtons();
-        });
+        continueButton.addActionListener(gameButtonHandler);
+        continueButton.setActionCommand("Continue Button");
         
         //CREDITS
         creditsButton = new JButton("Credits");
@@ -260,11 +255,8 @@ public class GUIHandler
         creditsButton.setFocusPainted(false);
         buttonPanel.add(creditsButton);
         
-        creditsButton.addActionListener((ActionEvent e) -> 
-        {
-            createCreditsScene();
-            constantButtons();
-        });
+        creditsButton.addActionListener(gameButtonHandler);
+        creditsButton.setActionCommand("Credits Button");
         
         //QUIT
         quitButton = new JButton("Quit");
@@ -274,10 +266,8 @@ public class GUIHandler
         quitButton.setFocusPainted(false);
         buttonPanel.add(quitButton);
         
-        quitButton.addActionListener((ActionEvent e) -> 
-        {
-            System.exit(0);
-        });     
+        quitButton.addActionListener(gameButtonHandler);
+        quitButton.setActionCommand("Quit Button");
         
         //repaint the JFrame content
         container.revalidate();
@@ -456,11 +446,8 @@ public class GUIHandler
         constMenuButton.setFocusPainted(false);
         constMenuPanel.add(constMenuButton);
         
-        constMenuButton.addActionListener((ActionEvent e) -> 
-        {
-            if(confirmQuitPrompt() == 0)
-                createMainMenu();      
-        });
+        constMenuButton.addActionListener(gameButtonHandler);
+        constMenuButton.setActionCommand("Global Main Menu Button");
         
         //QUIT
         constQuitPanel = new JPanel(new GridBagLayout());
@@ -475,11 +462,8 @@ public class GUIHandler
         constQuitButton.setFocusPainted(false);
         constQuitPanel.add(constQuitButton);
         
-        constQuitButton.addActionListener((ActionEvent e) ->
-        {
-            if(confirmQuitPrompt() == 0)
-                System.exit(0);                
-        });
+        constQuitButton.addActionListener(gameButtonHandler);
+        constQuitButton.setActionCommand("Global Quit Button");
         
         //reset size variables
         width = 240;
@@ -510,7 +494,8 @@ public class GUIHandler
         //disable unneeded GUI elements
         exitMainMenu();
         
-        //initialise stage       
+        //initialise stage 
+        GUILogic.ccMenu = true;
         stage = _stage;       
         
         //TITLE        
@@ -582,8 +567,9 @@ public class GUIHandler
                 strMinus.setForeground(Color.black);
                 strMinus.setFont(pixelFont);
                 strMinus.setFocusPainted(false);
-                strMinus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(0, "str")); 
-                    
+                
+                strMinus.addActionListener(gameButtonHandler);
+                strMinus.setActionCommand("Strength -");                    
                 statsPanel.add(strMinus);
                 
                 strValue = new JLabel("0");
@@ -599,8 +585,9 @@ public class GUIHandler
                 strPlus.setForeground(Color.black);
                 strPlus.setFont(pixelFont);
                 strPlus.setFocusPainted(false);
-                strPlus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(1, "str")); 
-                        
+                
+                strPlus.addActionListener(gameButtonHandler);
+                strPlus.setActionCommand("Strength +");                       
                 statsPanel.add(strPlus);
                 
                 //INTELLECT
@@ -615,7 +602,9 @@ public class GUIHandler
                 intMinus.setForeground(Color.black);
                 intMinus.setFont(pixelFont);
                 intMinus.setFocusPainted(false);
-                intMinus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(0, "int")); 
+                
+                intMinus.addActionListener(gameButtonHandler);
+                intMinus.setActionCommand("Intellect -"); 
                 statsPanel.add(intMinus);
                 
                 intValue = new JLabel("0");
@@ -631,7 +620,9 @@ public class GUIHandler
                 intPlus.setForeground(Color.black);
                 intPlus.setFont(pixelFont);
                 intPlus.setFocusPainted(false);
-                intPlus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(1, "int")); 
+                
+                intPlus.addActionListener(gameButtonHandler);
+                intPlus.setActionCommand("Intellect +");  
                 statsPanel.add(intPlus);
                 
                 //DEFENSE
@@ -646,7 +637,9 @@ public class GUIHandler
                 defMinus.setForeground(Color.black);
                 defMinus.setFont(pixelFont);
                 defMinus.setFocusPainted(false);
-                defMinus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(0, "def")); 
+                
+                defMinus.addActionListener(gameButtonHandler);
+                defMinus.setActionCommand("Defence -"); 
                 statsPanel.add(defMinus);
                 
                 defValue = new JLabel("0");
@@ -662,7 +655,9 @@ public class GUIHandler
                 defPlus.setForeground(Color.black);
                 defPlus.setFont(pixelFont);
                 defPlus.setFocusPainted(false);
-                defPlus.addActionListener((ActionEvent e) -> CreatePlayer.updateAttribute(1, "def")); 
+                
+                defPlus.addActionListener(gameButtonHandler);
+                defPlus.setActionCommand("Defence +");  
                 statsPanel.add(defPlus);
             }
             case 2 -> //confirm and start game
@@ -708,53 +703,13 @@ public class GUIHandler
             confirmButton.setFocusPainted(false);
             confirmPanel.add(confirmButton);
             
-            confirmButton.addActionListener((ActionEvent e) -> 
+            confirmButton.addActionListener(gameButtonHandler);
+            switch(stage)
             {
-                switch(stage)
-                {
-                    case 0 -> 
-                    {
-                        if(!nameField.getText().equals(""))
-                        {                            
-                            CreatePlayer.createPlayer(nameField.getText(), 10);
-                            characterCreation(1); 
-                        }
-                        else
-                        {
-                            JLabel boxText = new JLabel("You cannot leave your name blank.");
-                            boxText.setFont(pixelFont.deriveFont(20f));
-                            
-                            JOptionPane.showMessageDialog(null, boxText, "Name Input Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-                    case 1 -> 
-                    {
-                        if(CreatePlayer.points > 0)
-                        {
-                            JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
-                            boxText.setFont(pixelFont.deriveFont(20f));
-                            
-                            int choice = JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
-                            
-                            if(choice == 0)
-                            {
-                                CreatePlayer.setPlayer();
-                                characterCreation(2); 
-                            }
-                        }
-                        else
-                        {
-                            CreatePlayer.setPlayer();
-                            characterCreation(2); 
-                        }
-                    }
-                    case 2 -> 
-                    {                                            
-                        GameManager.gameDataDB.saveGame(); //save new player data if confirmed
-                        createGameScene(); //continue to the main game scene
-                    }
-                }               
-            }); 
+                case 0 -> confirmButton.setActionCommand("Confirm Button 1");
+                case 1 -> confirmButton.setActionCommand("Confirm Button 2"); 
+                case 2 -> confirmButton.setActionCommand("Confirm Button 3"); 
+            }
         }    
         else
         {
@@ -762,8 +717,25 @@ public class GUIHandler
         }
     }
     
+    public void invalidNamePrompt()
+    {
+        JLabel boxText = new JLabel("You cannot leave your name blank.");
+        boxText.setFont(pixelFont.deriveFont(20f));
+
+        JOptionPane.showMessageDialog(null, boxText, "Name Input Error", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public int unspentPointsPrompt()
+    {
+        JLabel boxText = new JLabel("You have unspent attribute points, continue anyway?");
+        boxText.setFont(pixelFont.deriveFont(20f));
+
+        return JOptionPane.showConfirmDialog(null, boxText, "Unspent Attribute Points", JOptionPane.YES_NO_OPTION);
+    }
+    
     public void exitCharacterCreation()
     {        
+        GUILogic.ccMenu = false;
         if(titlePanel      != null) titlePanel.setVisible(false);    
         if(confirmPanel    != null) confirmPanel.setVisible(false);          
         if(namePanel       != null) namePanel.setVisible(false);     
