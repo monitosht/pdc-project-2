@@ -190,9 +190,12 @@ public class GUIView
         //read required data each time main menu is accessed
         GameManager.gameDataDB.readItemList();
         GameManager.gameDataDB.readInventory();
+        
         GUIModel.currentMenu = 0;
+        GUIModel.mainMenuActive = true;
         
         //disable other GUI elements / effectively reset GUI
+        disableConstantButtons();
         exitBuyMenu();
         exitSellMenu();
         exitCombatScene();
@@ -200,7 +203,7 @@ public class GUIView
         exitCharacterCreation();   
         exitCreditsScene();
         exitContinueScene();
-        disableConstantButtons();
+        
         
         //reset size varibles
         width = 600;
@@ -279,6 +282,8 @@ public class GUIView
     
     public void exitMainMenu()
     {
+        GameManager.gui.constantButtons();
+        GUIModel.mainMenuActive = false;
         titlePanel.setVisible(false);
         buttonPanel.setVisible(false);
     }    
@@ -288,11 +293,11 @@ public class GUIView
     */
     public void createContinueScene()
     {
-        //reinitialise save data
-        GameManager.gameDataDB.readPlayerSaveData();
-        
         //disable unneeded GUI elements
         exitMainMenu();
+        
+        //reinitialise save data
+        GameManager.gameDataDB.readPlayerSaveData();
         
         //TITLE        
         titlePanel.setVisible(true); //reset the title panel with a new heading

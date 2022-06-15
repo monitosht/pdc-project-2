@@ -23,8 +23,7 @@ public class GUIController implements ActionListener
                     case "Continue Button" -> GameManager.gui.createContinueScene();
                     case "Credits Button"  -> GameManager.gui.createCreditsScene();
                     case "Quit Button"     -> System.exit(0);
-                }
-                GameManager.gui.constantButtons();
+                }                
                 break;
             case 1: //Character creation button outcomes.
                 switch(selection)
@@ -33,7 +32,7 @@ public class GUIController implements ActionListener
                     case "Strength +"  -> CreatePlayer.updateAttribute(1, "str");
                     case "Intellect -" -> CreatePlayer.updateAttribute(0, "int");
                     case "Intellect +" -> CreatePlayer.updateAttribute(1, "int");
-                    case "Defence -"   -> CreatePlayer.updateAttribute(1, "def");
+                    case "Defence -"   -> CreatePlayer.updateAttribute(0, "def");
                     case "Defence +"   -> CreatePlayer.updateAttribute(1, "def");
 
                     case "Confirm Button 1" -> 
@@ -134,8 +133,16 @@ public class GUIController implements ActionListener
         {
             switch(selection)
             {
-                case "Global Main Menu Button" -> GameManager.gui.createMainMenu();
-                case "Global Quit Button"      -> System.exit(0);
+                case "Global Main Menu Button" -> 
+                {
+                    if(GameManager.gui.confirmQuitPrompt() == 0)
+                        GameManager.gui.createMainMenu(); 
+                }
+                case "Global Quit Button" -> 
+                {
+                    if(GameManager.gui.confirmQuitPrompt() == 0)
+                        System.exit(0);
+                }
             }  
         }      
     }   
